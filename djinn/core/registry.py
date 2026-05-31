@@ -2,6 +2,7 @@ import json
 import os
 from pathlib import Path
 from typing import Dict, List, Optional, Any
+import importlib.resources
 
 class ComponentMetadata:
     def __init__(self, name: str, version: str, files: Dict[str, str], install: Dict[str, str]):
@@ -21,7 +22,21 @@ class ComponentMetadata:
 
 class Registry:
     def __init__(self, registry_path: str):
-        self.registry_path = Path(registry_path)
+        # Try to resolve registry path
+        path = Path(registry_path)
+        if not path.exists() or not (path / "components").exists():
+            # Fallback to bundled registry if local one doesn't exist
+            try:
+                # Use importlib.resources to find the bundled registry
+                # Assuming the registry folder is at the root of the package distribution
+                # or we can move it inside djinn/
+                bundled_path = Path(str(importlib.resources.files('djinn') / 'registry'))
+                if bundled_path.exists():
+                    path = bundled_path
+            except (ImportError, TypeError):
+                pass
+
+        self.registry_path = path
 
     def get_component_path(self, component_name: str) -> Path:
         return self.registry_path / "components" / component_name

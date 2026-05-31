@@ -16,16 +16,15 @@ class Installer:
             raise ValueError(f"Component '{component_name}' not found in registry.")
 
         component_src_dir = self.registry.get_component_path(component_name)
-        installed_files = []
 
+        # Phase 1: Validation
+        files_to_install = []
         for file_type, file_name in metadata.files.items():
-            # Determine destination path based on file type and registry/config settings
             if file_type == "template":
                 dest_base = Path(metadata.install.get("template_path", self.config.get_template_path()))
             elif file_type == "python":
                 dest_base = Path(metadata.install.get("python_path", self.config.get_python_path()))
             else:
-                # Fallback or generic handling if more types are added
                 dest_base = Path("components")
 
             dest_path = dest_base / file_name
@@ -37,10 +36,12 @@ class Installer:
             if dest_path.exists() and not force:
                 raise FileExistsError(f"File '{dest_path}' already exists. Use --force to overwrite.")
 
-            # Create directories if missing
-            dest_path.parent.mkdir(parents=True, exist_ok=True)
+            files_to_install.append((file_type, src_path, dest_path))
 
-            # Copy file
+        # Phase 2: Installation
+        installed_files = []
+        for file_type, src_path, dest_path in files_to_install:
+            dest_path.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(src_path, dest_path)
             installed_files.append((file_type, dest_path))
 

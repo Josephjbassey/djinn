@@ -10,15 +10,13 @@ def diff(component):
     """Compare registry version vs local installed version."""
     config = Config.load()
     if not config:
-        click.echo("Error: Djinn not initialized. Run 'djinn init' first.")
-        return
+        raise click.ClickException("Djinn not initialized. Run 'djinn init' first.")
 
     registry = Registry(config.registry_url)
     metadata = registry.load_component(component)
 
     if not metadata:
-        click.echo(f"Error: Component '{component}' not found in registry.")
-        return
+        raise click.ClickException(f"Component '{component}' not found in registry.")
 
     click.echo(f"Diffing '{component}' (Registry Version: {metadata.version}):")
 
@@ -31,24 +29,34 @@ def diff(component):
         elif file_type == "python":
             dest_base = Path(metadata.install.get("python_path", config.get_python_path()))
         else:
-            dest_base = Path("components")
+            click.echo(f"  [WARNING] Unknown file type '{file_type}' for {file_name}. Skipping.")
+            continue
 
         dest_path = dest_base / file_name
         src_path = component_src_dir / file_name
 
-        if not dest_path.exists():
-            click.echo(f"  [MISSING] {dest_path}")
+        if not src_path.exists():
+            click.echo(f"  [MISSING_REGISTRY] {src_path}")
             any_diff = True
             continue
 
-        src_hash = calculate_hash(src_path)
-        dest_hash = calculate_hash(dest_path)
-
-        if src_hash != dest_hash:
-            click.echo(f"  [CHANGED] {dest_path}")
+        if not dest_path.exists():
+            click.echo(f"  [MISSING_LOCAL]    {dest_path}")
             any_diff = True
-        else:
-            click.echo(f"  [MATCH]   {dest_path}")
+            continue
+
+        try:
+            src_hash = calculate_hash(src_path)
+            dest_hash = calculate_hash(dest_path)
+
+            if src_hash != dest_hash:
+                click.echo(f"  [CHANGED] {dest_path}")
+                any_diff = True
+            else:
+                click.echo(f"  [MATCH]   {dest_path}")
+        except Exception as e:
+            click.echo(f"  [ERROR]   Could not diff {dest_path}: {e}")
+            any_diff = True
 
     if not any_diff:
         click.echo("Local version matches registry version.")

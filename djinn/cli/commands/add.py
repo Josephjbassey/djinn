@@ -10,8 +10,7 @@ def add(component, force):
     """Add a component to the project."""
     config = Config.load()
     if not config:
-        click.echo("Error: Djinn not initialized. Run 'djinn init' first.")
-        return
+        raise click.ClickException("Djinn not initialized. Run 'djinn init' first.")
 
     registry = Registry(config.registry_url)
     installer = Installer(config, registry)
@@ -19,7 +18,7 @@ def add(component, force):
     try:
         installed_files = installer.install(component, force=force)
         click.echo(f"Successfully installed '{component}':")
-        for file_type, path in installed_files:
+        for _, path in installed_files:
             click.echo(f"  - {path}")
     except Exception as e:
-        click.echo(f"Error: {e}")
+        raise click.ClickException(str(e))
