@@ -1,8 +1,14 @@
 import json
 import os
+import sys
 from pathlib import Path
 from typing import Dict, List, Optional, Any, Union
-import importlib.resources
+
+if sys.version_info >= (3, 9):
+    import importlib.resources as pkg_resources
+else:
+    import importlib_resources as pkg_resources
+
 import urllib.request
 import urllib.error
 
@@ -40,13 +46,11 @@ class Registry:
 
     def _resolve_bundled_path(self) -> Optional[Path]:
         try:
-            bundled_res = importlib.resources.files('djinn') / 'registry'
+            # For Python 3.9+ pkg_resources.files() is preferred, but
+            # backport for 3.8 works too.
+            bundled_res = pkg_resources.files('djinn') / 'registry'
             if bundled_res.joinpath('components').exists():
-                # We need a physical path for some operations, as_file provides that
-                # but it's a context manager. For simplicity in this CLI, we assume
-                # it's installed as a regular package or we use the Traversable API.
-                # Here we'll try to get a path.
-                with importlib.resources.as_file(bundled_res) as p:
+                with pkg_resources.as_file(bundled_res) as p:
                     return Path(p)
         except (ImportError, TypeError, FileNotFoundError):
             pass
@@ -81,8 +85,6 @@ class Registry:
 
     def list_components(self) -> List[ComponentMetadata]:
         if self.is_remote:
-            # Listing remote components is hard without a specific API or index.json
-            # For now, we'll try to fetch index.json if it exists, otherwise return empty
             try:
                 content = self.fetch_content("index.json")
                 data = json.loads(content.decode('utf-8'))

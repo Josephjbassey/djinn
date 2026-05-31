@@ -24,10 +24,11 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
 ]
-requires-python = ">=3.9"
+requires-python = ">=3.8"
 dependencies = [
     "click>=8.4.1",
     "tabulate>=0.10.0",
+    "importlib-resources; python_version < '3.9'",
 ]
 
 [project.urls]
