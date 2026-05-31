@@ -1,0 +1,12 @@
+{
+  "name": "sidebar",
+  "version": "1.0.0",
+  "category": "Navigation",
+  "description": "A vertical sidebar navigation component.",
+  "files": {
+    "template": "sidebar.html"
+  },
+  "install": {
+    "template_path": "templates/components/"
+  }
+}

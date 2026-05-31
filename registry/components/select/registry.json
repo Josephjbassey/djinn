@@ -1,0 +1,12 @@
+{
+  "name": "select",
+  "version": "1.0.0",
+  "category": "Forms",
+  "description": "Standard select dropdown.",
+  "files": {
+    "template": "select.html"
+  },
+  "install": {
+    "template_path": "templates/components/"
+  }
+}

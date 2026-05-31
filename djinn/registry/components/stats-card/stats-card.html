@@ -1,0 +1,16 @@
+<div class="rounded-lg border bg-card text-card-foreground shadow-sm p-6 {{ class }}">
+    <div class="flex flex-row items-center justify-between space-y-0 pb-2">
+        <h3 class="text-sm font-medium tracking-tight">{{ label }}</h3>
+        {% if icon %}
+            <div class="text-muted-foreground">{{ icon|safe }}</div>
+        {% endif %}
+    </div>
+    <div>
+        <div class="text-2xl font-bold">{{ value }}</div>
+        {% if trend %}
+            <p class="text-xs {% if trend_type == 'up' %}text-green-500{% elif trend_type == 'down' %}text-destructive{% else %}text-muted-foreground{% endif %}">
+                {{ trend }}
+            </p>
+        {% endif %}
+    </div>
+</div>

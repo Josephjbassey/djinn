@@ -1,0 +1,11 @@
+<nav role="navigation" aria-label="pagination" class="mx-auto flex w-full justify-center {{ class }}">
+    <ul class="flex flex-row items-center gap-1">
+        <li>
+            {% include "components/button.html" with variant="ghost" size="sm" label="Previous" icon_left='<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>' attrs=prev_attrs %}
+        </li>
+        {{ slot|safe }}
+        <li>
+            {% include "components/button.html" with variant="ghost" size="sm" label="Next" icon_right='<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>' attrs=next_attrs %}
+        </li>
+    </ul>
+</nav>

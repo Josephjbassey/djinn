@@ -1,0 +1,12 @@
+{
+  "name": "tabs",
+  "version": "1.0.0",
+  "category": "Navigation",
+  "description": "Accessible tabbed content (requires Alpine.js).",
+  "files": {
+    "template": "tabs.html"
+  },
+  "install": {
+    "template_path": "templates/components/"
+  }
+}

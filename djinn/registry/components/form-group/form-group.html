@@ -1,0 +1,15 @@
+<div class="space-y-2 {{ class }}">
+    {% if label %}
+        {% include "components/label.html" with for=id|default:name label=label required=required %}
+    {% endif %}
+
+    {{ slot|safe }}
+
+    {% if help_text %}
+        <p class="text-xs text-muted-foreground">{{ help_text }}</p>
+    {% endif %}
+
+    {% if error %}
+        <p class="text-xs font-medium text-destructive">{{ error }}</p>
+    {% endif %}
+</div>

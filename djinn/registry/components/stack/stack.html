@@ -1,0 +1,7 @@
+<div class="flex
+    {% if direction == 'horizontal' %}flex-row items-center space-x-{{ space|default:4 }}
+    {% else %}flex-col space-y-{{ space|default:4 }}{% endif %}
+    {{ class }}"
+>
+    {{ slot|safe }}
+</div>

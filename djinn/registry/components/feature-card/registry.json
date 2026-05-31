@@ -1,0 +1,13 @@
+{
+  "name": "feature-card",
+  "version": "1.0.0",
+  "category": "Cards",
+  "description": "A card highlighting a specific feature with an icon and description.",
+  "dependencies": ["card"],
+  "files": {
+    "template": "feature-card.html"
+  },
+  "install": {
+    "template_path": "templates/components/"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "name": "switch",
+  "version": "1.0.0",
+  "category": "Forms",
+  "description": "Toggle switch component (requires Alpine.js).",
+  "files": {
+    "template": "switch.html"
+  },
+  "install": {
+    "template_path": "templates/components/"
+  }
+}

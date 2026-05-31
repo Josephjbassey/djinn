@@ -1,0 +1,12 @@
+{
+  "name": "label",
+  "version": "1.0.0",
+  "category": "Forms",
+  "description": "Accessible label component.",
+  "files": {
+    "template": "label.html"
+  },
+  "install": {
+    "template_path": "templates/components/"
+  }
+}

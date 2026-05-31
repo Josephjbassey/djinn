@@ -1,0 +1,12 @@
+{
+  "name": "drawer",
+  "version": "1.0.0",
+  "category": "Dialogs",
+  "description": "A drawer component that slides in from the bottom (requires Alpine.js).",
+  "files": {
+    "template": "drawer.html"
+  },
+  "install": {
+    "template_path": "templates/components/"
+  }
+}

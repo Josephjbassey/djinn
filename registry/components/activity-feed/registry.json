@@ -1,0 +1,13 @@
+{
+  "name": "activity-feed",
+  "version": "1.0.0",
+  "category": "Dashboard Blocks",
+  "description": "A list of recent activities/events.",
+  "dependencies": ["card", "avatar"],
+  "files": {
+    "template": "activity-feed.html"
+  },
+  "install": {
+    "template_path": "templates/components/"
+  }
+}

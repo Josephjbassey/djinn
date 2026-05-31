@@ -1,0 +1,12 @@
+{
+  "name": "separator",
+  "version": "1.0.0",
+  "category": "Layout",
+  "description": "A visual separator between content.",
+  "files": {
+    "template": "separator.html"
+  },
+  "install": {
+    "template_path": "templates/components/"
+  }
+}

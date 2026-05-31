@@ -1,0 +1,13 @@
+{
+  "name": "analytics-card",
+  "version": "1.0.0",
+  "category": "Dashboard Blocks",
+  "description": "A card for displaying analytics with a chart placeholder.",
+  "dependencies": ["card", "skeleton"],
+  "files": {
+    "template": "analytics-card.html"
+  },
+  "install": {
+    "template_path": "templates/components/"
+  }
+}

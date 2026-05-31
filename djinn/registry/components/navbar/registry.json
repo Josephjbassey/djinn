@@ -1,0 +1,12 @@
+{
+  "name": "navbar",
+  "version": "1.0.0",
+  "category": "Navigation",
+  "description": "A responsive navigation bar.",
+  "files": {
+    "template": "navbar.html"
+  },
+  "install": {
+    "template_path": "templates/components/"
+  }
+}

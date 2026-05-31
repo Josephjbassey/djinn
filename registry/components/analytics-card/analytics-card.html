@@ -1,0 +1,27 @@
+<div class="rounded-lg border bg-card text-card-foreground shadow-sm p-6 {{ class }}">
+    <div class="flex items-center justify-between space-y-0 pb-4">
+        <h3 class="text-base font-semibold tracking-tight">{{ title }}</h3>
+        {% if time_range %}
+            <span class="text-xs text-muted-foreground">{{ time_range }}</span>
+        {% endif %}
+    </div>
+    <div class="h-[200px] w-full flex items-end gap-2 px-2">
+        {% if chart_slot %}
+            {{ chart_slot|safe }}
+        {% else %}
+            <!-- Mock Chart -->
+            <div class="bg-primary/20 w-full h-[40%] rounded-t"></div>
+            <div class="bg-primary/20 w-full h-[60%] rounded-t"></div>
+            <div class="bg-primary/40 w-full h-[80%] rounded-t"></div>
+            <div class="bg-primary/20 w-full h-[50%] rounded-t"></div>
+            <div class="bg-primary/60 w-full h-[100%] rounded-t"></div>
+            <div class="bg-primary/30 w-full h-[70%] rounded-t"></div>
+        {% endif %}
+    </div>
+    <div class="mt-4 pt-4 border-t flex justify-between">
+        <div class="text-2xl font-bold">{{ value }}</div>
+        <div class="text-xs {% if trend_type == 'up' %}text-green-500{% else %}text-destructive{% endif %} flex items-center">
+            {{ trend }}
+        </div>
+    </div>
+</div>

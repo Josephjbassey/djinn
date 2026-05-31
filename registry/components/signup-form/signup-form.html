@@ -1,0 +1,23 @@
+{% include "components/card.html" with title="Create an account" description="Enter your email below to create your account" class="w-full max-w-sm" %}
+    <form method="post" action="{{ action }}" class="space-y-4">
+        {% csrf_token %}
+        <div class="grid grid-cols-2 gap-4">
+            {% include "components/form-group.html" with label="First Name" name="first_name" %}
+                {% include "components/input.html" with name="first_name" placeholder="Max" required=True %}
+            {% endinclude %}
+            {% include "components/form-group.html" with label="Last Name" name="last_name" %}
+                {% include "components/input.html" with name="last_name" placeholder="Robinson" required=True %}
+            {% endinclude %}
+        </div>
+
+        {% include "components/form-group.html" with label="Email" name="email" %}
+            {% include "components/input.html" with name="email" type="email" placeholder="m@example.com" required=True %}
+        {% endinclude %}
+
+        {% include "components/form-group.html" with label="Password" name="password" %}
+            {% include "components/input.html" with name="password" type="password" required=True %}
+        {% endinclude %}
+
+        {% include "components/button.html" with label="Create account" type="submit" class="w-full" %}
+    </form>
+{% endinclude %}

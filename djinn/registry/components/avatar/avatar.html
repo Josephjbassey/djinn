@@ -1,0 +1,9 @@
+<span class="relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full {{ class }}">
+    {% if src %}
+        <img class="aspect-square h-full w-full" src="{{ src }}" alt="{{ alt }}">
+    {% else %}
+        <span class="flex h-full w-full items-center justify-center rounded-full bg-muted text-sm font-medium">
+            {{ fallback|default:'??' }}
+        </span>
+    {% endif %}
+</span>

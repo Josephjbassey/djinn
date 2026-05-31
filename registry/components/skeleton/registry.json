@@ -1,0 +1,12 @@
+{
+  "name": "skeleton",
+  "version": "1.0.0",
+  "category": "Feedback",
+  "description": "A placeholder component for loading states.",
+  "files": {
+    "template": "skeleton.html"
+  },
+  "install": {
+    "template_path": "templates/components/"
+  }
+}

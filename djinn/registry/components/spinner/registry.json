@@ -1,0 +1,12 @@
+{
+  "name": "spinner",
+  "version": "1.0.0",
+  "category": "Feedback",
+  "description": "A loading spinner icon.",
+  "files": {
+    "template": "spinner.html"
+  },
+  "install": {
+    "template_path": "templates/components/"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "name": "alert",
+  "version": "1.0.0",
+  "category": "Feedback",
+  "description": "An inline alert component for important messages.",
+  "files": {
+    "template": "alert.html"
+  },
+  "install": {
+    "template_path": "templates/components/"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "name": "textarea",
+  "version": "1.0.0",
+  "category": "Inputs",
+  "description": "Multi-line text input.",
+  "files": {
+    "template": "textarea.html"
+  },
+  "install": {
+    "template_path": "templates/components/"
+  }
+}

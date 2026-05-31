@@ -1,0 +1,13 @@
+{
+  "name": "split-button",
+  "version": "1.0.0",
+  "category": "Buttons",
+  "description": "A button group with a primary action and a dropdown toggle.",
+  "dependencies": ["button"],
+  "files": {
+    "template": "split-button.html"
+  },
+  "install": {
+    "template_path": "templates/components/"
+  }
+}

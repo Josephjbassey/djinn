@@ -1,0 +1,12 @@
+{
+  "name": "checkbox",
+  "version": "1.0.0",
+  "category": "Forms",
+  "description": "Standard checkbox component.",
+  "files": {
+    "template": "checkbox.html"
+  },
+  "install": {
+    "template_path": "templates/components/"
+  }
+}

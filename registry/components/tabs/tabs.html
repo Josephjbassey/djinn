@@ -1,0 +1,8 @@
+<div x-data="{ activeTab: '{{ active|default:'0' }}' }" class="w-full {{ class }}">
+    <div class="inline-flex h-10 items-center justify-center rounded-md bg-muted p-1 text-muted-foreground mb-4">
+        {{ triggers|safe }}
+    </div>
+    <div>
+        {{ slot|safe }}
+    </div>
+</div>

@@ -1,0 +1,13 @@
+{
+  "name": "form-group",
+  "version": "1.0.0",
+  "category": "Forms",
+  "description": "A wrapper for form fields with labels, inputs, and error messages.",
+  "dependencies": ["label"],
+  "files": {
+    "template": "form-group.html"
+  },
+  "install": {
+    "template_path": "templates/components/"
+  }
+}

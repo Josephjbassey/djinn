@@ -1,0 +1,20 @@
+<div class="flex items-center space-x-2 {{ class }}">
+    <input
+        type="radio"
+        name="{{ name }}"
+        id="{{ id }}"
+        value="{{ value }}"
+        {% if checked %}checked{% endif %}
+        {% if disabled %}disabled{% endif %}
+        class="peer h-4 w-4 rounded-full border border-primary text-primary ring-offset-background focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 accent-primary"
+        {{ attrs|safe }}
+    >
+    {% if label %}
+    <label
+        for="{{ id }}"
+        class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+    >
+        {{ label }}
+    </label>
+    {% endif %}
+</div>

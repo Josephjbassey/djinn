@@ -1,0 +1,13 @@
+{
+  "name": "confirmation-dialog",
+  "version": "1.0.0",
+  "category": "Dialogs",
+  "description": "A simpler confirmation dialog for non-destructive actions.",
+  "dependencies": ["modal", "button"],
+  "files": {
+    "template": "confirmation-dialog.html"
+  },
+  "install": {
+    "template_path": "templates/components/"
+  }
+}

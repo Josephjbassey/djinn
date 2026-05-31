@@ -1,0 +1,14 @@
+<div class="rounded-lg border bg-card text-card-foreground shadow-sm flex flex-col p-6 {% if featured %}border-primary shadow-lg scale-105 z-10{% endif %} {{ class }}">
+    <div class="mb-8">
+        <h3 class="text-lg font-bold">{{ name }}</h3>
+        <p class="text-sm text-muted-foreground">{{ description }}</p>
+    </div>
+    <div class="mb-8 flex items-baseline gap-1">
+        <span class="text-4xl font-bold">{{ price }}</span>
+        <span class="text-sm text-muted-foreground">/{{ interval|default:'mo' }}</span>
+    </div>
+    <ul class="mb-8 space-y-2 text-sm flex-1">
+        {{ features|safe }}
+    </ul>
+    {% include "components/button.html" with label=cta_label|default:"Get Started" variant=cta_variant|default:"outline" class="w-full" %}
+</div>

@@ -1,0 +1,13 @@
+{
+  "name": "icon-button",
+  "version": "1.0.0",
+  "category": "Buttons",
+  "description": "A square button optimized for icons.",
+  "dependencies": ["button"],
+  "files": {
+    "template": "icon-button.html"
+  },
+  "install": {
+    "template_path": "templates/components/"
+  }
+}

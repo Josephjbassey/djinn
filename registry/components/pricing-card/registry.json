@@ -1,0 +1,13 @@
+{
+  "name": "pricing-card",
+  "version": "1.0.0",
+  "category": "Commerce",
+  "description": "A card for displaying subscription plans or product pricing.",
+  "dependencies": ["card", "button"],
+  "files": {
+    "template": "pricing-card.html"
+  },
+  "install": {
+    "template_path": "templates/components/"
+  }
+}
