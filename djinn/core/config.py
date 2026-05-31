@@ -6,7 +6,7 @@ from typing import Dict, Any, Optional
 CONFIG_FILE = "djinn.config.json"
 
 DEFAULT_CONFIG = {
-    "registry_url": "registry",
+    "registry_url": "__bundled__",
     "output": {
         "templates": "templates/components",
         "python": "components"

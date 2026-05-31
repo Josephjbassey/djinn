@@ -7,7 +7,7 @@ name = "djinn"
 version = "0.1.0"
 description = "A shadcn-style component installer for Django."
 readme = "README.md"
-license = {text = "MIT"}
+license = {file = "LICENSE"}
 authors = [
     {name = "Djinn Team", email = "hello@djinn.dev"}
 ]

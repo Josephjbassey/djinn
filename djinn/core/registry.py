@@ -22,18 +22,22 @@ class ComponentMetadata:
 
 class Registry:
     def __init__(self, registry_path: str):
-        # Try to resolve registry path
         path = Path(registry_path)
-        if not path.exists() or not (path / "components").exists():
-            # Fallback to bundled registry if local one doesn't exist
+
+        # If registry_path is "__bundled__" or doesn't exist locally, try bundled
+        if registry_path == "__bundled__" or not (path / "components").exists():
             try:
-                # Use importlib.resources to find the bundled registry
-                # Assuming the registry folder is at the root of the package distribution
-                # or we can move it inside djinn/
-                bundled_path = Path(str(importlib.resources.files('djinn') / 'registry'))
-                if bundled_path.exists():
-                    path = bundled_path
-            except (ImportError, TypeError):
+                # Resolve bundled registry path
+                bundled_res = importlib.resources.files('djinn') / 'registry'
+                # Check if it actually exists in the package
+                if bundled_res.joinpath('components').exists():
+                    # In some environments, we need to convert to a concrete Path
+                    # importlib.resources.as_file can handle zip-extracted files
+                    with importlib.resources.as_file(bundled_res) as p:
+                        # Note: 'as_file' is a context manager, but if it's already a physical path,
+                        # it just returns it. For CLI tools, we usually have physical paths.
+                        path = Path(p)
+            except (ImportError, TypeError, FileNotFoundError):
                 pass
 
         self.registry_path = path
