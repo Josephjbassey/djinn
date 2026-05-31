@@ -1,0 +1,12 @@
+{
+  "name": "button",
+  "version": "1.0.0",
+  "files": {
+    "template": "button.html",
+    "python": "button.py"
+  },
+  "install": {
+    "template_path": "templates/components/",
+    "python_path": "components/"
+  }
+}
