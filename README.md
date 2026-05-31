@@ -32,7 +32,7 @@ Once a component is installed, it belongs to your project — fully editable, fu
 ## 📦 Installation (CLI)
 
 ```bash
-pip install djinn
+pip install django-djinn
 ```
 
 ---
