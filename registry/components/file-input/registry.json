@@ -1,0 +1,12 @@
+{
+  "name": "file-input",
+  "version": "1.0.0",
+  "category": "Inputs",
+  "description": "Styled file upload input.",
+  "files": {
+    "template": "file-input.html"
+  },
+  "install": {
+    "template_path": "templates/components/"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "name": "radio",
+  "version": "1.0.0",
+  "category": "Forms",
+  "description": "Standard radio button component.",
+  "files": {
+    "template": "radio.html"
+  },
+  "install": {
+    "template_path": "templates/components/"
+  }
+}

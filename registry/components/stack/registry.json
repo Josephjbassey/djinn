@@ -1,0 +1,12 @@
+{
+  "name": "stack",
+  "version": "1.0.0",
+  "category": "Layout",
+  "description": "A component for stacking elements vertically or horizontally.",
+  "files": {
+    "template": "stack.html"
+  },
+  "install": {
+    "template_path": "templates/components/"
+  }
+}

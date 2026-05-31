@@ -1,0 +1,13 @@
+{
+  "name": "password-reset-form",
+  "version": "1.0.0",
+  "category": "Authentication",
+  "description": "A form for requesting a password reset.",
+  "dependencies": ["card", "form-group", "input", "button"],
+  "files": {
+    "template": "password-reset-form.html"
+  },
+  "install": {
+    "template_path": "templates/components/"
+  }
+}

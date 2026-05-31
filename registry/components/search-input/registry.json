@@ -1,0 +1,13 @@
+{
+  "name": "search-input",
+  "version": "1.0.0",
+  "category": "Inputs",
+  "description": "Search input with icon.",
+  "dependencies": ["input"],
+  "files": {
+    "template": "search-input.html"
+  },
+  "install": {
+    "template_path": "templates/components/"
+  }
+}

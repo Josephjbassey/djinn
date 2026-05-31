@@ -1,0 +1,12 @@
+{
+  "name": "input",
+  "version": "1.0.0",
+  "category": "Inputs",
+  "description": "Standard text input field.",
+  "files": {
+    "template": "input.html"
+  },
+  "install": {
+    "template_path": "templates/components/"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "name": "login-form",
+  "version": "1.0.0",
+  "category": "Authentication",
+  "description": "A complete login form component.",
+  "dependencies": ["card", "form-group", "input", "button"],
+  "files": {
+    "template": "login-form.html"
+  },
+  "install": {
+    "template_path": "templates/components/"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "name": "signup-form",
+  "version": "1.0.0",
+  "category": "Authentication",
+  "description": "A complete registration form component.",
+  "dependencies": ["card", "form-group", "input", "button"],
+  "files": {
+    "template": "signup-form.html"
+  },
+  "install": {
+    "template_path": "templates/components/"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "name": "modal",
+  "version": "1.0.0",
+  "category": "Dialogs",
+  "description": "A standard modal dialog (requires Alpine.js).",
+  "files": {
+    "template": "modal.html"
+  },
+  "install": {
+    "template_path": "templates/components/"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "name": "metric-grid",
+  "version": "1.0.0",
+  "category": "Dashboard Blocks",
+  "description": "A pre-configured grid for dashboard metrics.",
+  "dependencies": ["grid", "stats-card"],
+  "files": {
+    "template": "metric-grid.html"
+  },
+  "install": {
+    "template_path": "templates/components/"
+  }
+}

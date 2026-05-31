@@ -1,0 +1,14 @@
+<div class="pb-12 w-64 border-r bg-background {{ class }}">
+    <div class="space-y-4 py-4">
+        {% if title %}
+        <div class="px-3 py-2">
+            <h2 class="mb-2 px-4 text-lg font-semibold tracking-tight">{{ title }}</h2>
+            <div class="space-y-1">
+                {{ slot|safe }}
+            </div>
+        </div>
+        {% else %}
+            {{ slot|safe }}
+        {% endif %}
+    </div>
+</div>

@@ -1,0 +1,12 @@
+{
+  "name": "avatar",
+  "version": "1.0.0",
+  "category": "Data Display",
+  "description": "User profile picture or initials.",
+  "files": {
+    "template": "avatar.html"
+  },
+  "install": {
+    "template_path": "templates/components/"
+  }
+}

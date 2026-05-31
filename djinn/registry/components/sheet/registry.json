@@ -1,0 +1,12 @@
+{
+  "name": "sheet",
+  "version": "1.0.0",
+  "category": "Dialogs",
+  "description": "A sidebar overlay component (requires Alpine.js).",
+  "files": {
+    "template": "sheet.html"
+  },
+  "install": {
+    "template_path": "templates/components/"
+  }
+}

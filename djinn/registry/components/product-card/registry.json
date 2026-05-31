@@ -1,0 +1,13 @@
+{
+  "name": "product-card",
+  "version": "1.0.0",
+  "category": "Commerce",
+  "description": "A card for displaying product information with image and price.",
+  "dependencies": ["card", "button"],
+  "files": {
+    "template": "product-card.html"
+  },
+  "install": {
+    "template_path": "templates/components/"
+  }
+}

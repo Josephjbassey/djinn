@@ -1,0 +1,12 @@
+{
+  "name": "badge",
+  "version": "1.0.0",
+  "category": "Data Display",
+  "description": "Small status indicator or tag.",
+  "files": {
+    "template": "badge.html"
+  },
+  "install": {
+    "template_path": "templates/components/"
+  }
+}

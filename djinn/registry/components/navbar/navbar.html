@@ -1,0 +1,18 @@
+<nav class="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 {{ class }}">
+    <div class="container flex h-14 items-center">
+        <div class="mr-4 flex">
+            <a class="mr-6 flex items-center space-x-2" href="{{ brand_url|default:'/' }}">
+                {% if brand_logo %}{{ brand_logo|safe }}{% endif %}
+                <span class="font-bold sm:inline-block">{{ brand_name|default:'Djinn' }}</span>
+            </a>
+            <div class="hidden md:flex gap-6 text-sm font-medium">
+                {{ slot|safe }}
+            </div>
+        </div>
+        <div class="flex flex-1 items-center justify-between space-x-2 md:justify-end">
+            <div class="w-full flex-1 md:w-auto md:flex-none">
+                {{ right_slot|safe }}
+            </div>
+        </div>
+    </div>
+</nav>

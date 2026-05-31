@@ -1,0 +1,13 @@
+{
+  "name": "profile-card",
+  "version": "1.0.0",
+  "category": "Cards",
+  "description": "A card for user profiles with avatar and info.",
+  "dependencies": ["card", "avatar"],
+  "files": {
+    "template": "profile-card.html"
+  },
+  "install": {
+    "template_path": "templates/components/"
+  }
+}

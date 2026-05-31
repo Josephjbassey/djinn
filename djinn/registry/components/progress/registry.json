@@ -1,0 +1,12 @@
+{
+  "name": "progress",
+  "version": "1.0.0",
+  "category": "Feedback",
+  "description": "Progress bar component.",
+  "files": {
+    "template": "progress.html"
+  },
+  "install": {
+    "template_path": "templates/components/"
+  }
+}

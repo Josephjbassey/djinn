@@ -1,0 +1,12 @@
+{
+  "name": "table",
+  "version": "1.0.0",
+  "category": "Data Display",
+  "description": "Styled table components.",
+  "files": {
+    "template": "table.html"
+  },
+  "install": {
+    "template_path": "templates/components/"
+  }
+}

@@ -1,0 +1,13 @@
+<div
+    role="alert"
+    class="relative w-full rounded-lg border p-4 [&>svg+div]:translate-y-[-3px] [&>svg]:absolute [&>svg]:left-4 [&>svg]:top-4 [&>svg]:text-foreground [&>svg~*]:pl-7
+    {% if variant == 'destructive' %}border-destructive/50 text-destructive dark:border-destructive [&>svg]:text-destructive
+    {% else %}bg-background text-foreground{% endif %}
+    {{ class }}"
+>
+    {% if icon %}{{ icon|safe }}{% endif %}
+    {% if title %}<h5 class="mb-1 font-medium leading-none tracking-tight">{{ title }}</h5>{% endif %}
+    <div class="text-sm [&_p]:leading-relaxed">
+        {{ slot|safe }}
+    </div>
+</div>

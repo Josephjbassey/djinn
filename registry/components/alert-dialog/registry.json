@@ -1,0 +1,13 @@
+{
+  "name": "alert-dialog",
+  "version": "1.0.0",
+  "category": "Dialogs",
+  "description": "A modal dialog for important alerts or destructive actions.",
+  "dependencies": ["modal", "button"],
+  "files": {
+    "template": "alert-dialog.html"
+  },
+  "install": {
+    "template_path": "templates/components/"
+  }
+}

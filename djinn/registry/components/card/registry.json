@@ -1,0 +1,12 @@
+{
+  "name": "card",
+  "version": "1.0.0",
+  "category": "Cards",
+  "description": "A container for content with header, body, and footer.",
+  "files": {
+    "template": "card.html"
+  },
+  "install": {
+    "template_path": "templates/components/"
+  }
+}

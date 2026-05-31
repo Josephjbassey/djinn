@@ -1,0 +1,13 @@
+{
+  "name": "stats-card",
+  "version": "1.0.0",
+  "category": "Cards",
+  "description": "A card optimized for displaying metrics and statistics.",
+  "dependencies": ["card"],
+  "files": {
+    "template": "stats-card.html"
+  },
+  "install": {
+    "template_path": "templates/components/"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "name": "toast",
+  "version": "1.0.0",
+  "category": "Feedback",
+  "description": "A push notification component (requires Alpine.js).",
+  "files": {
+    "template": "toast.html"
+  },
+  "install": {
+    "template_path": "templates/components/"
+  }
+}

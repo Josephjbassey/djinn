@@ -1,0 +1,13 @@
+{
+  "name": "dashboard-sidebar",
+  "version": "1.0.0",
+  "category": "Dashboard Blocks",
+  "description": "A more complex sidebar for dashboards with grouping and nested items.",
+  "dependencies": ["sidebar"],
+  "files": {
+    "template": "dashboard-sidebar.html"
+  },
+  "install": {
+    "template_path": "templates/components/"
+  }
+}

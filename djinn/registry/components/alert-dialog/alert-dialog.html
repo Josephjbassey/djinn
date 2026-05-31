@@ -1,0 +1,7 @@
+{% include "components/modal.html" with id=id title=title|default:"Are you absolutely sure?" description=description|default:"This action cannot be undone." class="sm:max-w-[425px]" %}
+    {{ slot|safe }}
+    {% slot "footer" %}
+        {% include "components/button.html" with label="Cancel" variant="outline" attrs="@click=\"$dispatch('close-modal', {id: '"|add:id|add:"'})\"" %}
+        {% include "components/button.html" with label=action_label|default:"Continue" variant="destructive" attrs=action_attrs %}
+    {% endslot %}
+{% endinclude %}
