@@ -9,7 +9,7 @@ description = "A shadcn-style component installer for Django."
 readme = "README.md"
 license = {file = "LICENSE"}
 authors = [
-    {name = "Djinn Team", email = "hello@djinn.dev"}
+    {name = "Joseph John", email = "josephjbassey@gmail.com"}
 ]
 keywords = ["django", "shadcn", "components", "cli", "frontend"]
 classifiers = [
