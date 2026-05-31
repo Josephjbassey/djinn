@@ -1,4 +1,4 @@
-# Djinn
+# Djinn UI
 
 **Djinn is a shadcn-style component system for Django.**
 
@@ -32,7 +32,7 @@ Once a component is installed, it belongs to your project — fully editable, fu
 ## 📦 Installation (CLI)
 
 ```bash
-pip install django-djinn
+pip install djinn-ui
 ```
 
 ---
