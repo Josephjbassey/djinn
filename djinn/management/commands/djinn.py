@@ -2,7 +2,8 @@ import os
 import json
 import requests
 import click
-from django.core.management.base import BaseCommand
+import traceback
+from django.core.management.base import BaseCommand, CommandError
 
 DJINN_API_URL = "https://djinn-backend.vercel.app/api/v1"
 RAW_REPO_URL = "https://raw.githubusercontent.com/josephjbassey/djinn/main"
@@ -16,10 +17,21 @@ class Command(BaseCommand):
 
     def write_to_disk(self, component_name, filename, content):
         """Helper method to write component files to the local project structure."""
-        target_dir = os.path.join("components", component_name)
+        target_dir = os.path.abspath(os.path.join("components", component_name))
+
+        # Reject absolute paths
+        if os.path.isabs(filename):
+            raise CommandError(f"Security Error: Absolute filename '{filename}' rejected.")
+
+        # Compute normalized path
+        normalized_path = os.path.normpath(os.path.join(target_dir, filename))
+
+        # Check if normalized path escapes target_dir
+        if not normalized_path.startswith(target_dir):
+            raise CommandError(f"Security Error: Path traversal detected for '{filename}'")
+
         os.makedirs(target_dir, exist_ok=True)
-        file_path = os.path.join(target_dir, filename)
-        with open(file_path, "w", encoding="utf-8") as f:
+        with open(normalized_path, "w", encoding="utf-8") as f:
             f.write(content)
 
     def handle(self, *args, **options):
@@ -43,12 +55,13 @@ class Command(BaseCommand):
                         self.write_to_disk(component_name, filename, content)
                 return
 
-        except (requests.ConnectionError, requests.Timeout):
-            # Gracefully drop down to GitHub mechanism on network issues
-            pass
-        except Exception:
-            # Other potential errors also trigger fallback
-            pass
+        except CommandError:
+            raise
+        except (requests.ConnectionError, requests.Timeout, requests.RequestException) as e:
+            click.echo(f"Network issue during Phase 1: {e}")
+        except Exception as e:
+            click.echo(f"Unexpected error during Phase 1: {e}")
+            traceback.print_exc()
 
         # Phase 2: Fallback to GitHub mechanism
         click.echo("Looking in core package repo...")
@@ -75,9 +88,13 @@ class Command(BaseCommand):
                             self.write_to_disk(component_name, filename, asset_resp.text)
                     return
 
-        except Exception:
-            # GitHub fallback failed
-            pass
+        except CommandError:
+            raise
+        except (requests.ConnectionError, requests.Timeout, requests.RequestException) as e:
+            click.echo(f"Network issue during Phase 2: {e}")
+        except Exception as e:
+            click.echo(f"Unexpected error during Phase 2: {e}")
+            traceback.print_exc()
 
         # Final Error State
         click.secho(f"❌ Error: Component '{component_name}' not found anywhere.", fg="red")

@@ -38,9 +38,6 @@ class TestDjinnManagementCommand(unittest.TestCase):
         }
         mock_get.return_value = mock_response
 
-        # Use stdout=StringIO() doesn't work well with click directly unless we mock it or use click runner,
-        # but click output goes to sys.stdout usually.
-        # Actually click.echo goes to sys.stdout.
         with patch('sys.stdout', new=StringIO()) as fake_out:
             call_command("djinn", "test-component")
             output = fake_out.getvalue()
