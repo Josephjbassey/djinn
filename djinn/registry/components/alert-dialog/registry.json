@@ -3,11 +3,16 @@
   "version": "1.0.0",
   "category": "Dialogs",
   "description": "A modal dialog for important alerts or destructive actions.",
-  "dependencies": ["modal", "button"],
+  "dependencies": [
+    "modal",
+    "button"
+  ],
   "files": {
-    "template": "alert-dialog.html"
+    "template": "alert-dialog.html",
+    "python": "alert-dialog.py"
   },
   "install": {
-    "template_path": "templates/components/"
+    "template_path": "templates/components/",
+    "python_path": "templatetags/"
   }
 }

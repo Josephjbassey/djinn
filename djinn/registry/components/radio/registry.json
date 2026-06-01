@@ -4,9 +4,11 @@
   "category": "Forms",
   "description": "Standard radio button component.",
   "files": {
-    "template": "radio.html"
+    "template": "radio.html",
+    "python": "radio.py"
   },
   "install": {
-    "template_path": "templates/components/"
+    "template_path": "templates/components/",
+    "python_path": "templatetags/"
   }
 }

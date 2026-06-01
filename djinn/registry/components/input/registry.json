@@ -9,6 +9,6 @@
   },
   "install": {
     "template_path": "templates/components/",
-    "python_path": "components/"
+    "python_path": "templatetags/"
   }
 }

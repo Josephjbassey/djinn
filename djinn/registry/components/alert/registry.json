@@ -4,9 +4,11 @@
   "category": "Feedback",
   "description": "An inline alert component for important messages.",
   "files": {
-    "template": "alert.html"
+    "template": "alert.html",
+    "python": "alert.py"
   },
   "install": {
-    "template_path": "templates/components/"
+    "template_path": "templates/components/",
+    "python_path": "templatetags/"
   }
 }

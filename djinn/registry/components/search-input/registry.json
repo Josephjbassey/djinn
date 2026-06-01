@@ -3,11 +3,15 @@
   "version": "1.0.0",
   "category": "Inputs",
   "description": "Search input with icon.",
-  "dependencies": ["input"],
+  "dependencies": [
+    "input"
+  ],
   "files": {
-    "template": "search-input.html"
+    "template": "search-input.html",
+    "python": "search-input.py"
   },
   "install": {
-    "template_path": "templates/components/"
+    "template_path": "templates/components/",
+    "python_path": "templatetags/"
   }
 }

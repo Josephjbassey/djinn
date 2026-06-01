@@ -4,9 +4,11 @@
   "category": "Forms",
   "description": "Standard checkbox component.",
   "files": {
-    "template": "checkbox.html"
+    "template": "checkbox.html",
+    "python": "checkbox.py"
   },
   "install": {
-    "template_path": "templates/components/"
+    "template_path": "templates/components/",
+    "python_path": "templatetags/"
   }
 }

@@ -1,7 +1,14 @@
 from django import template
+from django.utils.html import escape
 from django.utils.safestring import mark_safe
 
 register = template.Library()
+
+def format_html_attrs(attrs):
+    attr_list = []
+    for key, value in attrs.items():
+        attr_list.append(f'{key.replace("_", "-")}="{escape(str(value))}"')
+    return mark_safe(" ".join(attr_list))
 
 @register.inclusion_tag('components/card.html')
 def djinn_card(
@@ -17,25 +24,12 @@ def djinn_card(
     Djinn Card component tag.
     Usage: {% djinn_card title="Card Title" description="Card Description" %}
     """
-    variants = {
-        "default": "rounded-lg border bg-card text-card-foreground shadow-sm",
-        "bordered": "rounded-lg border-2 bg-card text-card-foreground",
-        "elevated": "rounded-lg border bg-card text-card-foreground shadow-lg",
-    }
-
-    variant_class = variants.get(variant, variants["default"])
-    final_classes = f"{variant_class} {class_name}"
-
-    # Process extra attributes
-    attr_string = ""
-    for key, value in attrs.items():
-        attr_string += f' {key.replace("_", "-")}="{value}"'
-
     return {
-        "class": final_classes.strip(),
-        "attrs": mark_safe(attr_string),
+        "variant": variant,
         "title": title,
         "description": description,
         "footer": footer,
         "slot": slot,
+        "class": class_name,
+        "attrs": format_html_attrs(attrs),
     }

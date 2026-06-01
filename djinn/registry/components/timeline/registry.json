@@ -4,9 +4,11 @@
   "category": "Data Display",
   "description": "A vertical timeline of events.",
   "files": {
-    "template": "timeline.html"
+    "template": "timeline.html",
+    "python": "timeline.py"
   },
   "install": {
-    "template_path": "templates/components/"
+    "template_path": "templates/components/",
+    "python_path": "templatetags/"
   }
 }

@@ -4,9 +4,11 @@
   "category": "Data Display",
   "description": "User profile picture or initials.",
   "files": {
-    "template": "avatar.html"
+    "template": "avatar.html",
+    "python": "avatar.py"
   },
   "install": {
-    "template_path": "templates/components/"
+    "template_path": "templates/components/",
+    "python_path": "templatetags/"
   }
 }

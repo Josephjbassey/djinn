@@ -4,9 +4,11 @@
   "category": "Navigation",
   "description": "Accessible tabbed content (requires Alpine.js).",
   "files": {
-    "template": "tabs.html"
+    "template": "tabs.html",
+    "python": "tabs.py"
   },
   "install": {
-    "template_path": "templates/components/"
+    "template_path": "templates/components/",
+    "python_path": "templatetags/"
   }
 }

@@ -3,11 +3,15 @@
   "version": "1.0.0",
   "category": "Inputs",
   "description": "Secure password input with visibility toggle support (requires Alpine.js).",
-  "dependencies": ["input"],
+  "dependencies": [
+    "input"
+  ],
   "files": {
-    "template": "password-input.html"
+    "template": "password-input.html",
+    "python": "password-input.py"
   },
   "install": {
-    "template_path": "templates/components/"
+    "template_path": "templates/components/",
+    "python_path": "templatetags/"
   }
 }

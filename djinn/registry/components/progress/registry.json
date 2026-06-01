@@ -4,9 +4,11 @@
   "category": "Feedback",
   "description": "Progress bar component.",
   "files": {
-    "template": "progress.html"
+    "template": "progress.html",
+    "python": "progress.py"
   },
   "install": {
-    "template_path": "templates/components/"
+    "template_path": "templates/components/",
+    "python_path": "templatetags/"
   }
 }

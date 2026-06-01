@@ -4,9 +4,11 @@
   "category": "Layout",
   "description": "A responsive grid system.",
   "files": {
-    "template": "grid.html"
+    "template": "grid.html",
+    "python": "grid.py"
   },
   "install": {
-    "template_path": "templates/components/"
+    "template_path": "templates/components/",
+    "python_path": "templatetags/"
   }
 }

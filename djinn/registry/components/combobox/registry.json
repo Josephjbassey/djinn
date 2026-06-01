@@ -3,11 +3,16 @@
   "version": "1.0.0",
   "category": "Forms",
   "description": "A searchable select component (requires Alpine.js).",
-  "dependencies": ["input", "popover"],
+  "dependencies": [
+    "input",
+    "popover"
+  ],
   "files": {
-    "template": "combobox.html"
+    "template": "combobox.html",
+    "python": "combobox.py"
   },
   "install": {
-    "template_path": "templates/components/"
+    "template_path": "templates/components/",
+    "python_path": "templatetags/"
   }
 }

@@ -4,9 +4,11 @@
   "category": "Layout",
   "description": "A visual separator between content.",
   "files": {
-    "template": "separator.html"
+    "template": "separator.html",
+    "python": "separator.py"
   },
   "install": {
-    "template_path": "templates/components/"
+    "template_path": "templates/components/",
+    "python_path": "templatetags/"
   }
 }

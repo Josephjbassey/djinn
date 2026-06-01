@@ -3,11 +3,15 @@
   "version": "1.0.0",
   "category": "Buttons",
   "description": "A square button optimized for icons.",
-  "dependencies": ["button"],
+  "dependencies": [
+    "button"
+  ],
   "files": {
-    "template": "icon-button.html"
+    "template": "icon-button.html",
+    "python": "icon-button.py"
   },
   "install": {
-    "template_path": "templates/components/"
+    "template_path": "templates/components/",
+    "python_path": "templatetags/"
   }
 }

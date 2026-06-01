@@ -4,9 +4,11 @@
   "category": "Layout",
   "description": "A semantic section wrapper with consistent padding.",
   "files": {
-    "template": "section.html"
+    "template": "section.html",
+    "python": "section.py"
   },
   "install": {
-    "template_path": "templates/components/"
+    "template_path": "templates/components/",
+    "python_path": "templatetags/"
   }
 }

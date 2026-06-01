@@ -3,11 +3,18 @@
   "version": "1.0.0",
   "category": "Authentication",
   "description": "A form for requesting a password reset.",
-  "dependencies": ["card", "form-group", "input", "button"],
+  "dependencies": [
+    "card",
+    "form-group",
+    "input",
+    "button"
+  ],
   "files": {
-    "template": "password-reset-form.html"
+    "template": "password-reset-form.html",
+    "python": "password-reset-form.py"
   },
   "install": {
-    "template_path": "templates/components/"
+    "template_path": "templates/components/",
+    "python_path": "templatetags/"
   }
 }

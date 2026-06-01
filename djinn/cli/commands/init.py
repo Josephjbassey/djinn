@@ -7,6 +7,9 @@ from djinn.core.config import Config, DEFAULT_CONFIG
 @click.option("--defaults", is_flag=True, help="Skip interactive prompts and use defaults.")
 def init(yes, defaults):
     """Initialize Djinn in the current project."""
+    if not os.path.exists("manage.py"):
+        click.secho("Warning: manage.py not found. Are you in a Django project root?", fg="yellow")
+
     if Config.load():
         if not click.confirm("Djinn is already initialized. Overwrite existing configuration?", default=False):
             return

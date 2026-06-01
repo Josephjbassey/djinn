@@ -4,9 +4,11 @@
   "category": "Forms",
   "description": "Accessible label component.",
   "files": {
-    "template": "label.html"
+    "template": "label.html",
+    "python": "label.py"
   },
   "install": {
-    "template_path": "templates/components/"
+    "template_path": "templates/components/",
+    "python_path": "templatetags/"
   }
 }

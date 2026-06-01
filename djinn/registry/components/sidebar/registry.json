@@ -4,9 +4,11 @@
   "category": "Navigation",
   "description": "A vertical sidebar navigation component.",
   "files": {
-    "template": "sidebar.html"
+    "template": "sidebar.html",
+    "python": "sidebar.py"
   },
   "install": {
-    "template_path": "templates/components/"
+    "template_path": "templates/components/",
+    "python_path": "templatetags/"
   }
 }

@@ -3,11 +3,15 @@
   "version": "1.0.0",
   "category": "Cards",
   "description": "A card highlighting a specific feature with an icon and description.",
-  "dependencies": ["card"],
+  "dependencies": [
+    "card"
+  ],
   "files": {
-    "template": "feature-card.html"
+    "template": "feature-card.html",
+    "python": "feature-card.py"
   },
   "install": {
-    "template_path": "templates/components/"
+    "template_path": "templates/components/",
+    "python_path": "templatetags/"
   }
 }

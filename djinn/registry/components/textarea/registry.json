@@ -4,9 +4,11 @@
   "category": "Inputs",
   "description": "Multi-line text input.",
   "files": {
-    "template": "textarea.html"
+    "template": "textarea.html",
+    "python": "textarea.py"
   },
   "install": {
-    "template_path": "templates/components/"
+    "template_path": "templates/components/",
+    "python_path": "templatetags/"
   }
 }

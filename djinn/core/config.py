@@ -9,7 +9,7 @@ DEFAULT_CONFIG = {
     "registry_url": "__bundled__",
     "output": {
         "templates": "templates/components",
-        "python": "components"
+        "python": "templatetags"
     }
 }
 

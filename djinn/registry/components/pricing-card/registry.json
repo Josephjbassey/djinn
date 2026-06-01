@@ -3,11 +3,16 @@
   "version": "1.0.0",
   "category": "Commerce",
   "description": "A card for displaying subscription plans or product pricing.",
-  "dependencies": ["card", "button"],
+  "dependencies": [
+    "card",
+    "button"
+  ],
   "files": {
-    "template": "pricing-card.html"
+    "template": "pricing-card.html",
+    "python": "pricing-card.py"
   },
   "install": {
-    "template_path": "templates/components/"
+    "template_path": "templates/components/",
+    "python_path": "templatetags/"
   }
 }

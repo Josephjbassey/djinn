@@ -1,7 +1,22 @@
 from django import template
+from django.utils.html import escape
 from django.utils.safestring import mark_safe
 
 register = template.Library()
+
+def format_html_attrs(attrs):
+    """
+    Safely format dictionary of attributes into an HTML string.
+    Keys with underscores are converted to hyphens.
+    Values are HTML-escaped.
+    """
+    attr_list = []
+    for key, value in attrs.items():
+        safe_key = key.replace("_", "-")
+        # Ensure value is a string before escaping
+        safe_value = escape(str(value))
+        attr_list.append(f'{safe_key}="{safe_value}"')
+    return mark_safe(" ".join(attr_list))
 
 @register.inclusion_tag('components/button.html')
 def djinn_button(
@@ -11,7 +26,7 @@ def djinn_button(
     loading=False,
     label=None,
     class_name="",
-    type="button",
+    button_type="button",
     icon_left=None,
     icon_right=None,
     **attrs
@@ -20,41 +35,15 @@ def djinn_button(
     Djinn Button component tag.
     Usage: {% djinn_button variant="outline" label="Cancel" %}
     """
-    base = "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
-
-    variants = {
-        "primary": "bg-primary text-primary-foreground hover:bg-primary/90",
-        "secondary": "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-        "destructive": "bg-destructive text-destructive-foreground hover:bg-destructive/90",
-        "outline": "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
-        "ghost": "hover:bg-accent hover:text-accent-foreground",
-        "link": "text-primary underline-offset-4 hover:underline",
-    }
-
-    sizes = {
-        "sm": "h-9 rounded-md px-3",
-        "md": "h-10 px-4 py-2",
-        "lg": "h-11 rounded-md px-8",
-        "icon": "h-10 w-10",
-    }
-
-    variant_class = variants.get(variant, variants["primary"])
-    size_class = sizes.get(size, sizes["md"])
-
-    final_classes = f"{base} {variant_class} {size_class} {class_name}"
-
-    # Process extra attributes (convert underscore to hyphen)
-    attr_string = ""
-    for key, value in attrs.items():
-        attr_string += f' {key.replace("_", "-")}="{value}"'
-
     return {
-        "type": type,
-        "disabled": disabled or loading,
-        "class": final_classes.strip(),
-        "attrs": mark_safe(attr_string),
+        "variant": variant,
+        "size": size,
+        "disabled": disabled,
+        "loading": loading,
         "label": label,
+        "class": class_name,
+        "type": button_type,
         "icon_left": icon_left,
         "icon_right": icon_right,
-        "loading": loading,
+        "attrs": format_html_attrs(attrs),
     }
