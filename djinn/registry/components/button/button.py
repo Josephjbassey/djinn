@@ -1,4 +1,25 @@
-def get_button_classes(variant="primary", size="md", class_name=""):
+from django import template
+from django.utils.safestring import mark_safe
+
+register = template.Library()
+
+@register.inclusion_tag('components/button.html')
+def djinn_button(
+    variant="primary",
+    size="md",
+    disabled=False,
+    loading=False,
+    label=None,
+    class_name="",
+    type="button",
+    icon_left=None,
+    icon_right=None,
+    **attrs
+):
+    """
+    Djinn Button component tag.
+    Usage: {% djinn_button variant="outline" label="Cancel" %}
+    """
     base = "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
 
     variants = {
@@ -17,10 +38,23 @@ def get_button_classes(variant="primary", size="md", class_name=""):
         "icon": "h-10 w-10",
     }
 
-    return f"{base} {variants.get(variant, variants['primary'])} {sizes.get(size, sizes['md'])} {class_name}"
+    variant_class = variants.get(variant, variants["primary"])
+    size_class = sizes.get(size, sizes["md"])
 
-def subtract(value, arg):
-    try:
-        return int(value) - int(arg)
-    except (ValueError, TypeError):
-        return value
+    final_classes = f"{base} {variant_class} {size_class} {class_name}"
+
+    # Process extra attributes (convert underscore to hyphen)
+    attr_string = ""
+    for key, value in attrs.items():
+        attr_string += f' {key.replace("_", "-")}="{value}"'
+
+    return {
+        "type": type,
+        "disabled": disabled or loading,
+        "class": final_classes.strip(),
+        "attrs": mark_safe(attr_string),
+        "label": label,
+        "icon_left": icon_left,
+        "icon_right": icon_right,
+        "loading": loading,
+    }
