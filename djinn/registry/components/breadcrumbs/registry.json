@@ -4,9 +4,11 @@
   "category": "Navigation",
   "description": "Navigation path indicator.",
   "files": {
-    "template": "breadcrumbs.html"
+    "template": "breadcrumbs.html",
+    "python": "breadcrumbs.py"
   },
   "install": {
-    "template_path": "templates/components/"
+    "template_path": "templates/components/",
+    "python_path": "templatetags/"
   }
 }

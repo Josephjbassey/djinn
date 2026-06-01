@@ -3,11 +3,15 @@
   "version": "1.0.0",
   "category": "Dashboard Blocks",
   "description": "A more complex sidebar for dashboards with grouping and nested items.",
-  "dependencies": ["sidebar"],
+  "dependencies": [
+    "sidebar"
+  ],
   "files": {
-    "template": "dashboard-sidebar.html"
+    "template": "dashboard-sidebar.html",
+    "python": "dashboard-sidebar.py"
   },
   "install": {
-    "template_path": "templates/components/"
+    "template_path": "templates/components/",
+    "python_path": "templatetags/"
   }
 }

@@ -3,11 +3,15 @@
   "version": "1.0.0",
   "category": "Cards",
   "description": "A card optimized for displaying metrics and statistics.",
-  "dependencies": ["card"],
+  "dependencies": [
+    "card"
+  ],
   "files": {
-    "template": "stats-card.html"
+    "template": "stats-card.html",
+    "python": "stats-card.py"
   },
   "install": {
-    "template_path": "templates/components/"
+    "template_path": "templates/components/",
+    "python_path": "templatetags/"
   }
 }

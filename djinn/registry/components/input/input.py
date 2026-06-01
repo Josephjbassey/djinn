@@ -1,7 +1,14 @@
 from django import template
+from django.utils.html import escape
 from django.utils.safestring import mark_safe
 
 register = template.Library()
+
+def format_html_attrs(attrs):
+    attr_list = []
+    for key, attr_value in attrs.items():
+        attr_list.append(f'{key.replace("_", "-")}="{escape(str(attr_value))}"')
+    return mark_safe(" ".join(attr_list))
 
 @register.inclusion_tag('components/input.html')
 def djinn_input(
@@ -9,9 +16,9 @@ def djinn_input(
     placeholder="",
     error=None,
     help_text=None,
-    type="text",
+    input_type="text",
     name=None,
-    id=None,
+    input_id=None,
     value="",
     disabled=False,
     required=False,
@@ -22,29 +29,17 @@ def djinn_input(
     Djinn Input component tag.
     Usage: {% djinn_input label="Email" type="email" placeholder="you@example.com" %}
     """
-    base = "flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-
-    if error:
-        base += " border-destructive"
-
-    final_classes = f"{base} {class_name}"
-
-    # Process extra attributes
-    attr_string = ""
-    for key, value in attrs.items():
-        attr_string += f' {key.replace("_", "-")}="{value}"'
-
     return {
         "label": label,
         "placeholder": placeholder,
         "error": error,
         "help_text": help_text,
-        "type": type,
+        "type": input_type,
         "name": name,
-        "id": id or name,
+        "id": input_id or name,
         "value": value,
         "disabled": disabled,
         "required": required,
-        "class": final_classes.strip(),
-        "attrs": mark_safe(attr_string),
+        "class": class_name,
+        "attrs": format_html_attrs(attrs),
     }

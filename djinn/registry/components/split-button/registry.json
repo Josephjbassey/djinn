@@ -3,11 +3,15 @@
   "version": "1.0.0",
   "category": "Buttons",
   "description": "A button group with a primary action and a dropdown toggle.",
-  "dependencies": ["button"],
+  "dependencies": [
+    "button"
+  ],
   "files": {
-    "template": "split-button.html"
+    "template": "split-button.html",
+    "python": "split-button.py"
   },
   "install": {
-    "template_path": "templates/components/"
+    "template_path": "templates/components/",
+    "python_path": "templatetags/"
   }
 }

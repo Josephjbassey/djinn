@@ -3,11 +3,16 @@
   "version": "1.0.0",
   "category": "Commerce",
   "description": "A card for displaying product information with image and price.",
-  "dependencies": ["card", "button"],
+  "dependencies": [
+    "card",
+    "button"
+  ],
   "files": {
-    "template": "product-card.html"
+    "template": "product-card.html",
+    "python": "product-card.py"
   },
   "install": {
-    "template_path": "templates/components/"
+    "template_path": "templates/components/",
+    "python_path": "templatetags/"
   }
 }

@@ -4,9 +4,11 @@
   "category": "Forms",
   "description": "Toggle switch component (requires Alpine.js).",
   "files": {
-    "template": "switch.html"
+    "template": "switch.html",
+    "python": "switch.py"
   },
   "install": {
-    "template_path": "templates/components/"
+    "template_path": "templates/components/",
+    "python_path": "templatetags/"
   }
 }

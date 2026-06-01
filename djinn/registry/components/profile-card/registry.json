@@ -3,11 +3,16 @@
   "version": "1.0.0",
   "category": "Cards",
   "description": "A card for user profiles with avatar and info.",
-  "dependencies": ["card", "avatar"],
+  "dependencies": [
+    "card",
+    "avatar"
+  ],
   "files": {
-    "template": "profile-card.html"
+    "template": "profile-card.html",
+    "python": "profile-card.py"
   },
   "install": {
-    "template_path": "templates/components/"
+    "template_path": "templates/components/",
+    "python_path": "templatetags/"
   }
 }

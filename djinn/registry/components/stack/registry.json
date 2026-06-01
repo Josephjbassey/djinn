@@ -4,9 +4,11 @@
   "category": "Layout",
   "description": "A component for stacking elements vertically or horizontally.",
   "files": {
-    "template": "stack.html"
+    "template": "stack.html",
+    "python": "stack.py"
   },
   "install": {
-    "template_path": "templates/components/"
+    "template_path": "templates/components/",
+    "python_path": "templatetags/"
   }
 }

@@ -3,11 +3,16 @@
   "version": "1.0.0",
   "category": "Commerce",
   "description": "A summary of items and totals for checkout.",
-  "dependencies": ["card", "separator"],
+  "dependencies": [
+    "card",
+    "separator"
+  ],
   "files": {
-    "template": "checkout-summary.html"
+    "template": "checkout-summary.html",
+    "python": "checkout-summary.py"
   },
   "install": {
-    "template_path": "templates/components/"
+    "template_path": "templates/components/",
+    "python_path": "templatetags/"
   }
 }

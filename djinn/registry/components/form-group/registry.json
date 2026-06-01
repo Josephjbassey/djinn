@@ -3,11 +3,15 @@
   "version": "1.0.0",
   "category": "Forms",
   "description": "A wrapper for form fields with labels, inputs, and error messages.",
-  "dependencies": ["label"],
+  "dependencies": [
+    "label"
+  ],
   "files": {
-    "template": "form-group.html"
+    "template": "form-group.html",
+    "python": "form-group.py"
   },
   "install": {
-    "template_path": "templates/components/"
+    "template_path": "templates/components/",
+    "python_path": "templatetags/"
   }
 }

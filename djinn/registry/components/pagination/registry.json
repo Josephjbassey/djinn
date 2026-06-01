@@ -3,11 +3,15 @@
   "version": "1.0.0",
   "category": "Navigation",
   "description": "Pagination controls for data sets.",
-  "dependencies": ["button"],
+  "dependencies": [
+    "button"
+  ],
   "files": {
-    "template": "pagination.html"
+    "template": "pagination.html",
+    "python": "pagination.py"
   },
   "install": {
-    "template_path": "templates/components/"
+    "template_path": "templates/components/",
+    "python_path": "templatetags/"
   }
 }

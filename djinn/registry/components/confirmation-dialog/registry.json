@@ -3,11 +3,16 @@
   "version": "1.0.0",
   "category": "Dialogs",
   "description": "A simpler confirmation dialog for non-destructive actions.",
-  "dependencies": ["modal", "button"],
+  "dependencies": [
+    "modal",
+    "button"
+  ],
   "files": {
-    "template": "confirmation-dialog.html"
+    "template": "confirmation-dialog.html",
+    "python": "confirmation-dialog.py"
   },
   "install": {
-    "template_path": "templates/components/"
+    "template_path": "templates/components/",
+    "python_path": "templatetags/"
   }
 }

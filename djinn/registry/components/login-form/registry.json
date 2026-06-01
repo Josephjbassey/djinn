@@ -3,11 +3,18 @@
   "version": "1.0.0",
   "category": "Authentication",
   "description": "A complete login form component.",
-  "dependencies": ["card", "form-group", "input", "button"],
+  "dependencies": [
+    "card",
+    "form-group",
+    "input",
+    "button"
+  ],
   "files": {
-    "template": "login-form.html"
+    "template": "login-form.html",
+    "python": "login-form.py"
   },
   "install": {
-    "template_path": "templates/components/"
+    "template_path": "templates/components/",
+    "python_path": "templatetags/"
   }
 }

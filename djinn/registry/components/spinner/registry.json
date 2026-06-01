@@ -4,9 +4,11 @@
   "category": "Feedback",
   "description": "A loading spinner icon.",
   "files": {
-    "template": "spinner.html"
+    "template": "spinner.html",
+    "python": "spinner.py"
   },
   "install": {
-    "template_path": "templates/components/"
+    "template_path": "templates/components/",
+    "python_path": "templatetags/"
   }
 }

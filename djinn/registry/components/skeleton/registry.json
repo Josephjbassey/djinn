@@ -4,9 +4,11 @@
   "category": "Feedback",
   "description": "A placeholder component for loading states.",
   "files": {
-    "template": "skeleton.html"
+    "template": "skeleton.html",
+    "python": "skeleton.py"
   },
   "install": {
-    "template_path": "templates/components/"
+    "template_path": "templates/components/",
+    "python_path": "templatetags/"
   }
 }

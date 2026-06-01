@@ -4,9 +4,11 @@
   "category": "Dialogs",
   "description": "A standard modal dialog (requires Alpine.js).",
   "files": {
-    "template": "modal.html"
+    "template": "modal.html",
+    "python": "modal.py"
   },
   "install": {
-    "template_path": "templates/components/"
+    "template_path": "templates/components/",
+    "python_path": "templatetags/"
   }
 }

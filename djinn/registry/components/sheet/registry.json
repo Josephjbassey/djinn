@@ -4,9 +4,11 @@
   "category": "Dialogs",
   "description": "A sidebar overlay component (requires Alpine.js).",
   "files": {
-    "template": "sheet.html"
+    "template": "sheet.html",
+    "python": "sheet.py"
   },
   "install": {
-    "template_path": "templates/components/"
+    "template_path": "templates/components/",
+    "python_path": "templatetags/"
   }
 }

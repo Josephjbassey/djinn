@@ -4,9 +4,11 @@
   "category": "Data Display",
   "description": "A popup that displays information related to an element (requires Alpine.js).",
   "files": {
-    "template": "tooltip.html"
+    "template": "tooltip.html",
+    "python": "tooltip.py"
   },
   "install": {
-    "template_path": "templates/components/"
+    "template_path": "templates/components/",
+    "python_path": "templatetags/"
   }
 }

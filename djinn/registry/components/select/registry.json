@@ -4,9 +4,11 @@
   "category": "Forms",
   "description": "Standard select dropdown.",
   "files": {
-    "template": "select.html"
+    "template": "select.html",
+    "python": "select.py"
   },
   "install": {
-    "template_path": "templates/components/"
+    "template_path": "templates/components/",
+    "python_path": "templatetags/"
   }
 }

@@ -4,9 +4,11 @@
   "category": "Layout",
   "description": "A centered container with responsive max-width.",
   "files": {
-    "template": "container.html"
+    "template": "container.html",
+    "python": "container.py"
   },
   "install": {
-    "template_path": "templates/components/"
+    "template_path": "templates/components/",
+    "python_path": "templatetags/"
   }
 }
