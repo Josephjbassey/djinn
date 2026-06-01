@@ -4,9 +4,11 @@
   "category": "Cards",
   "description": "A container for content with header, body, and footer.",
   "files": {
-    "template": "card.html"
+    "template": "card.html",
+    "python": "card.py"
   },
   "install": {
-    "template_path": "templates/components/"
+    "template_path": "templates/components/",
+    "python_path": "components/"
   }
 }
