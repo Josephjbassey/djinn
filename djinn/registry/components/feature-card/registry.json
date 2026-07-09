@@ -1,17 +1,18 @@
 {
   "name": "feature-card",
-  "version": "1.0.0",
-  "category": "Cards",
-  "description": "A card highlighting a specific feature with an icon and description.",
-  "dependencies": [
-    "card"
+  "dependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "name": "feature-card.html",
+      "dir": "templates/components",
+      "content": "<div class=\"relative overflow-hidden rounded-lg border bg-background p-2 {{ class }}\">\n    <div class=\"flex h-[180px] flex-col justify-between rounded-md p-6\">\n        <div class=\"text-primary\">{{ icon|safe }}</div>\n        <div class=\"space-y-2\">\n            <h3 class=\"font-bold\">{{ title }}</h3>\n            <p class=\"text-sm text-muted-foreground\">{{ description }}</p>\n        </div>\n    </div>\n</div>\n"
+    },
+    {
+      "name": "feature-card.py",
+      "dir": "templatetags",
+      "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/feature-card.html')\ndef djinn_feature_card(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Feature-card component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+    }
   ],
-  "files": {
-    "template": "feature-card.html",
-    "python": "feature-card.py"
-  },
-  "install": {
-    "template_path": "templates/components/",
-    "python_path": "templatetags/"
-  }
+  "type": "components:ui"
 }

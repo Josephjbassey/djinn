@@ -1,17 +1,18 @@
 {
   "name": "dashboard-sidebar",
-  "version": "1.0.0",
-  "category": "Dashboard Blocks",
-  "description": "A more complex sidebar for dashboards with grouping and nested items.",
-  "dependencies": [
-    "sidebar"
+  "dependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "name": "dashboard-sidebar.html",
+      "dir": "templates/components",
+      "content": "<div class=\"hidden border-r bg-muted/40 md:block w-64 h-screen sticky top-0 {{ class }}\">\n    <div class=\"flex h-full max-h-screen flex-col gap-2\">\n        <div class=\"flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6\">\n            <a class=\"flex items-center gap-2 font-semibold\" href=\"/\">\n                {{ brand_logo|safe }}\n                <span>{{ brand_name|default:'Djinn Admin' }}</span>\n            </a>\n        </div>\n        <div class=\"flex-1 overflow-auto\">\n            <nav class=\"grid items-start px-2 text-sm font-medium lg:px-4 space-y-1\">\n                {{ slot|safe }}\n            </nav>\n        </div>\n        {% if footer %}\n        <div class=\"mt-auto p-4 border-t\">\n            {{ footer|safe }}\n        </div>\n        {% endif %}\n    </div>\n</div>\n"
+    },
+    {
+      "name": "dashboard-sidebar.py",
+      "dir": "templatetags",
+      "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/dashboard-sidebar.html')\ndef djinn_dashboard_sidebar(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Dashboard-sidebar component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+    }
   ],
-  "files": {
-    "template": "dashboard-sidebar.html",
-    "python": "dashboard-sidebar.py"
-  },
-  "install": {
-    "template_path": "templates/components/",
-    "python_path": "templatetags/"
-  }
+  "type": "components:ui"
 }

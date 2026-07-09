@@ -1,18 +1,18 @@
 {
   "name": "activity-feed",
-  "version": "1.0.0",
-  "category": "Dashboard Blocks",
-  "description": "A list of recent activities/events.",
-  "dependencies": [
-    "card",
-    "avatar"
+  "dependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "name": "activity-feed.html",
+      "dir": "templates/components",
+      "content": "<div class=\"rounded-lg border bg-card text-card-foreground shadow-sm p-6 {{ class }}\">\n    <h3 class=\"text-base font-semibold mb-6\">Recent Activity</h3>\n    <div class=\"space-y-6\">\n        {{ slot|safe }}\n    </div>\n</div>\n"
+    },
+    {
+      "name": "activity-feed.py",
+      "dir": "templatetags",
+      "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/activity-feed.html')\ndef djinn_activity_feed(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Activity-feed component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+    }
   ],
-  "files": {
-    "template": "activity-feed.html",
-    "python": "activity-feed.py"
-  },
-  "install": {
-    "template_path": "templates/components/",
-    "python_path": "templatetags/"
-  }
+  "type": "components:ui"
 }

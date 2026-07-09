@@ -1,17 +1,18 @@
 {
   "name": "icon-button",
-  "version": "1.0.0",
-  "category": "Buttons",
-  "description": "A square button optimized for icons.",
-  "dependencies": [
-    "button"
+  "dependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "name": "icon-button.html",
+      "dir": "templates/components",
+      "content": "{% include \"components/button.html\" with size=\"icon\" label=\"\" slot=slot icon_left=icon variant=variant|default:\"outline\" class=class attrs=attrs %}\n"
+    },
+    {
+      "name": "icon-button.py",
+      "dir": "templatetags",
+      "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/icon-button.html')\ndef djinn_icon_button(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Icon-button component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+    }
   ],
-  "files": {
-    "template": "icon-button.html",
-    "python": "icon-button.py"
-  },
-  "install": {
-    "template_path": "templates/components/",
-    "python_path": "templatetags/"
-  }
+  "type": "components:ui"
 }

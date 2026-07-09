@@ -1,18 +1,18 @@
 {
   "name": "checkout-summary",
-  "version": "1.0.0",
-  "category": "Commerce",
-  "description": "A summary of items and totals for checkout.",
-  "dependencies": [
-    "card",
-    "separator"
+  "dependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "name": "checkout-summary.html",
+      "dir": "templates/components",
+      "content": "<div class=\"rounded-lg border bg-card text-card-foreground shadow-sm p-6 {{ class }}\">\n    <h3 class=\"text-lg font-semibold mb-4\">Order Summary</h3>\n    <div class=\"space-y-4\">\n        {{ items|safe }}\n    </div>\n    {% include \"components/separator.html\" class=\"my-4\" %}\n    <div class=\"space-y-1.5\">\n        <div class=\"flex justify-between text-sm\">\n            <span class=\"text-muted-foreground\">Subtotal</span>\n            <span>{{ subtotal }}</span>\n        </div>\n        <div class=\"flex justify-between text-sm\">\n            <span class=\"text-muted-foreground\">Shipping</span>\n            <span>{{ shipping }}</span>\n        </div>\n        {% include \"components/separator.html\" class=\"my-4\" %}\n        <div class=\"flex justify-between font-bold\">\n            <span>Total</span>\n            <span>{{ total }}</span>\n        </div>\n    </div>\n</div>\n"
+    },
+    {
+      "name": "checkout-summary.py",
+      "dir": "templatetags",
+      "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/checkout-summary.html')\ndef djinn_checkout_summary(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Checkout-summary component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+    }
   ],
-  "files": {
-    "template": "checkout-summary.html",
-    "python": "checkout-summary.py"
-  },
-  "install": {
-    "template_path": "templates/components/",
-    "python_path": "templatetags/"
-  }
+  "type": "components:ui"
 }

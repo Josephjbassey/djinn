@@ -1,14 +1,18 @@
 {
   "name": "grid",
-  "version": "1.0.0",
-  "category": "Layout",
-  "description": "A responsive grid system.",
-  "files": {
-    "template": "grid.html",
-    "python": "grid.py"
-  },
-  "install": {
-    "template_path": "templates/components/",
-    "python_path": "templatetags/"
-  }
+  "dependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "name": "grid.html",
+      "dir": "templates/components",
+      "content": "<div class=\"grid gap-4 md:gap-6 lg:gap-8\n    {% if cols == '2' %}grid-cols-1 md:grid-cols-2\n    {% elif cols == '3' %}grid-cols-1 md:grid-cols-2 lg:grid-cols-3\n    {% elif cols == '4' %}grid-cols-1 md:grid-cols-2 lg:grid-cols-4\n    {% else %}grid-cols-1{% endif %}\n    {{ class }}\"\n>\n    {{ slot|safe }}\n</div>\n"
+    },
+    {
+      "name": "grid.py",
+      "dir": "templatetags",
+      "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/grid.html')\ndef djinn_grid(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Grid component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+    }
+  ],
+  "type": "components:ui"
 }

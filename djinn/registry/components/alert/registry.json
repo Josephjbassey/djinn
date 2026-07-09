@@ -1,14 +1,18 @@
 {
   "name": "alert",
-  "version": "1.0.0",
-  "category": "Feedback",
-  "description": "An inline alert component for important messages.",
-  "files": {
-    "template": "alert.html",
-    "python": "alert.py"
-  },
-  "install": {
-    "template_path": "templates/components/",
-    "python_path": "templatetags/"
-  }
+  "dependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "name": "alert.html",
+      "dir": "templates/components",
+      "content": "<div\n    role=\"alert\"\n    class=\"relative w-full rounded-lg border p-4 [&>svg+div]:translate-y-[-3px] [&>svg]:absolute [&>svg]:left-4 [&>svg]:top-4 [&>svg]:text-foreground [&>svg~*]:pl-7\n    {% if variant == 'destructive' %}border-destructive/50 text-destructive dark:border-destructive [&>svg]:text-destructive\n    {% else %}bg-background text-foreground{% endif %}\n    {{ class }}\"\n>\n    {% if icon %}{{ icon|safe }}{% endif %}\n    {% if title %}<h5 class=\"mb-1 font-medium leading-none tracking-tight\">{{ title }}</h5>{% endif %}\n    <div class=\"text-sm [&_p]:leading-relaxed\">\n        {{ slot|safe }}\n    </div>\n</div>\n"
+    },
+    {
+      "name": "alert.py",
+      "dir": "templatetags",
+      "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/alert.html')\ndef djinn_alert(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Alert component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+    }
+  ],
+  "type": "components:ui"
 }

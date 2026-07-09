@@ -1,14 +1,18 @@
 {
   "name": "section",
-  "version": "1.0.0",
-  "category": "Layout",
-  "description": "A semantic section wrapper with consistent padding.",
-  "files": {
-    "template": "section.html",
-    "python": "section.py"
-  },
-  "install": {
-    "template_path": "templates/components/",
-    "python_path": "templatetags/"
-  }
+  "dependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "name": "section.html",
+      "dir": "templates/components",
+      "content": "<section class=\"py-12 md:py-16 lg:py-24 {{ class }}\">\n    {{ slot|safe }}\n</section>\n"
+    },
+    {
+      "name": "section.py",
+      "dir": "templatetags",
+      "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/section.html')\ndef djinn_section(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Section component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+    }
+  ],
+  "type": "components:ui"
 }

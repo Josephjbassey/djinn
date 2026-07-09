@@ -1,18 +1,18 @@
 {
   "name": "combobox",
-  "version": "1.0.0",
-  "category": "Forms",
-  "description": "A searchable select component (requires Alpine.js).",
-  "dependencies": [
-    "input",
-    "popover"
+  "dependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "name": "combobox.html",
+      "dir": "templates/components",
+      "content": "<div x-data=\"{ open: false, selected: '', search: '' }\" class=\"relative w-full\">\n    <button\n        type=\"button\"\n        @click=\"open = !open\"\n        class=\"flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50\"\n    >\n        <span x-text=\"selected || '{{ placeholder|default:'Select option...' }}'\" :class=\"selected ? 'text-foreground' : 'text-muted-foreground'\"></span>\n        <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-chevrons-up-down ml-2 h-4 w-4 shrink-0 opacity-50\"><path d=\"m7 15 5 5 5-5\"/><path d=\"m7 9 5-5 5 5\"/></svg>\n    </button>\n\n    <div\n        x-show=\"open\"\n        @click.away=\"open = false\"\n        class=\"absolute z-50 mt-1 max-h-60 w-full overflow-auto rounded-md border bg-popover text-popover-foreground shadow-md outline-none animate-in fade-in-0 zoom-in-95\"\n    >\n        <div class=\"flex items-center border-b px-3\">\n            <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-search mr-2 h-4 w-4 shrink-0 opacity-50\"><circle cx=\"11\" cy=\"11\" r=\"8\"/><path d=\"m21 21-4.3-4.3\"/></svg>\n            <input\n                x-model=\"search\"\n                class=\"flex h-10 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50\"\n                placeholder=\"Search...\"\n            >\n        </div>\n        <div class=\"p-1\">\n            {{ slot|safe }}\n        </div>\n    </div>\n    <input type=\"hidden\" name=\"{{ name }}\" :value=\"selected\">\n</div>\n"
+    },
+    {
+      "name": "combobox.py",
+      "dir": "templatetags",
+      "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/combobox.html')\ndef djinn_combobox(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Combobox component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+    }
   ],
-  "files": {
-    "template": "combobox.html",
-    "python": "combobox.py"
-  },
-  "install": {
-    "template_path": "templates/components/",
-    "python_path": "templatetags/"
-  }
+  "type": "components:ui"
 }

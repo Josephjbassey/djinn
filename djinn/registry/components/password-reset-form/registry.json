@@ -1,20 +1,18 @@
 {
   "name": "password-reset-form",
-  "version": "1.0.0",
-  "category": "Authentication",
-  "description": "A form for requesting a password reset.",
-  "dependencies": [
-    "card",
-    "form-group",
-    "input",
-    "button"
+  "dependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "name": "password-reset-form.html",
+      "dir": "templates/components",
+      "content": "{% include \"components/card.html\" with title=\"Forgot password?\" description=\"Enter your email to receive a password reset link.\" class=\"w-full max-w-sm\" %}\n    <form method=\"post\" action=\"{{ action }}\" class=\"space-y-4\">\n        {% csrf_token %}\n        {% include \"components/form-group.html\" with label=\"Email\" name=\"email\" %}\n            {% include \"components/input.html\" with name=\"email\" type=\"email\" placeholder=\"m@example.com\" required=True %}\n        {% endinclude %}\n\n        {% include \"components/button.html\" with label=\"Send Reset Link\" type=\"submit\" class=\"w-full\" %}\n\n        <div class=\"mt-4 text-center text-sm\">\n            Remembered your password?\n            <a href=\"{{ login_url }}\" class=\"underline\">Login</a>\n        </div>\n    </form>\n{% endinclude %}\n"
+    },
+    {
+      "name": "password-reset-form.py",
+      "dir": "templatetags",
+      "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/password-reset-form.html')\ndef djinn_password_reset_form(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Password-reset-form component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+    }
   ],
-  "files": {
-    "template": "password-reset-form.html",
-    "python": "password-reset-form.py"
-  },
-  "install": {
-    "template_path": "templates/components/",
-    "python_path": "templatetags/"
-  }
+  "type": "components:ui"
 }

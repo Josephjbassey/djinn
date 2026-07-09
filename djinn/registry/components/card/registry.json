@@ -1,14 +1,18 @@
 {
   "name": "card",
-  "version": "1.0.0",
-  "category": "Cards",
-  "description": "A container for content with header, body, and footer.",
-  "files": {
-    "template": "card.html",
-    "python": "card.py"
-  },
-  "install": {
-    "template_path": "templates/components/",
-    "python_path": "templatetags/"
-  }
+  "dependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "name": "card.html",
+      "dir": "templates/components",
+      "content": "<div class=\"rounded-lg border bg-card text-card-foreground shadow-sm\n    {% with v=variant|default:'default' %}\n        {% if v == 'bordered' %}border-2\n        {% elif v == 'elevated' %}shadow-lg\n        {% endif %}\n    {% endwith %}\n    {{ class }}\"\n    {{ attrs|safe }}\n>\n    {% if title or description %}\n    <div class=\"flex flex-col space-y-1.5 p-6\">\n        {% if title %}\n        <h3 class=\"text-2xl font-semibold leading-none tracking-tight\">{{ title }}</h3>\n        {% endif %}\n        {% if description %}\n        <p class=\"text-sm text-muted-foreground\">{{ description }}</p>\n        {% endif %}\n    </div>\n    {% endif %}\n\n    <div class=\"p-6 pt-0\">\n        {{ slot|safe }}\n    </div>\n\n    {% if footer %}\n    <div class=\"flex items-center p-6 pt-0\">\n        {{ footer|safe }}\n    </div>\n    {% endif %}\n</div>\n"
+    },
+    {
+      "name": "card.py",
+      "dir": "templatetags",
+      "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/card.html')\ndef djinn_card(\n    variant=\"default\",\n    title=None,\n    description=None,\n    footer=None,\n    slot=None,\n    class_name=\"\",\n    **attrs\n):\n    \"\"\"\n    Djinn Card component tag.\n    Usage: {% djinn_card title=\"Card Title\" description=\"Card Description\" %}\n    \"\"\"\n    return {\n        \"variant\": variant,\n        \"title\": title,\n        \"description\": description,\n        \"footer\": footer,\n        \"slot\": slot,\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+    }
+  ],
+  "type": "components:ui"
 }

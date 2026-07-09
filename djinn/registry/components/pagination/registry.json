@@ -1,17 +1,18 @@
 {
   "name": "pagination",
-  "version": "1.0.0",
-  "category": "Navigation",
-  "description": "Pagination controls for data sets.",
-  "dependencies": [
-    "button"
+  "dependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "name": "pagination.html",
+      "dir": "templates/components",
+      "content": "<nav role=\"navigation\" aria-label=\"pagination\" class=\"mx-auto flex w-full justify-center {{ class }}\">\n    <ul class=\"flex flex-row items-center gap-1\">\n        <li>\n            {% include \"components/button.html\" with variant=\"ghost\" size=\"sm\" label=\"Previous\" icon_left='<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m15 18-6-6 6-6\"/></svg>' attrs=prev_attrs %}\n        </li>\n        {{ slot|safe }}\n        <li>\n            {% include \"components/button.html\" with variant=\"ghost\" size=\"sm\" label=\"Next\" icon_right='<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m9 18 6-6-6-6\"/></svg>' attrs=next_attrs %}\n        </li>\n    </ul>\n</nav>\n"
+    },
+    {
+      "name": "pagination.py",
+      "dir": "templatetags",
+      "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/pagination.html')\ndef djinn_pagination(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Pagination component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+    }
   ],
-  "files": {
-    "template": "pagination.html",
-    "python": "pagination.py"
-  },
-  "install": {
-    "template_path": "templates/components/",
-    "python_path": "templatetags/"
-  }
+  "type": "components:ui"
 }

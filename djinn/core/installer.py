@@ -9,20 +9,37 @@ class Installer:
         self.config = config
         self.registry = registry
 
-    def install(self, component_name: str, force: bool = False) -> List[Tuple[str, Path]]:
+    def install(self, component_name: str, force: bool = False, installed_components: set = None) -> List[Tuple[str, Path]]:
+        if installed_components is None:
+            installed_components = set()
+
+        if component_name in installed_components:
+            return []
+
         metadata = self.registry.load_component(component_name)
         if not metadata:
             raise ValueError(f"Component '{component_name}' not found in registry.")
 
+        installed_components.add(component_name)
+        installed_files = []
+
+        # Recursively install registry dependencies first
+        for dep in metadata.registryDependencies:
+            installed_files.extend(self.install(dep, force=force, installed_components=installed_components))
+
         # Phase 1: Validation
         files_to_install = []
-        for file_type, file_name in metadata.files.items():
-            if file_type == "template":
+        for file_obj in metadata.files:
+            file_name = file_obj["name"]
+            file_dir = file_obj.get("dir", "")
+            content = file_obj.get("content", "")
+
+            if "templates" in file_dir:
                 dest_base = Path(metadata.install.get("template_path", self.config.get_template_path()))
-            elif file_type == "python":
+            elif "templatetags" in file_dir:
                 dest_base = Path(metadata.install.get("python_path", self.config.get_python_path()))
             else:
-                dest_base = Path("components")
+                dest_base = Path(file_dir) if file_dir else Path("components")
 
             dest_path = dest_base / file_name
 
@@ -30,23 +47,15 @@ class Installer:
             if dest_path.exists() and not force:
                 raise FileExistsError(f"File '{dest_path}' already exists. Use --force to overwrite.")
 
-            # Relative path in registry
-            registry_file_path = self.registry.get_component_file_path(component_name, file_name)
-
-            files_to_install.append((file_type, registry_file_path, dest_path))
+            files_to_install.append((file_name, dest_path, content))
 
         # Phase 2: Installation
-        installed_files = []
-        for file_type, registry_file_path, dest_path in files_to_install:
-            try:
-                content = self.registry.fetch_content(registry_file_path)
-            except FileNotFoundError:
-                 raise FileNotFoundError(f"Source file '{registry_file_path}' not found in registry.")
-
+        for file_name, dest_path, content in files_to_install:
             dest_path.parent.mkdir(parents=True, exist_ok=True)
-            with open(dest_path, "wb") as f:
+            with open(dest_path, "w", encoding="utf-8") as f:
                 f.write(content)
 
-            installed_files.append((file_type, dest_path))
+            installed_files.append((file_name, dest_path))
 
         return installed_files
+

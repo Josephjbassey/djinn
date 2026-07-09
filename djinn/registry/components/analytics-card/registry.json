@@ -1,18 +1,18 @@
 {
   "name": "analytics-card",
-  "version": "1.0.0",
-  "category": "Dashboard Blocks",
-  "description": "A card for displaying analytics with a chart placeholder.",
-  "dependencies": [
-    "card",
-    "skeleton"
+  "dependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "name": "analytics-card.html",
+      "dir": "templates/components",
+      "content": "<div class=\"rounded-lg border bg-card text-card-foreground shadow-sm p-6 {{ class }}\">\n    <div class=\"flex items-center justify-between space-y-0 pb-4\">\n        <h3 class=\"text-base font-semibold tracking-tight\">{{ title }}</h3>\n        {% if time_range %}\n            <span class=\"text-xs text-muted-foreground\">{{ time_range }}</span>\n        {% endif %}\n    </div>\n    <div class=\"h-[200px] w-full flex items-end gap-2 px-2\">\n        {% if chart_slot %}\n            {{ chart_slot|safe }}\n        {% else %}\n            <!-- Mock Chart -->\n            <div class=\"bg-primary/20 w-full h-[40%] rounded-t\"></div>\n            <div class=\"bg-primary/20 w-full h-[60%] rounded-t\"></div>\n            <div class=\"bg-primary/40 w-full h-[80%] rounded-t\"></div>\n            <div class=\"bg-primary/20 w-full h-[50%] rounded-t\"></div>\n            <div class=\"bg-primary/60 w-full h-[100%] rounded-t\"></div>\n            <div class=\"bg-primary/30 w-full h-[70%] rounded-t\"></div>\n        {% endif %}\n    </div>\n    <div class=\"mt-4 pt-4 border-t flex justify-between\">\n        <div class=\"text-2xl font-bold\">{{ value }}</div>\n        <div class=\"text-xs {% if trend_type == 'up' %}text-green-500{% else %}text-destructive{% endif %} flex items-center\">\n            {{ trend }}\n        </div>\n    </div>\n</div>\n"
+    },
+    {
+      "name": "analytics-card.py",
+      "dir": "templatetags",
+      "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/analytics-card.html')\ndef djinn_analytics_card(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Analytics-card component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+    }
   ],
-  "files": {
-    "template": "analytics-card.html",
-    "python": "analytics-card.py"
-  },
-  "install": {
-    "template_path": "templates/components/",
-    "python_path": "templatetags/"
-  }
+  "type": "components:ui"
 }

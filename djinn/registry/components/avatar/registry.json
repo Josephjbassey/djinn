@@ -1,14 +1,18 @@
 {
   "name": "avatar",
-  "version": "1.0.0",
-  "category": "Data Display",
-  "description": "User profile picture or initials.",
-  "files": {
-    "template": "avatar.html",
-    "python": "avatar.py"
-  },
-  "install": {
-    "template_path": "templates/components/",
-    "python_path": "templatetags/"
-  }
+  "dependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "name": "avatar.html",
+      "dir": "templates/components",
+      "content": "<span class=\"relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full {{ class }}\">\n    {% if src %}\n        <img class=\"aspect-square h-full w-full\" src=\"{{ src }}\" alt=\"{{ alt }}\">\n    {% else %}\n        <span class=\"flex h-full w-full items-center justify-center rounded-full bg-muted text-sm font-medium\">\n            {{ fallback|default:'??' }}\n        </span>\n    {% endif %}\n</span>\n"
+    },
+    {
+      "name": "avatar.py",
+      "dir": "templatetags",
+      "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/avatar.html')\ndef djinn_avatar(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Avatar component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+    }
+  ],
+  "type": "components:ui"
 }

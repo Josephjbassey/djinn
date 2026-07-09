@@ -1,14 +1,18 @@
 {
   "name": "navbar",
-  "version": "1.0.0",
-  "category": "Navigation",
-  "description": "A responsive navigation bar.",
-  "files": {
-    "template": "navbar.html",
-    "python": "navbar.py"
-  },
-  "install": {
-    "template_path": "templates/components/",
-    "python_path": "templatetags/"
-  }
+  "dependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "name": "navbar.html",
+      "dir": "templates/components",
+      "content": "<nav class=\"sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 {{ class }}\">\n    <div class=\"container flex h-14 items-center\">\n        <div class=\"mr-4 flex\">\n            <a class=\"mr-6 flex items-center space-x-2\" href=\"{{ brand_url|default:'/' }}\">\n                {% if brand_logo %}{{ brand_logo|safe }}{% endif %}\n                <span class=\"font-bold sm:inline-block\">{{ brand_name|default:'Djinn' }}</span>\n            </a>\n            <div class=\"hidden md:flex gap-6 text-sm font-medium\">\n                {{ slot|safe }}\n            </div>\n        </div>\n        <div class=\"flex flex-1 items-center justify-between space-x-2 md:justify-end\">\n            <div class=\"w-full flex-1 md:w-auto md:flex-none\">\n                {{ right_slot|safe }}\n            </div>\n        </div>\n    </div>\n</nav>\n"
+    },
+    {
+      "name": "navbar.py",
+      "dir": "templatetags",
+      "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/navbar.html')\ndef djinn_navbar(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Navbar component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+    }
+  ],
+  "type": "components:ui"
 }

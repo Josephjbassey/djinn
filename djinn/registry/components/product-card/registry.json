@@ -1,18 +1,18 @@
 {
   "name": "product-card",
-  "version": "1.0.0",
-  "category": "Commerce",
-  "description": "A card for displaying product information with image and price.",
-  "dependencies": [
-    "card",
-    "button"
+  "dependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "name": "product-card.html",
+      "dir": "templates/components",
+      "content": "<div class=\"group relative rounded-lg border bg-card text-card-foreground shadow-sm overflow-hidden {{ class }}\">\n    <div class=\"aspect-square overflow-hidden bg-muted\">\n        <img\n            src=\"{{ image_url }}\"\n            alt=\"{{ name }}\"\n            class=\"h-full w-full object-cover transition-transform group-hover:scale-105\"\n        >\n    </div>\n    <div class=\"p-4\">\n        <h3 class=\"text-sm font-semibold\">{{ name }}</h3>\n        <p class=\"mt-1 text-sm text-muted-foreground\">{{ category }}</p>\n        <div class=\"mt-4 flex items-center justify-between\">\n            <span class=\"text-sm font-bold\">{{ price }}</span>\n            {% include \"components/button.html\" with label=\"Add\" size=\"sm\" variant=\"outline\" %}\n        </div>\n    </div>\n</div>\n"
+    },
+    {
+      "name": "product-card.py",
+      "dir": "templatetags",
+      "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/product-card.html')\ndef djinn_product_card(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Product-card component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+    }
   ],
-  "files": {
-    "template": "product-card.html",
-    "python": "product-card.py"
-  },
-  "install": {
-    "template_path": "templates/components/",
-    "python_path": "templatetags/"
-  }
+  "type": "components:ui"
 }

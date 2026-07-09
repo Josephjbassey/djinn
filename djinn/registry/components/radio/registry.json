@@ -1,14 +1,18 @@
 {
   "name": "radio",
-  "version": "1.0.0",
-  "category": "Forms",
-  "description": "Standard radio button component.",
-  "files": {
-    "template": "radio.html",
-    "python": "radio.py"
-  },
-  "install": {
-    "template_path": "templates/components/",
-    "python_path": "templatetags/"
-  }
+  "dependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "name": "radio.html",
+      "dir": "templates/components",
+      "content": "<div class=\"flex items-center space-x-2 {{ class }}\">\n    <input\n        type=\"radio\"\n        name=\"{{ name }}\"\n        id=\"{{ id }}\"\n        value=\"{{ value }}\"\n        {% if checked %}checked{% endif %}\n        {% if disabled %}disabled{% endif %}\n        class=\"peer h-4 w-4 rounded-full border border-primary text-primary ring-offset-background focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 accent-primary\"\n        {{ attrs|safe }}\n    >\n    {% if label %}\n    <label\n        for=\"{{ id }}\"\n        class=\"text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70\"\n    >\n        {{ label }}\n    </label>\n    {% endif %}\n</div>\n"
+    },
+    {
+      "name": "radio.py",
+      "dir": "templatetags",
+      "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/radio.html')\ndef djinn_radio(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Radio component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+    }
+  ],
+  "type": "components:ui"
 }

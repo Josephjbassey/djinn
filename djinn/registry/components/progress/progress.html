@@ -5,8 +5,10 @@
     aria-valuenow="{{ value|default:0 }}"
     class="relative h-4 w-full overflow-hidden rounded-full bg-secondary {{ class }}"
 >
+    {% with v=value|default:0 %}
     <div
         class="h-full w-full flex-1 bg-primary transition-all"
-        style="transform: translateX(-{{ 100|subtract:value }}%)"
+        style="transform: translateX(-{{ 100|subtract:v }}%)"
     ></div>
+    {% endwith %}
 </div>

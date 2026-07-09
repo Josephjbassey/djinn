@@ -1,14 +1,18 @@
 {
   "name": "file-input",
-  "version": "1.0.0",
-  "category": "Inputs",
-  "description": "Styled file upload input.",
-  "files": {
-    "template": "file-input.html",
-    "python": "file-input.py"
-  },
-  "install": {
-    "template_path": "templates/components/",
-    "python_path": "templatetags/"
-  }
+  "dependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "name": "file-input.html",
+      "dir": "templates/components",
+      "content": "<input\n    type=\"file\"\n    name=\"{{ name }}\"\n    id=\"{{ id|default:name }}\"\n    class=\"flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 {{ class }}\"\n    {{ attrs|safe }}\n>\n"
+    },
+    {
+      "name": "file-input.py",
+      "dir": "templatetags",
+      "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/file-input.html')\ndef djinn_file_input(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn File-input component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+    }
+  ],
+  "type": "components:ui"
 }

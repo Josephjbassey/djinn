@@ -1,14 +1,18 @@
 {
   "name": "table",
-  "version": "1.0.0",
-  "category": "Data Display",
-  "description": "Styled table components.",
-  "files": {
-    "template": "table.html",
-    "python": "table.py"
-  },
-  "install": {
-    "template_path": "templates/components/",
-    "python_path": "templatetags/"
-  }
+  "dependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "name": "table.html",
+      "dir": "templates/components",
+      "content": "<div class=\"relative w-full overflow-auto {{ class }}\">\n    <table class=\"w-full caption-bottom text-sm\">\n        {{ slot|safe }}\n    </table>\n</div>\n"
+    },
+    {
+      "name": "table.py",
+      "dir": "templatetags",
+      "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/table.html')\ndef djinn_table(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Table component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+    }
+  ],
+  "type": "components:ui"
 }

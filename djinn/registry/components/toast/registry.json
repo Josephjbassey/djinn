@@ -1,14 +1,18 @@
 {
   "name": "toast",
-  "version": "1.0.0",
-  "category": "Feedback",
-  "description": "A push notification component (requires Alpine.js).",
-  "files": {
-    "template": "toast.html",
-    "python": "toast.py"
-  },
-  "install": {
-    "template_path": "templates/components/",
-    "python_path": "templatetags/"
-  }
+  "dependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "name": "toast.html",
+      "dir": "templates/components",
+      "content": "<div\n    x-data=\"{ show: false, message: '', type: 'default' }\"\n    @toast.window=\"message = $event.detail.message; type = $event.detail.type || 'default'; show = true; setTimeout(() => show = false, 3000)\"\n    class=\"fixed bottom-4 right-4 z-50 flex flex-col gap-2\"\n>\n    <template x-if=\"show\">\n        <div\n            x-show=\"show\"\n            x-transition:enter=\"transition ease-out duration-300\"\n            x-transition:enter-start=\"opacity-0 translate-y-2\"\n            x-transition:enter-end=\"opacity-100 translate-y-0\"\n            x-transition:leave=\"transition ease-in duration-200\"\n            x-transition:leave-start=\"opacity-100 translate-y-0\"\n            x-transition:leave-end=\"opacity-0 translate-y-2\"\n            class=\"group pointer-events-auto relative flex w-full items-center justify-between space-x-4 overflow-hidden rounded-md border p-6 pr-8 shadow-lg transition-all\n            :class=\"type === 'destructive' ? 'destructive group border-destructive bg-destructive text-destructive-foreground' : 'border bg-background text-foreground'\"\n        >\n            <div class=\"grid gap-1\">\n                <p x-text=\"message\" class=\"text-sm font-semibold\"></p>\n            </div>\n            <button @click=\"show = false\" class=\"absolute right-2 top-2 rounded-md p-1 text-foreground/50 opacity-0 transition-opacity hover:text-foreground focus:opacity-100 focus:outline-none focus:ring-2 group-hover:opacity-100\">\n                <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M18 6 6 18\"/><path d=\"m6 6 12 12\"/></svg>\n            </button>\n        </div>\n    </template>\n</div>\n"
+    },
+    {
+      "name": "toast.py",
+      "dir": "templatetags",
+      "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/toast.html')\ndef djinn_toast(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Toast component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+    }
+  ],
+  "type": "components:ui"
 }

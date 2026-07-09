@@ -1,17 +1,18 @@
 {
   "name": "stats-card",
-  "version": "1.0.0",
-  "category": "Cards",
-  "description": "A card optimized for displaying metrics and statistics.",
-  "dependencies": [
-    "card"
+  "dependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "name": "stats-card.html",
+      "dir": "templates/components",
+      "content": "<div class=\"rounded-lg border bg-card text-card-foreground shadow-sm p-6 {{ class }}\">\n    <div class=\"flex flex-row items-center justify-between space-y-0 pb-2\">\n        <h3 class=\"text-sm font-medium tracking-tight\">{{ label }}</h3>\n        {% if icon %}\n            <div class=\"text-muted-foreground\">{{ icon|safe }}</div>\n        {% endif %}\n    </div>\n    <div>\n        <div class=\"text-2xl font-bold\">{{ value }}</div>\n        {% if trend %}\n            <p class=\"text-xs {% if trend_type == 'up' %}text-green-500{% elif trend_type == 'down' %}text-destructive{% else %}text-muted-foreground{% endif %}\">\n                {{ trend }}\n            </p>\n        {% endif %}\n    </div>\n</div>\n"
+    },
+    {
+      "name": "stats-card.py",
+      "dir": "templatetags",
+      "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/stats-card.html')\ndef djinn_stats_card(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Stats-card component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+    }
   ],
-  "files": {
-    "template": "stats-card.html",
-    "python": "stats-card.py"
-  },
-  "install": {
-    "template_path": "templates/components/",
-    "python_path": "templatetags/"
-  }
+  "type": "components:ui"
 }

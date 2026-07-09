@@ -1,14 +1,18 @@
 {
   "name": "tooltip",
-  "version": "1.0.0",
-  "category": "Data Display",
-  "description": "A popup that displays information related to an element (requires Alpine.js).",
-  "files": {
-    "template": "tooltip.html",
-    "python": "tooltip.py"
-  },
-  "install": {
-    "template_path": "templates/components/",
-    "python_path": "templatetags/"
-  }
+  "dependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "name": "tooltip.html",
+      "dir": "templates/components",
+      "content": "<div x-data=\"{ show: false }\" class=\"relative inline-block {{ class }}\">\n    <div\n        @mouseenter=\"show = true\"\n        @mouseleave=\"show = false\"\n        @focusin=\"show = true\"\n        @focusout=\"show = false\"\n    >\n        {{ slot|safe }}\n    </div>\n    <div\n        x-show=\"show\"\n        x-transition:enter=\"transition ease-out duration-200\"\n        x-transition:enter-start=\"opacity-0 scale-95\"\n        x-transition:enter-end=\"opacity-100 scale-100\"\n        x-transition:leave=\"transition ease-in duration-150\"\n        x-transition:leave-start=\"opacity-100 scale-100\"\n        x-transition:leave-end=\"opacity-0 scale-95\"\n        class=\"absolute z-50 px-3 py-1.5 text-xs font-medium text-popover-foreground bg-popover rounded border shadow-md -top-10 left-1/2 -translate-x-1/2 whitespace-nowrap\"\n        x-cloak\n    >\n        {{ content }}\n        <div class=\"absolute w-2 h-2 bg-popover border-b border-r rotate-45 left-1/2 -translate-x-1/2 -bottom-1\"></div>\n    </div>\n</div>\n"
+    },
+    {
+      "name": "tooltip.py",
+      "dir": "templatetags",
+      "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/tooltip.html')\ndef djinn_tooltip(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Tooltip component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+    }
+  ],
+  "type": "components:ui"
 }

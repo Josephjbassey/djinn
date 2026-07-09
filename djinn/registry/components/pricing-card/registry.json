@@ -1,18 +1,18 @@
 {
   "name": "pricing-card",
-  "version": "1.0.0",
-  "category": "Commerce",
-  "description": "A card for displaying subscription plans or product pricing.",
-  "dependencies": [
-    "card",
-    "button"
+  "dependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "name": "pricing-card.html",
+      "dir": "templates/components",
+      "content": "<div class=\"rounded-lg border bg-card text-card-foreground shadow-sm flex flex-col p-6 {% if featured %}border-primary shadow-lg scale-105 z-10{% endif %} {{ class }}\">\n    <div class=\"mb-8\">\n        <h3 class=\"text-lg font-bold\">{{ name }}</h3>\n        <p class=\"text-sm text-muted-foreground\">{{ description }}</p>\n    </div>\n    <div class=\"mb-8 flex items-baseline gap-1\">\n        <span class=\"text-4xl font-bold\">{{ price }}</span>\n        <span class=\"text-sm text-muted-foreground\">/{{ interval|default:'mo' }}</span>\n    </div>\n    <ul class=\"mb-8 space-y-2 text-sm flex-1\">\n        {{ features|safe }}\n    </ul>\n    {% include \"components/button.html\" with label=cta_label|default:\"Get Started\" variant=cta_variant|default:\"outline\" class=\"w-full\" %}\n</div>\n"
+    },
+    {
+      "name": "pricing-card.py",
+      "dir": "templatetags",
+      "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/pricing-card.html')\ndef djinn_pricing_card(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Pricing-card component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+    }
   ],
-  "files": {
-    "template": "pricing-card.html",
-    "python": "pricing-card.py"
-  },
-  "install": {
-    "template_path": "templates/components/",
-    "python_path": "templatetags/"
-  }
+  "type": "components:ui"
 }

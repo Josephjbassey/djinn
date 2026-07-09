@@ -1,14 +1,18 @@
 {
   "name": "modal",
-  "version": "1.0.0",
-  "category": "Dialogs",
-  "description": "A standard modal dialog (requires Alpine.js).",
-  "files": {
-    "template": "modal.html",
-    "python": "modal.py"
-  },
-  "install": {
-    "template_path": "templates/components/",
-    "python_path": "templatetags/"
-  }
+  "dependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "name": "modal.html",
+      "dir": "templates/components",
+      "content": "<div\n    x-data=\"{ show: false }\"\n    @open-modal.window=\"if ($event.detail.id === '{{ id }}') show = true\"\n    @close-modal.window=\"if ($event.detail.id === '{{ id }}') show = false\"\n    @keydown.escape.window=\"show = false\"\n    class=\"relative z-50\"\n>\n    <template x-teleport=\"body\">\n        <div\n            x-show=\"show\"\n            class=\"fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6\"\n            x-cloak\n        >\n            <!-- Overlay -->\n            <div\n                x-show=\"show\"\n                x-transition:enter=\"ease-out duration-300\"\n                x-transition:enter-start=\"opacity-0\"\n                x-transition:enter-end=\"opacity-100\"\n                x-transition:leave=\"ease-in duration-200\"\n                x-transition:leave-start=\"opacity-100\"\n                x-transition:leave-end=\"opacity-0\"\n                @click=\"show = false\"\n                class=\"fixed inset-0 bg-background/80 backdrop-blur-sm\"\n            ></div>\n\n            <!-- Content -->\n            <div\n                x-show=\"show\"\n                x-transition:enter=\"ease-out duration-300\"\n                x-transition:enter-start=\"opacity-0 scale-95\"\n                x-transition:enter-end=\"opacity-100 scale-100\"\n                x-transition:leave=\"ease-in duration-200\"\n                x-transition:leave-start=\"opacity-100 scale-100\"\n                x-transition:leave-end=\"opacity-0 scale-95\"\n                class=\"relative w-full max-w-lg rounded-lg border bg-background p-6 shadow-lg sm:max-w-[425px] {{ class }}\"\n            >\n                <div class=\"flex flex-col space-y-1.5 text-center sm:text-left\">\n                    <h2 class=\"text-lg font-semibold leading-none tracking-tight\">{{ title }}</h2>\n                    {% if description %}\n                    <p class=\"text-sm text-muted-foreground\">{{ description }}</p>\n                    {% endif %}\n                </div>\n\n                <div class=\"py-4\">\n                    {{ slot|safe }}\n                </div>\n\n                {% if footer %}\n                <div class=\"flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2\">\n                    {{ footer|safe }}\n                </div>\n                {% endif %}\n\n                <button\n                    @click=\"show = false\"\n                    class=\"absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground\"\n                >\n                    <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-x h-4 w-4\"><path d=\"M18 6 6 18\"/><path d=\"m6 6 12 12\"/></svg>\n                    <span class=\"sr-only\">Close</span>\n                </button>\n            </div>\n        </div>\n    </template>\n</div>\n"
+    },
+    {
+      "name": "modal.py",
+      "dir": "templatetags",
+      "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/modal.html')\ndef djinn_modal(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Modal component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+    }
+  ],
+  "type": "components:ui"
 }

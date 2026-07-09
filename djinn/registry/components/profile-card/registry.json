@@ -1,18 +1,18 @@
 {
   "name": "profile-card",
-  "version": "1.0.0",
-  "category": "Cards",
-  "description": "A card for user profiles with avatar and info.",
-  "dependencies": [
-    "card",
-    "avatar"
+  "dependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "name": "profile-card.html",
+      "dir": "templates/components",
+      "content": "<div class=\"rounded-lg border bg-card text-card-foreground shadow-sm p-6 flex flex-col items-center text-center {{ class }}\">\n    <div class=\"relative flex h-20 w-20 shrink-0 overflow-hidden rounded-full mb-4\">\n        {% if avatar_url %}\n            <img class=\"aspect-square h-full w-full\" src=\"{{ avatar_url }}\" alt=\"{{ name }}\">\n        {% else %}\n            <div class=\"flex h-full w-full items-center justify-center rounded-full bg-muted font-bold text-xl\">\n                {{ name|slice:\":1\" }}\n            </div>\n        {% endif %}\n    </div>\n    <h3 class=\"text-lg font-semibold\">{{ name }}</h3>\n    <p class=\"text-sm text-muted-foreground mb-4\">{{ role }}</p>\n    <div class=\"flex gap-2\">\n        {{ slot|safe }}\n    </div>\n</div>\n"
+    },
+    {
+      "name": "profile-card.py",
+      "dir": "templatetags",
+      "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/profile-card.html')\ndef djinn_profile_card(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Profile-card component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+    }
   ],
-  "files": {
-    "template": "profile-card.html",
-    "python": "profile-card.py"
-  },
-  "install": {
-    "template_path": "templates/components/",
-    "python_path": "templatetags/"
-  }
+  "type": "components:ui"
 }

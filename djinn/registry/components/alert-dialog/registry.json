@@ -1,18 +1,18 @@
 {
   "name": "alert-dialog",
-  "version": "1.0.0",
-  "category": "Dialogs",
-  "description": "A modal dialog for important alerts or destructive actions.",
-  "dependencies": [
-    "modal",
-    "button"
+  "dependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "name": "alert-dialog.html",
+      "dir": "templates/components",
+      "content": "{% include \"components/modal.html\" with id=id title=title|default:\"Are you absolutely sure?\" description=description|default:\"This action cannot be undone.\" class=\"sm:max-w-[425px]\" %}\n    {{ slot|safe }}\n    {% slot \"footer\" %}\n        {% include \"components/button.html\" with label=\"Cancel\" variant=\"outline\" attrs=\"@click=\\\"$dispatch('close-modal', {id: '\"|add:id|add:\"'})\\\"\" %}\n        {% include \"components/button.html\" with label=action_label|default:\"Continue\" variant=\"destructive\" attrs=action_attrs %}\n    {% endslot %}\n{% endinclude %}\n"
+    },
+    {
+      "name": "alert-dialog.py",
+      "dir": "templatetags",
+      "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/alert-dialog.html')\ndef djinn_alert_dialog(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Alert-dialog component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+    }
   ],
-  "files": {
-    "template": "alert-dialog.html",
-    "python": "alert-dialog.py"
-  },
-  "install": {
-    "template_path": "templates/components/",
-    "python_path": "templatetags/"
-  }
+  "type": "components:ui"
 }

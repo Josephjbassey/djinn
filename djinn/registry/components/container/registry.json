@@ -1,14 +1,18 @@
 {
   "name": "container",
-  "version": "1.0.0",
-  "category": "Layout",
-  "description": "A centered container with responsive max-width.",
-  "files": {
-    "template": "container.html",
-    "python": "container.py"
-  },
-  "install": {
-    "template_path": "templates/components/",
-    "python_path": "templatetags/"
-  }
+  "dependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "name": "container.html",
+      "dir": "templates/components",
+      "content": "<div class=\"container mx-auto px-4 md:px-6 lg:px-8 {{ class }}\">\n    {{ slot|safe }}\n</div>\n"
+    },
+    {
+      "name": "container.py",
+      "dir": "templatetags",
+      "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/container.html')\ndef djinn_container(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Container component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+    }
+  ],
+  "type": "components:ui"
 }

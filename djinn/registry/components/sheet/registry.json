@@ -1,14 +1,18 @@
 {
   "name": "sheet",
-  "version": "1.0.0",
-  "category": "Dialogs",
-  "description": "A sidebar overlay component (requires Alpine.js).",
-  "files": {
-    "template": "sheet.html",
-    "python": "sheet.py"
-  },
-  "install": {
-    "template_path": "templates/components/",
-    "python_path": "templatetags/"
-  }
+  "dependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "name": "sheet.html",
+      "dir": "templates/components",
+      "content": "<div\n    x-data=\"{ show: false }\"\n    @open-sheet.window=\"if ($event.detail.id === '{{ id }}') show = true\"\n    @close-sheet.window=\"if ($event.detail.id === '{{ id }}') show = false\"\n    class=\"relative z-50\"\n>\n    <template x-teleport=\"body\">\n        <div\n            x-show=\"show\"\n            class=\"fixed inset-0 z-50 flex justify-end\"\n            x-cloak\n        >\n            <!-- Overlay -->\n            <div\n                x-show=\"show\"\n                x-transition:enter=\"ease-out duration-300\"\n                x-transition:enter-start=\"opacity-0\"\n                x-transition:enter-end=\"opacity-100\"\n                x-transition:leave=\"ease-in duration-200\"\n                x-transition:leave-start=\"opacity-100\"\n                x-transition:leave-end=\"opacity-0\"\n                @click=\"show = false\"\n                class=\"fixed inset-0 bg-background/80 backdrop-blur-sm\"\n            ></div>\n\n            <!-- Content -->\n            <div\n                x-show=\"show\"\n                x-transition:enter=\"transition ease-in-out duration-300 transform\"\n                x-transition:enter-start=\"translate-x-full\"\n                x-transition:enter-end=\"translate-x-0\"\n                x-transition:leave=\"transition ease-in-out duration-300 transform\"\n                x-transition:leave-start=\"translate-x-0\"\n                x-transition:leave-end=\"translate-x-full\"\n                class=\"relative h-full w-full max-w-sm border-l bg-background p-6 shadow-lg\"\n            >\n                <div class=\"flex flex-col space-y-2 text-center sm:text-left mb-4\">\n                    <h2 class=\"text-lg font-semibold text-foreground\">{{ title }}</h2>\n                    {% if description %}\n                    <p class=\"text-sm text-muted-foreground\">{{ description }}</p>\n                    {% endif %}\n                </div>\n\n                <div class=\"h-full\">\n                    {{ slot|safe }}\n                </div>\n\n                <button\n                    @click=\"show = false\"\n                    class=\"absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none\"\n                >\n                    <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-x h-4 w-4\"><path d=\"M18 6 6 18\"/><path d=\"m6 6 12 12\"/></svg>\n                    <span class=\"sr-only\">Close</span>\n                </button>\n            </div>\n        </div>\n    </template>\n</div>\n"
+    },
+    {
+      "name": "sheet.py",
+      "dir": "templatetags",
+      "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/sheet.html')\ndef djinn_sheet(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Sheet component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+    }
+  ],
+  "type": "components:ui"
 }

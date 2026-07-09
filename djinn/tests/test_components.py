@@ -23,7 +23,7 @@ class TestComponents(unittest.TestCase):
 
         self.config = Config(
             registry_url=self.registry_url,
-            output={"templates": "templates/", "python": "templatetags/"}
+            output={"templates": "templates/components", "python": "templatetags/"}
         )
         self.registry = Registry(self.registry_url)
         self.installer = Installer(self.config, self.registry)
@@ -31,13 +31,13 @@ class TestComponents(unittest.TestCase):
     def test_install_button(self):
         self.installer.install("button")
         self.assertTrue(Path("templates/components/button.html").exists())
-        self.assertTrue(Path("templatetags/button.py").exists())
+        self.assertTrue(Path("templatetags/djinn_button.py").exists())
 
-        with open("templatetags/button.py", "r") as f:
+        with open("templatetags/djinn_button.py", "r") as f:
             content = f.read()
             # We will update these names in the next steps, so keeping it generic for now
             self.assertIn("djinn_button", content)
-            self.assertIn("@register.inclusion_tag", content)
+            self.assertIn("@register.tag", content)
 
     def test_install_card(self):
         self.installer.install("card")

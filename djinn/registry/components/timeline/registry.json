@@ -1,14 +1,18 @@
 {
   "name": "timeline",
-  "version": "1.0.0",
-  "category": "Data Display",
-  "description": "A vertical timeline of events.",
-  "files": {
-    "template": "timeline.html",
-    "python": "timeline.py"
-  },
-  "install": {
-    "template_path": "templates/components/",
-    "python_path": "templatetags/"
-  }
+  "dependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "name": "timeline.html",
+      "dir": "templates/components",
+      "content": "<div class=\"space-y-8 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-border before:to-transparent {{ class }}\">\n    {{ slot|safe }}\n</div>\n"
+    },
+    {
+      "name": "timeline.py",
+      "dir": "templatetags",
+      "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/timeline.html')\ndef djinn_timeline(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Timeline component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+    }
+  ],
+  "type": "components:ui"
 }

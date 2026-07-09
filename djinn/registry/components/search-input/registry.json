@@ -1,17 +1,18 @@
 {
   "name": "search-input",
-  "version": "1.0.0",
-  "category": "Inputs",
-  "description": "Search input with icon.",
-  "dependencies": [
-    "input"
+  "dependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "name": "search-input.html",
+      "dir": "templates/components",
+      "content": "<div class=\"relative\">\n    <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-search absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground\"><circle cx=\"11\" cy=\"11\" r=\"8\"/><path d=\"m21 21-4.3-4.3\"/></svg>\n    <input\n        type=\"search\"\n        name=\"{{ name }}\"\n        id=\"{{ id|default:name }}\"\n        placeholder=\"{{ placeholder|default:'Search...' }}\"\n        class=\"flex h-10 w-full rounded-md border border-input bg-background pl-10 pr-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 {{ class }}\"\n        {{ attrs|safe }}\n    >\n</div>\n"
+    },
+    {
+      "name": "search-input.py",
+      "dir": "templatetags",
+      "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/search-input.html')\ndef djinn_search_input(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Search-input component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+    }
   ],
-  "files": {
-    "template": "search-input.html",
-    "python": "search-input.py"
-  },
-  "install": {
-    "template_path": "templates/components/",
-    "python_path": "templatetags/"
-  }
+  "type": "components:ui"
 }

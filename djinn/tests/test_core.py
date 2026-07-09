@@ -28,7 +28,13 @@ class TestDjinnCore(unittest.TestCase):
             json.dump({
                 "name": "test_comp",
                 "version": "1.0.0",
-                "files": {"template": "comp.html"},
+                "files": [
+                    {
+                        "name": "comp.html",
+                        "dir": "templates/components",
+                        "content": "<div>test</div>"
+                    }
+                ],
                 "install": {"template_path": "tpl/"}
             }, f)
 

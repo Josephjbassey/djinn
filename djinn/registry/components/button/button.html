@@ -1,25 +1,10 @@
 <button
     type="{{ type|default:'button' }}"
     {% if disabled or loading %}disabled{% endif %}
-    class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50
-    {% with v=variant|default:'primary' %}
-        {% if v == 'primary' %}bg-primary text-primary-foreground hover:bg-primary/90
-        {% elif v == 'secondary' %}bg-secondary text-secondary-foreground hover:bg-secondary/80
-        {% elif v == 'destructive' %}bg-destructive text-destructive-foreground hover:bg-destructive/90
-        {% elif v == 'outline' %}border border-input bg-background hover:bg-accent hover:text-accent-foreground
-        {% elif v == 'ghost' %}hover:bg-accent hover:text-accent-foreground
-        {% elif v == 'link' %}text-primary underline-offset-4 hover:underline
-        {% endif %}
-    {% endwith %}
-    {% with s=size|default:'md' %}
-        {% if s == 'sm' %}h-9 px-3
-        {% elif s == 'lg' %}h-11 px-8
-        {% elif s == 'icon' %}h-10 w-10
-        {% else %}h-10 px-4 py-2
-        {% endif %}
-    {% endwith %}
-    {{ class }}"
-    {{ attrs|safe }}
+    class="{{ class }}"
+    {% for key, value in attrs.items %}
+    {{ key }}="{{ value }}"
+    {% endfor %}
 >
     {% if loading %}
     <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-current" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -28,6 +13,6 @@
     </svg>
     {% endif %}
     {% if icon_left %}<span class="mr-2">{{ icon_left|safe }}</span>{% endif %}
-    {{ label|default:slot }}
+    {{ slot|default:label|safe }}
     {% if icon_right %}<span class="ml-2">{{ icon_right|safe }}</span>{% endif %}
 </button>

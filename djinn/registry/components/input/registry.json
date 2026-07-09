@@ -1,14 +1,18 @@
 {
   "name": "input",
-  "version": "1.0.0",
-  "category": "Inputs",
-  "description": "Standard text input field.",
-  "files": {
-    "template": "input.html",
-    "python": "input.py"
-  },
-  "install": {
-    "template_path": "templates/components/",
-    "python_path": "templatetags/"
-  }
+  "dependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "name": "input.html",
+      "dir": "templates/components",
+      "content": "<div class=\"grid w-full max-w-sm items-center gap-1.5\">\n    {% if label %}\n    <label class=\"text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70\" {% if id %}for=\"{{ id }}\"{% endif %}>\n        {{ label }}\n    </label>\n    {% endif %}\n\n    <input\n        type=\"{{ type|default:'text' }}\"\n        {% if name %}name=\"{{ name }}\"{% endif %}\n        {% if id %}id=\"{{ id }}\"{% endif %}\n        placeholder=\"{{ placeholder }}\"\n        value=\"{{ value }}\"\n        {% if disabled %}disabled{% endif %}\n        {% if required %}required{% endif %}\n        class=\"flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50\n        {% if error %}border-destructive{% endif %} {{ class }}\"\n        {{ attrs|safe }}\n    >\n\n    {% if error %}\n    <p class=\"text-sm font-medium text-destructive\">{{ error }}</p>\n    {% elif help_text %}\n    <p class=\"text-sm text-muted-foreground\">{{ help_text }}</p>\n    {% endif %}\n</div>\n"
+    },
+    {
+      "name": "input.py",
+      "dir": "templatetags",
+      "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/input.html')\ndef djinn_input(\n    label=None,\n    placeholder=\"\",\n    error=None,\n    help_text=None,\n    input_type=\"text\",\n    name=None,\n    input_id=None,\n    value=\"\",\n    disabled=False,\n    required=False,\n    class_name=\"\",\n    **attrs\n):\n    \"\"\"\n    Djinn Input component tag.\n    Usage: {% djinn_input label=\"Email\" type=\"email\" placeholder=\"you@example.com\" %}\n    \"\"\"\n    return {\n        \"label\": label,\n        \"placeholder\": placeholder,\n        \"error\": error,\n        \"help_text\": help_text,\n        \"type\": input_type,\n        \"name\": name,\n        \"id\": input_id or name,\n        \"value\": value,\n        \"disabled\": disabled,\n        \"required\": required,\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+    }
+  ],
+  "type": "components:ui"
 }

@@ -1,14 +1,18 @@
 {
   "name": "badge",
-  "version": "1.0.0",
-  "category": "Data Display",
-  "description": "Small status indicator or tag.",
-  "files": {
-    "template": "badge.html",
-    "python": "badge.py"
-  },
-  "install": {
-    "template_path": "templates/components/",
-    "python_path": "templatetags/"
-  }
+  "dependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "name": "badge.html",
+      "dir": "templates/components",
+      "content": "<div class=\"inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2\n    {% if variant == 'secondary' %}border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80\n    {% elif variant == 'destructive' %}border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80\n    {% elif variant == 'outline' %}text-foreground\n    {% else %}border-transparent bg-primary text-primary-foreground hover:bg-primary/80{% endif %}\n    {{ class }}\"\n>\n    {{ label|default:slot }}\n</div>\n"
+    },
+    {
+      "name": "badge.py",
+      "dir": "templatetags",
+      "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/badge.html')\ndef djinn_badge(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Badge component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+    }
+  ],
+  "type": "components:ui"
 }

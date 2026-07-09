@@ -11,16 +11,10 @@ def add(component, force):
     config = Config.load()
     if not config:
         # Fallback to bundled registry if not initialized
-        registry_url = DEFAULT_CONFIG["registry_url"]
-        config = Config(
-            registry_url=registry_url,
-            output=DEFAULT_CONFIG["output"]
-        )
+        config = Config(**DEFAULT_CONFIG.copy())
         click.echo("Djinn not initialized. Using bundled registry defaults.")
-    else:
-        registry_url = config.registry_url
 
-    registry = Registry(registry_url)
+    registry = Registry(config)
     installer = Installer(config, registry)
 
     try:
