@@ -1,6 +1,6 @@
 <textarea
     name="{{ name }}"
-    id="{{ id|default:name }}"
+    id="{% firstof id name %}"
     placeholder="{{ placeholder }}"
     rows="{{ rows|default:3 }}"
     {% if disabled %}disabled{% endif %}

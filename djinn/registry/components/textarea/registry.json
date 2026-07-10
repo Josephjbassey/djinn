@@ -6,7 +6,7 @@
     {
       "name": "textarea.html",
       "dir": "templates/components",
-      "content": "<textarea\n    name=\"{{ name }}\"\n    id=\"{{ id|default:name }}\"\n    placeholder=\"{{ placeholder }}\"\n    rows=\"{{ rows|default:3 }}\"\n    {% if disabled %}disabled{% endif %}\n    {% if required %}required{% endif %}\n    class=\"flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 {% if error %}border-destructive{% endif %} {{ class }}\"\n    {{ attrs|safe }}\n>{{ value }}</textarea>\n"
+      "content": "<textarea\n    name=\"{{ name }}\"\n    id=\"{% firstof id name %}\"\n    placeholder=\"{{ placeholder }}\"\n    rows=\"{{ rows|default:3 }}\"\n    {% if disabled %}disabled{% endif %}\n    {% if required %}required{% endif %}\n    class=\"flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 {% if error %}border-destructive{% endif %} {{ class }}\"\n    {{ attrs|safe }}\n>{{ value }}</textarea>\n"
     },
     {
       "name": "textarea.py",

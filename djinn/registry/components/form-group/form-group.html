@@ -1,6 +1,7 @@
 <div class="space-y-2 {{ class }}">
     {% if label %}
-        {% include "components/label.html" with for=id|default:name label=label required=required %}
+        {% firstof id name as target_id %}
+        {% include "components/label.html" with for=target_id label=label required=required %}
     {% endif %}
 
     {{ slot|safe }}

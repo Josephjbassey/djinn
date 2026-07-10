@@ -6,7 +6,7 @@
     {
       "name": "checkbox.html",
       "dir": "templates/components",
-      "content": "<div class=\"flex items-center space-x-2 {{ class }}\">\n    <input\n        type=\"checkbox\"\n        name=\"{{ name }}\"\n        id=\"{{ id|default:name }}\"\n        {% if checked %}checked{% endif %}\n        {% if disabled %}disabled{% endif %}\n        class=\"peer h-4 w-4 shrink-0 rounded-sm border border-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 accent-primary\"\n        {{ attrs|safe }}\n    >\n    {% if label %}\n    <label\n        for=\"{{ id|default:name }}\"\n        class=\"text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70\"\n    >\n        {{ label }}\n    </label>\n    {% endif %}\n</div>\n"
+      "content": "<div class=\"flex items-center space-x-2 {{ class }}\">\n    <input\n        type=\"checkbox\"\n        name=\"{{ name }}\"\n        id=\"{% firstof id name %}\"\n        {% if checked %}checked{% endif %}\n        {% if disabled %}disabled{% endif %}\n        class=\"peer h-4 w-4 shrink-0 rounded-sm border border-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 accent-primary\"\n        {{ attrs|safe }}\n    >\n    {% if label %}\n    <label\n        for=\"{% firstof id name %}\"\n        class=\"text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70\"\n    >\n        {{ label }}\n    </label>\n    {% endif %}\n</div>\n"
     },
     {
       "name": "checkbox.py",

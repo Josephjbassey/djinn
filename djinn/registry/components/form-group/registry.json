@@ -6,7 +6,7 @@
     {
       "name": "form-group.html",
       "dir": "templates/components",
-      "content": "<div class=\"space-y-2 {{ class }}\">\n    {% if label %}\n        {% include \"components/label.html\" with for=id|default:name label=label required=required %}\n    {% endif %}\n\n    {{ slot|safe }}\n\n    {% if help_text %}\n        <p class=\"text-xs text-muted-foreground\">{{ help_text }}</p>\n    {% endif %}\n\n    {% if error %}\n        <p class=\"text-xs font-medium text-destructive\">{{ error }}</p>\n    {% endif %}\n</div>\n"
+      "content": "<div class=\"space-y-2 {{ class }}\">\n    {% if label %}\n        {% firstof id name as target_id %}\n        {% include \"components/label.html\" with for=target_id label=label required=required %}\n    {% endif %}\n\n    {{ slot|safe }}\n\n    {% if help_text %}\n        <p class=\"text-xs text-muted-foreground\">{{ help_text }}</p>\n    {% endif %}\n\n    {% if error %}\n        <p class=\"text-xs font-medium text-destructive\">{{ error }}</p>\n    {% endif %}\n</div>\n"
     },
     {
       "name": "form-group.py",

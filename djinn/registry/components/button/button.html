@@ -13,6 +13,6 @@
     </svg>
     {% endif %}
     {% if icon_left %}<span class="mr-2">{{ icon_left|safe }}</span>{% endif %}
-    {{ slot|default:label|safe }}
+    {% if slot %}{{ slot|safe }}{% elif label %}{{ label|safe }}{% endif %}
     {% if icon_right %}<span class="ml-2">{{ icon_right|safe }}</span>{% endif %}
 </button>
