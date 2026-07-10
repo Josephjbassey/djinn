@@ -1,4 +1,4 @@
-# 🧞‍♂️ Djinn UI (v0.1.6)
+# 🧞‍♂️ Djinn UI (v0.1.7)
 
 ### The First True shadcn/ui Equivalent for the Django Monolith.
 
