@@ -1,5 +1,8 @@
-# 🧞‍♂️ Djinn UI (v0.1.7)
+<div align="center">
+  <img src="assets/logo.jpg" alt="Djinn UI Logo" width="250"/>
+</div>
 
+# Djinn UI (v0.1.7)
 ### The First True shadcn/ui Equivalent for the Django Monolith.
 
 [![PyPI version](https://img.shields.io/pypi/v/djinn-ui.svg)](https://pypi.org/project/djinn-ui/)
