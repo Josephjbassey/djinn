@@ -50,7 +50,7 @@ def init(yes, defaults, force, cwd, framework, engine, style, color, radius, no_
     tailwind_config = click.prompt("Where is your tailwind.config.js located?", default=DEFAULT_CONFIG["tailwind"]["config"])
     
     components_path = click.prompt(f"Configure the import alias for components:", default=DEFAULT_CONFIG["aliases"]["components"])
-    utils_path = click.prompt("Configure the import alias for utils:", default=DEFAULT_CONFIG["aliases"]["utils"])
+    utils_path = click.prompt("Configure the import alias for utils (must be inside an installed Django app, e.g. theme/templatetags):", default=DEFAULT_CONFIG["aliases"]["utils"])
 
     config_data = {
         "registry_url": DEFAULT_CONFIG["registry_url"],

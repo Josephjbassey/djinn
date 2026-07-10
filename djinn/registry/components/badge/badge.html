@@ -5,5 +5,5 @@
     {% else %}border-transparent bg-primary text-primary-foreground hover:bg-primary/80{% endif %}
     {{ class }}"
 >
-    {{ label|default:slot }}
+    {% if label %}{{ label }}{% else %}{{ slot|default:"" }}{% endif %}
 </div>

@@ -1,0 +1,995 @@
+{
+  "name": "djinn-ui",
+  "components": [
+    {
+      "name": "accordion",
+      "dependencies": [],
+      "registryDependencies": [],
+      "files": [
+        {
+          "name": "accordion.html",
+          "dir": "templates/components",
+          "content": "<div x-data=\"{ active: null }\" class=\"w-full space-y-1 {{ class }}\">\n    {{ slot|safe }}\n</div>\n"
+        },
+        {
+          "name": "accordion.py",
+          "dir": "templatetags",
+          "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/accordion.html')\ndef djinn_accordion(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Accordion component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+        }
+      ],
+      "type": "components:ui"
+    },
+    {
+      "name": "activity-feed",
+      "dependencies": [],
+      "registryDependencies": [],
+      "files": [
+        {
+          "name": "activity-feed.html",
+          "dir": "templates/components",
+          "content": "<div class=\"rounded-lg border bg-card text-card-foreground shadow-sm p-6 {{ class }}\">\n    <h3 class=\"text-base font-semibold mb-6\">Recent Activity</h3>\n    <div class=\"space-y-6\">\n        {{ slot|safe }}\n    </div>\n</div>\n"
+        },
+        {
+          "name": "activity-feed.py",
+          "dir": "templatetags",
+          "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/activity-feed.html')\ndef djinn_activity_feed(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Activity-feed component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+        }
+      ],
+      "type": "components:ui"
+    },
+    {
+      "name": "alert-dialog",
+      "dependencies": [],
+      "registryDependencies": [],
+      "files": [
+        {
+          "name": "alert-dialog.html",
+          "dir": "templates/components",
+          "content": "{% include \"components/modal.html\" with id=id title=title|default:\"Are you absolutely sure?\" description=description|default:\"This action cannot be undone.\" class=\"sm:max-w-[425px]\" %}\n    {{ slot|safe }}\n    {% slot \"footer\" %}\n        {% include \"components/button.html\" with label=\"Cancel\" variant=\"outline\" attrs=\"@click=\\\"$dispatch('close-modal', {id: '\"|add:id|add:\"'})\\\"\" %}\n        {% include \"components/button.html\" with label=action_label|default:\"Continue\" variant=\"destructive\" attrs=action_attrs %}\n    {% endslot %}\n{% endinclude %}\n"
+        },
+        {
+          "name": "alert-dialog.py",
+          "dir": "templatetags",
+          "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/alert-dialog.html')\ndef djinn_alert_dialog(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Alert-dialog component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+        }
+      ],
+      "type": "components:ui"
+    },
+    {
+      "name": "alert",
+      "dependencies": [],
+      "registryDependencies": [],
+      "files": [
+        {
+          "name": "alert.html",
+          "dir": "templates/components",
+          "content": "<div\n    role=\"alert\"\n    class=\"relative w-full rounded-lg border p-4 [&>svg+div]:translate-y-[-3px] [&>svg]:absolute [&>svg]:left-4 [&>svg]:top-4 [&>svg]:text-foreground [&>svg~*]:pl-7\n    {% if variant == 'destructive' %}border-destructive/50 text-destructive dark:border-destructive [&>svg]:text-destructive\n    {% else %}bg-background text-foreground{% endif %}\n    {{ class }}\"\n>\n    {% if icon %}{{ icon|safe }}{% endif %}\n    {% if title %}<h5 class=\"mb-1 font-medium leading-none tracking-tight\">{{ title }}</h5>{% endif %}\n    <div class=\"text-sm [&_p]:leading-relaxed\">\n        {{ slot|safe }}\n    </div>\n</div>\n"
+        },
+        {
+          "name": "alert.py",
+          "dir": "templatetags",
+          "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/alert.html')\ndef djinn_alert(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Alert component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+        }
+      ],
+      "type": "components:ui"
+    },
+    {
+      "name": "analytics-card",
+      "dependencies": [],
+      "registryDependencies": [],
+      "files": [
+        {
+          "name": "analytics-card.html",
+          "dir": "templates/components",
+          "content": "<div class=\"rounded-lg border bg-card text-card-foreground shadow-sm p-6 {{ class }}\">\n    <div class=\"flex items-center justify-between space-y-0 pb-4\">\n        <h3 class=\"text-base font-semibold tracking-tight\">{{ title }}</h3>\n        {% if time_range %}\n            <span class=\"text-xs text-muted-foreground\">{{ time_range }}</span>\n        {% endif %}\n    </div>\n    <div class=\"h-[200px] w-full flex items-end gap-2 px-2\">\n        {% if chart_slot %}\n            {{ chart_slot|safe }}\n        {% else %}\n            <!-- Mock Chart -->\n            <div class=\"bg-primary/20 w-full h-[40%] rounded-t\"></div>\n            <div class=\"bg-primary/20 w-full h-[60%] rounded-t\"></div>\n            <div class=\"bg-primary/40 w-full h-[80%] rounded-t\"></div>\n            <div class=\"bg-primary/20 w-full h-[50%] rounded-t\"></div>\n            <div class=\"bg-primary/60 w-full h-[100%] rounded-t\"></div>\n            <div class=\"bg-primary/30 w-full h-[70%] rounded-t\"></div>\n        {% endif %}\n    </div>\n    <div class=\"mt-4 pt-4 border-t flex justify-between\">\n        <div class=\"text-2xl font-bold\">{{ value }}</div>\n        <div class=\"text-xs {% if trend_type == 'up' %}text-green-500{% else %}text-destructive{% endif %} flex items-center\">\n            {{ trend }}\n        </div>\n    </div>\n</div>\n"
+        },
+        {
+          "name": "analytics-card.py",
+          "dir": "templatetags",
+          "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/analytics-card.html')\ndef djinn_analytics_card(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Analytics-card component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+        }
+      ],
+      "type": "components:ui"
+    },
+    {
+      "name": "avatar",
+      "dependencies": [],
+      "registryDependencies": [],
+      "files": [
+        {
+          "name": "avatar.html",
+          "dir": "templates/components",
+          "content": "<span class=\"relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full {{ class }}\">\n    {% if src %}\n        <img class=\"aspect-square h-full w-full\" src=\"{{ src }}\" alt=\"{{ alt }}\">\n    {% else %}\n        <span class=\"flex h-full w-full items-center justify-center rounded-full bg-muted text-sm font-medium\">\n            {{ fallback|default:'??' }}\n        </span>\n    {% endif %}\n</span>\n"
+        },
+        {
+          "name": "avatar.py",
+          "dir": "templatetags",
+          "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/avatar.html')\ndef djinn_avatar(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Avatar component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+        }
+      ],
+      "type": "components:ui"
+    },
+    {
+      "name": "badge",
+      "dependencies": [],
+      "registryDependencies": [],
+      "files": [
+        {
+          "name": "badge.html",
+          "dir": "templates/components",
+          "content": "<div class=\"inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2\n    {% if variant == 'secondary' %}border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80\n    {% elif variant == 'destructive' %}border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80\n    {% elif variant == 'outline' %}text-foreground\n    {% else %}border-transparent bg-primary text-primary-foreground hover:bg-primary/80{% endif %}\n    {{ class }}\"\n>\n    {% if label %}{{ label }}{% else %}{{ slot|default:\"\" }}{% endif %}\n</div>\n"
+        },
+        {
+          "name": "badge.py",
+          "dir": "templatetags",
+          "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/badge.html')\ndef djinn_badge(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Badge component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+        }
+      ],
+      "type": "components:ui"
+    },
+    {
+      "name": "breadcrumbs",
+      "dependencies": [],
+      "registryDependencies": [],
+      "files": [
+        {
+          "name": "breadcrumbs.html",
+          "dir": "templates/components",
+          "content": "<nav aria-label=\"Breadcrumb\" class=\"{{ class }}\">\n    <ol class=\"flex flex-wrap items-center gap-1.5 break-words text-sm text-muted-foreground sm:gap-2.5\">\n        {{ slot|safe }}\n    </ol>\n</nav>\n"
+        },
+        {
+          "name": "breadcrumbs.py",
+          "dir": "templatetags",
+          "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/breadcrumbs.html')\ndef djinn_breadcrumbs(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Breadcrumbs component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+        }
+      ],
+      "type": "components:ui"
+    },
+    {
+      "name": "button",
+      "dependencies": [],
+      "registryDependencies": [],
+      "files": [
+        {
+          "name": "button.html",
+          "dir": "templates/components",
+          "content": "<button\n    type=\"{{ type|default:'button' }}\"\n    {% if disabled or loading %}disabled{% endif %}\n    class=\"{{ class }}\"\n    {% for key, value in attrs.items %}\n    {{ key }}=\"{{ value }}\"\n    {% endfor %}\n>\n    {% if loading %}\n    <svg class=\"animate-spin -ml-1 mr-2 h-4 w-4 text-current\" xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 24 24\">\n        <circle class=\"opacity-25\" cx=\"12\" cy=\"12\" r=\"10\" stroke=\"currentColor\" stroke-width=\"4\"></circle>\n        <path class=\"opacity-75\" fill=\"currentColor\" d=\"M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z\"></path>\n    </svg>\n    {% endif %}\n    {% if icon_left %}<span class=\"mr-2\">{{ icon_left|safe }}</span>{% endif %}\n    {{ slot|default:label|safe }}\n    {% if icon_right %}<span class=\"ml-2\">{{ icon_right|safe }}</span>{% endif %}\n</button>\n"
+        },
+        {
+          "name": "djinn_button.py",
+          "dir": "templatetags",
+          "content": "from django import template\nfrom django.template.base import token_kwargs\nfrom djinn.core.cva import cva\n\nregister = template.Library()\n\nbutton_cva = cva(\n    base=\"inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50\",\n    variants={\n        \"variant\": {\n            \"default\": \"bg-primary text-primary-foreground hover:bg-primary/90\",\n            \"destructive\": \"bg-destructive text-destructive-foreground hover:bg-destructive/90\",\n            \"outline\": \"border border-input bg-background hover:bg-accent hover:text-accent-foreground\",\n            \"secondary\": \"bg-secondary text-secondary-foreground hover:bg-secondary/80\",\n            \"ghost\": \"hover:bg-accent hover:text-accent-foreground\",\n            \"link\": \"text-primary underline-offset-4 hover:underline\",\n        },\n        \"size\": {\n            \"default\": \"h-10 px-4 py-2\",\n            \"sm\": \"h-9 rounded-md px-3\",\n            \"lg\": \"h-11 rounded-md px-8\",\n            \"icon\": \"h-10 w-10\",\n        }\n    },\n    default_variants={\n        \"variant\": \"default\",\n        \"size\": \"default\"\n    }\n)\n\nclass ButtonNode(template.Node):\n    def __init__(self, nodelist, kwargs):\n        self.nodelist = nodelist\n        self.kwargs = kwargs\n\n    def render(self, context):\n        resolved_kwargs = {}\n        for k, v in self.kwargs.items():\n            try:\n                resolved_kwargs[k] = v.resolve(context)\n            except template.VariableDoesNotExist:\n                resolved_kwargs[k] = \"\"\n        \n        # Evaluate cva\n        final_class = button_cva(**resolved_kwargs)\n        \n        # Separate extra attributes\n        known_args = [\"variant\", \"size\", \"class\", \"class_name\", \"type\", \"disabled\", \"loading\", \"icon_left\", \"icon_right\", \"label\"]\n        attrs = {k: v for k, v in resolved_kwargs.items() if k not in known_args}\n        \n        # Render body\n        slot = self.nodelist.render(context) if self.nodelist else \"\"\n        \n        t = context.template.engine.get_template('components/button.html')\n        new_context = context.new({\n            'class': final_class,\n            'slot': slot,\n            'attrs': attrs,\n            **resolved_kwargs\n        })\n        return t.render(new_context)\n\n@register.tag('djinn_button')\ndef djinn_button(parser, token):\n    bits = token.split_contents()\n    kwargs = token_kwargs(bits[1:], parser)\n    nodelist = parser.parse(('enddjinn_button',))\n    parser.delete_first_token()\n    return ButtonNode(nodelist, kwargs)\n"
+        }
+      ],
+      "type": "components:ui"
+    },
+    {
+      "name": "card",
+      "dependencies": [],
+      "registryDependencies": [],
+      "files": [
+        {
+          "name": "card.html",
+          "dir": "templates/components",
+          "content": "<div class=\"rounded-lg border bg-card text-card-foreground shadow-sm\n    {% with v=variant|default:'default' %}\n        {% if v == 'bordered' %}border-2\n        {% elif v == 'elevated' %}shadow-lg\n        {% endif %}\n    {% endwith %}\n    {{ class }}\"\n    {{ attrs|safe }}\n>\n    {% if title or description %}\n    <div class=\"flex flex-col space-y-1.5 p-6\">\n        {% if title %}\n        <h3 class=\"text-2xl font-semibold leading-none tracking-tight\">{{ title }}</h3>\n        {% endif %}\n        {% if description %}\n        <p class=\"text-sm text-muted-foreground\">{{ description }}</p>\n        {% endif %}\n    </div>\n    {% endif %}\n\n    <div class=\"p-6 pt-0\">\n        {{ slot|safe }}\n    </div>\n\n    {% if footer %}\n    <div class=\"flex items-center p-6 pt-0\">\n        {{ footer|safe }}\n    </div>\n    {% endif %}\n</div>\n"
+        },
+        {
+          "name": "card.py",
+          "dir": "templatetags",
+          "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/card.html')\ndef djinn_card(\n    variant=\"default\",\n    title=None,\n    description=None,\n    footer=None,\n    slot=None,\n    class_name=\"\",\n    **attrs\n):\n    \"\"\"\n    Djinn Card component tag.\n    Usage: {% djinn_card title=\"Card Title\" description=\"Card Description\" %}\n    \"\"\"\n    return {\n        \"variant\": variant,\n        \"title\": title,\n        \"description\": description,\n        \"footer\": footer,\n        \"slot\": slot,\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+        }
+      ],
+      "type": "components:ui"
+    },
+    {
+      "name": "checkbox",
+      "dependencies": [],
+      "registryDependencies": [],
+      "files": [
+        {
+          "name": "checkbox.html",
+          "dir": "templates/components",
+          "content": "<div class=\"flex items-center space-x-2 {{ class }}\">\n    <input\n        type=\"checkbox\"\n        name=\"{{ name }}\"\n        id=\"{{ id|default:name }}\"\n        {% if checked %}checked{% endif %}\n        {% if disabled %}disabled{% endif %}\n        class=\"peer h-4 w-4 shrink-0 rounded-sm border border-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 accent-primary\"\n        {{ attrs|safe }}\n    >\n    {% if label %}\n    <label\n        for=\"{{ id|default:name }}\"\n        class=\"text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70\"\n    >\n        {{ label }}\n    </label>\n    {% endif %}\n</div>\n"
+        },
+        {
+          "name": "checkbox.py",
+          "dir": "templatetags",
+          "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/checkbox.html')\ndef djinn_checkbox(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Checkbox component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+        }
+      ],
+      "type": "components:ui"
+    },
+    {
+      "name": "checkout-summary",
+      "dependencies": [],
+      "registryDependencies": [],
+      "files": [
+        {
+          "name": "checkout-summary.html",
+          "dir": "templates/components",
+          "content": "<div class=\"rounded-lg border bg-card text-card-foreground shadow-sm p-6 {{ class }}\">\n    <h3 class=\"text-lg font-semibold mb-4\">Order Summary</h3>\n    <div class=\"space-y-4\">\n        {{ items|safe }}\n    </div>\n    {% include \"components/separator.html\" class=\"my-4\" %}\n    <div class=\"space-y-1.5\">\n        <div class=\"flex justify-between text-sm\">\n            <span class=\"text-muted-foreground\">Subtotal</span>\n            <span>{{ subtotal }}</span>\n        </div>\n        <div class=\"flex justify-between text-sm\">\n            <span class=\"text-muted-foreground\">Shipping</span>\n            <span>{{ shipping }}</span>\n        </div>\n        {% include \"components/separator.html\" class=\"my-4\" %}\n        <div class=\"flex justify-between font-bold\">\n            <span>Total</span>\n            <span>{{ total }}</span>\n        </div>\n    </div>\n</div>\n"
+        },
+        {
+          "name": "checkout-summary.py",
+          "dir": "templatetags",
+          "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/checkout-summary.html')\ndef djinn_checkout_summary(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Checkout-summary component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+        }
+      ],
+      "type": "components:ui"
+    },
+    {
+      "name": "combobox",
+      "dependencies": [],
+      "registryDependencies": [],
+      "files": [
+        {
+          "name": "combobox.html",
+          "dir": "templates/components",
+          "content": "<div x-data=\"{ open: false, selected: '', search: '' }\" class=\"relative w-full\">\n    <button\n        type=\"button\"\n        @click=\"open = !open\"\n        class=\"flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50\"\n    >\n        <span x-text=\"selected || '{{ placeholder|default:'Select option...' }}'\" :class=\"selected ? 'text-foreground' : 'text-muted-foreground'\"></span>\n        <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-chevrons-up-down ml-2 h-4 w-4 shrink-0 opacity-50\"><path d=\"m7 15 5 5 5-5\"/><path d=\"m7 9 5-5 5 5\"/></svg>\n    </button>\n\n    <div\n        x-show=\"open\"\n        @click.away=\"open = false\"\n        class=\"absolute z-50 mt-1 max-h-60 w-full overflow-auto rounded-md border bg-popover text-popover-foreground shadow-md outline-none animate-in fade-in-0 zoom-in-95\"\n    >\n        <div class=\"flex items-center border-b px-3\">\n            <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-search mr-2 h-4 w-4 shrink-0 opacity-50\"><circle cx=\"11\" cy=\"11\" r=\"8\"/><path d=\"m21 21-4.3-4.3\"/></svg>\n            <input\n                x-model=\"search\"\n                class=\"flex h-10 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50\"\n                placeholder=\"Search...\"\n            >\n        </div>\n        <div class=\"p-1\">\n            {{ slot|safe }}\n        </div>\n    </div>\n    <input type=\"hidden\" name=\"{{ name }}\" :value=\"selected\">\n</div>\n"
+        },
+        {
+          "name": "combobox.py",
+          "dir": "templatetags",
+          "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/combobox.html')\ndef djinn_combobox(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Combobox component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+        }
+      ],
+      "type": "components:ui"
+    },
+    {
+      "name": "confirmation-dialog",
+      "dependencies": [],
+      "registryDependencies": [],
+      "files": [
+        {
+          "name": "confirmation-dialog.html",
+          "dir": "templates/components",
+          "content": "{% include \"components/modal.html\" with id=id title=title|default:\"Confirm Action\" description=description class=\"sm:max-w-[400px]\" %}\n    {{ slot|safe }}\n    {% slot \"footer\" %}\n        {% include \"components/button.html\" with label=\"Cancel\" variant=\"ghost\" attrs=\"@click=\\\"$dispatch('close-modal', {id: '\"|add:id|add:\"'})\\\"\" %}\n        {% include \"components/button.html\" with label=action_label|default:\"Confirm\" variant=\"primary\" attrs=action_attrs %}\n    {% endslot %}\n{% endinclude %}\n"
+        },
+        {
+          "name": "confirmation-dialog.py",
+          "dir": "templatetags",
+          "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/confirmation-dialog.html')\ndef djinn_confirmation_dialog(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Confirmation-dialog component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+        }
+      ],
+      "type": "components:ui"
+    },
+    {
+      "name": "container",
+      "dependencies": [],
+      "registryDependencies": [],
+      "files": [
+        {
+          "name": "container.html",
+          "dir": "templates/components",
+          "content": "<div class=\"container mx-auto px-4 md:px-6 lg:px-8 {{ class }}\">\n    {{ slot|safe }}\n</div>\n"
+        },
+        {
+          "name": "container.py",
+          "dir": "templatetags",
+          "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/container.html')\ndef djinn_container(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Container component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+        }
+      ],
+      "type": "components:ui"
+    },
+    {
+      "name": "dashboard-sidebar",
+      "dependencies": [],
+      "registryDependencies": [],
+      "files": [
+        {
+          "name": "dashboard-sidebar.html",
+          "dir": "templates/components",
+          "content": "<div class=\"hidden border-r bg-muted/40 md:block w-64 h-screen sticky top-0 {{ class }}\">\n    <div class=\"flex h-full max-h-screen flex-col gap-2\">\n        <div class=\"flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6\">\n            <a class=\"flex items-center gap-2 font-semibold\" href=\"/\">\n                {{ brand_logo|safe }}\n                <span>{{ brand_name|default:'Djinn Admin' }}</span>\n            </a>\n        </div>\n        <div class=\"flex-1 overflow-auto\">\n            <nav class=\"grid items-start px-2 text-sm font-medium lg:px-4 space-y-1\">\n                {{ slot|safe }}\n            </nav>\n        </div>\n        {% if footer %}\n        <div class=\"mt-auto p-4 border-t\">\n            {{ footer|safe }}\n        </div>\n        {% endif %}\n    </div>\n</div>\n"
+        },
+        {
+          "name": "dashboard-sidebar.py",
+          "dir": "templatetags",
+          "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/dashboard-sidebar.html')\ndef djinn_dashboard_sidebar(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Dashboard-sidebar component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+        }
+      ],
+      "type": "components:ui"
+    },
+    {
+      "name": "drawer",
+      "dependencies": [],
+      "registryDependencies": [],
+      "files": [
+        {
+          "name": "drawer.html",
+          "dir": "templates/components",
+          "content": "<div\n    x-data=\"{ show: false }\"\n    @open-drawer.window=\"if ($event.detail.id === '{{ id }}') show = true\"\n    @close-drawer.window=\"if ($event.detail.id === '{{ id }}') show = false\"\n    class=\"relative z-50\"\n>\n    <template x-teleport=\"body\">\n        <div\n            x-show=\"show\"\n            class=\"fixed inset-0 z-50 flex items-end justify-center\"\n            x-cloak\n        >\n            <!-- Overlay -->\n            <div\n                x-show=\"show\"\n                x-transition:enter=\"ease-out duration-300\"\n                x-transition:enter-start=\"opacity-0\"\n                x-transition:enter-end=\"opacity-100\"\n                x-transition:leave=\"ease-in duration-200\"\n                x-transition:leave-start=\"opacity-100\"\n                x-transition:leave-end=\"opacity-0\"\n                @click=\"show = false\"\n                class=\"fixed inset-0 bg-background/80 backdrop-blur-sm\"\n            ></div>\n\n            <!-- Content -->\n            <div\n                x-show=\"show\"\n                x-transition:enter=\"transition ease-in-out duration-300 transform\"\n                x-transition:enter-start=\"translate-y-full\"\n                x-transition:enter-end=\"translate-y-0\"\n                x-transition:leave=\"transition ease-in-out duration-300 transform\"\n                x-transition:leave-start=\"translate-y-0\"\n                x-transition:leave-end=\"translate-y-full\"\n                class=\"relative w-full max-w-lg rounded-t-xl border bg-background p-6 shadow-lg\"\n            >\n                <div class=\"mx-auto mb-8 h-1.5 w-12 rounded-full bg-muted\"></div>\n\n                <div class=\"flex flex-col space-y-1.5 text-center sm:text-left\">\n                    <h2 class=\"text-lg font-semibold leading-none tracking-tight\">{{ title }}</h2>\n                    {% if description %}\n                    <p class=\"text-sm text-muted-foreground\">{{ description }}</p>\n                    {% endif %}\n                </div>\n\n                <div class=\"py-4\">\n                    {{ slot|safe }}\n                </div>\n\n                {% if footer %}\n                <div class=\"flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2\">\n                    {{ footer|safe }}\n                </div>\n                {% endif %}\n            </div>\n        </div>\n    </template>\n</div>\n"
+        },
+        {
+          "name": "drawer.py",
+          "dir": "templatetags",
+          "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/drawer.html')\ndef djinn_drawer(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Drawer component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+        }
+      ],
+      "type": "components:ui"
+    },
+    {
+      "name": "feature-card",
+      "dependencies": [],
+      "registryDependencies": [],
+      "files": [
+        {
+          "name": "feature-card.html",
+          "dir": "templates/components",
+          "content": "<div class=\"relative overflow-hidden rounded-lg border bg-background p-2 {{ class }}\">\n    <div class=\"flex h-[180px] flex-col justify-between rounded-md p-6\">\n        <div class=\"text-primary\">{{ icon|safe }}</div>\n        <div class=\"space-y-2\">\n            <h3 class=\"font-bold\">{{ title }}</h3>\n            <p class=\"text-sm text-muted-foreground\">{{ description }}</p>\n        </div>\n    </div>\n</div>\n"
+        },
+        {
+          "name": "feature-card.py",
+          "dir": "templatetags",
+          "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/feature-card.html')\ndef djinn_feature_card(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Feature-card component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+        }
+      ],
+      "type": "components:ui"
+    },
+    {
+      "name": "file-input",
+      "dependencies": [],
+      "registryDependencies": [],
+      "files": [
+        {
+          "name": "file-input.html",
+          "dir": "templates/components",
+          "content": "<input\n    type=\"file\"\n    name=\"{{ name }}\"\n    id=\"{{ id|default:name }}\"\n    class=\"flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 {{ class }}\"\n    {{ attrs|safe }}\n>\n"
+        },
+        {
+          "name": "file-input.py",
+          "dir": "templatetags",
+          "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/file-input.html')\ndef djinn_file_input(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn File-input component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+        }
+      ],
+      "type": "components:ui"
+    },
+    {
+      "name": "form-group",
+      "dependencies": [],
+      "registryDependencies": [],
+      "files": [
+        {
+          "name": "form-group.html",
+          "dir": "templates/components",
+          "content": "<div class=\"space-y-2 {{ class }}\">\n    {% if label %}\n        {% include \"components/label.html\" with for=id|default:name label=label required=required %}\n    {% endif %}\n\n    {{ slot|safe }}\n\n    {% if help_text %}\n        <p class=\"text-xs text-muted-foreground\">{{ help_text }}</p>\n    {% endif %}\n\n    {% if error %}\n        <p class=\"text-xs font-medium text-destructive\">{{ error }}</p>\n    {% endif %}\n</div>\n"
+        },
+        {
+          "name": "form-group.py",
+          "dir": "templatetags",
+          "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/form-group.html')\ndef djinn_form_group(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Form-group component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+        }
+      ],
+      "type": "components:ui"
+    },
+    {
+      "name": "grid",
+      "dependencies": [],
+      "registryDependencies": [],
+      "files": [
+        {
+          "name": "grid.html",
+          "dir": "templates/components",
+          "content": "<div class=\"grid gap-4 md:gap-6 lg:gap-8\n    {% if cols == '2' %}grid-cols-1 md:grid-cols-2\n    {% elif cols == '3' %}grid-cols-1 md:grid-cols-2 lg:grid-cols-3\n    {% elif cols == '4' %}grid-cols-1 md:grid-cols-2 lg:grid-cols-4\n    {% else %}grid-cols-1{% endif %}\n    {{ class }}\"\n>\n    {{ slot|safe }}\n</div>\n"
+        },
+        {
+          "name": "grid.py",
+          "dir": "templatetags",
+          "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/grid.html')\ndef djinn_grid(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Grid component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+        }
+      ],
+      "type": "components:ui"
+    },
+    {
+      "name": "icon-button",
+      "dependencies": [],
+      "registryDependencies": [],
+      "files": [
+        {
+          "name": "icon-button.html",
+          "dir": "templates/components",
+          "content": "{% include \"components/button.html\" with size=\"icon\" label=\"\" slot=slot icon_left=icon variant=variant|default:\"outline\" class=class attrs=attrs %}\n"
+        },
+        {
+          "name": "icon-button.py",
+          "dir": "templatetags",
+          "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/icon-button.html')\ndef djinn_icon_button(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Icon-button component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+        }
+      ],
+      "type": "components:ui"
+    },
+    {
+      "name": "input",
+      "dependencies": [],
+      "registryDependencies": [],
+      "files": [
+        {
+          "name": "input.html",
+          "dir": "templates/components",
+          "content": "<div class=\"grid w-full max-w-sm items-center gap-1.5\">\n    {% if label %}\n    <label class=\"text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70\" {% if id %}for=\"{{ id }}\"{% endif %}>\n        {{ label }}\n    </label>\n    {% endif %}\n\n    <input\n        type=\"{{ type|default:'text' }}\"\n        {% if name %}name=\"{{ name }}\"{% endif %}\n        {% if id %}id=\"{{ id }}\"{% endif %}\n        placeholder=\"{{ placeholder }}\"\n        value=\"{{ value }}\"\n        {% if disabled %}disabled{% endif %}\n        {% if required %}required{% endif %}\n        class=\"flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50\n        {% if error %}border-destructive{% endif %} {{ class }}\"\n        {{ attrs|safe }}\n    >\n\n    {% if error %}\n    <p class=\"text-sm font-medium text-destructive\">{{ error }}</p>\n    {% elif help_text %}\n    <p class=\"text-sm text-muted-foreground\">{{ help_text }}</p>\n    {% endif %}\n</div>\n"
+        },
+        {
+          "name": "input.py",
+          "dir": "templatetags",
+          "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/input.html')\ndef djinn_input(\n    label=None,\n    placeholder=\"\",\n    error=None,\n    help_text=None,\n    input_type=\"text\",\n    name=None,\n    input_id=None,\n    value=\"\",\n    disabled=False,\n    required=False,\n    class_name=\"\",\n    **attrs\n):\n    \"\"\"\n    Djinn Input component tag.\n    Usage: {% djinn_input label=\"Email\" type=\"email\" placeholder=\"you@example.com\" %}\n    \"\"\"\n    return {\n        \"label\": label,\n        \"placeholder\": placeholder,\n        \"error\": error,\n        \"help_text\": help_text,\n        \"type\": input_type,\n        \"name\": name,\n        \"id\": input_id or name,\n        \"value\": value,\n        \"disabled\": disabled,\n        \"required\": required,\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+        }
+      ],
+      "type": "components:ui"
+    },
+    {
+      "name": "label",
+      "dependencies": [],
+      "registryDependencies": [],
+      "files": [
+        {
+          "name": "label.html",
+          "dir": "templates/components",
+          "content": "<label\n    for=\"{{ for }}\"\n    class=\"text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 {{ class }}\"\n    {{ attrs|safe }}\n>\n    {% if label %}{{ label }}{% else %}{{ slot|default:\"\" }}{% endif %}\n    {% if required %}<span class=\"text-destructive ml-1\">*</span>{% endif %}\n</label>\n"
+        },
+        {
+          "name": "label.py",
+          "dir": "templatetags",
+          "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/label.html')\ndef djinn_label(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Label component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+        }
+      ],
+      "type": "components:ui"
+    },
+    {
+      "name": "login-form",
+      "dependencies": [],
+      "registryDependencies": [],
+      "files": [
+        {
+          "name": "login-form.html",
+          "dir": "templates/components",
+          "content": "{% include \"components/card.html\" with title=\"Login\" description=\"Enter your email below to login to your account.\" class=\"w-full max-w-sm\" %}\n    <form method=\"post\" action=\"{{ action }}\" class=\"space-y-4\">\n        {% csrf_token %}\n        {% include \"components/form-group.html\" with label=\"Email\" name=\"email\" %}\n            {% include \"components/input.html\" with name=\"email\" type=\"email\" placeholder=\"m@example.com\" required=True %}\n        {% endinclude %}\n\n        {% include \"components/form-group.html\" with label=\"Password\" name=\"password\" %}\n            {% include \"components/input.html\" with name=\"password\" type=\"password\" required=True %}\n        {% endinclude %}\n\n        {% include \"components/button.html\" with label=\"Sign In\" type=\"submit\" class=\"w-full\" %}\n\n        <div class=\"mt-4 text-center text-sm\">\n            Don't have an account?\n            <a href=\"{{ signup_url }}\" class=\"underline\">Sign up</a>\n        </div>\n    </form>\n{% endinclude %}\n"
+        },
+        {
+          "name": "login-form.py",
+          "dir": "templatetags",
+          "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/login-form.html')\ndef djinn_login_form(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Login-form component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+        }
+      ],
+      "type": "components:ui"
+    },
+    {
+      "name": "metric-grid",
+      "dependencies": [],
+      "registryDependencies": [],
+      "files": [
+        {
+          "name": "metric-grid.html",
+          "dir": "templates/components",
+          "content": "<div class=\"grid gap-4 md:grid-cols-2 lg:grid-cols-4 {{ class }}\">\n    {{ slot|safe }}\n</div>\n"
+        },
+        {
+          "name": "metric-grid.py",
+          "dir": "templatetags",
+          "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/metric-grid.html')\ndef djinn_metric_grid(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Metric-grid component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+        }
+      ],
+      "type": "components:ui"
+    },
+    {
+      "name": "modal",
+      "dependencies": [],
+      "registryDependencies": [],
+      "files": [
+        {
+          "name": "modal.html",
+          "dir": "templates/components",
+          "content": "<div\n    x-data=\"{ show: false }\"\n    @open-modal.window=\"if ($event.detail.id === '{{ id }}') show = true\"\n    @close-modal.window=\"if ($event.detail.id === '{{ id }}') show = false\"\n    @keydown.escape.window=\"show = false\"\n    class=\"relative z-50\"\n>\n    <template x-teleport=\"body\">\n        <div\n            x-show=\"show\"\n            class=\"fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6\"\n            x-cloak\n        >\n            <!-- Overlay -->\n            <div\n                x-show=\"show\"\n                x-transition:enter=\"ease-out duration-300\"\n                x-transition:enter-start=\"opacity-0\"\n                x-transition:enter-end=\"opacity-100\"\n                x-transition:leave=\"ease-in duration-200\"\n                x-transition:leave-start=\"opacity-100\"\n                x-transition:leave-end=\"opacity-0\"\n                @click=\"show = false\"\n                class=\"fixed inset-0 bg-background/80 backdrop-blur-sm\"\n            ></div>\n\n            <!-- Content -->\n            <div\n                x-show=\"show\"\n                x-transition:enter=\"ease-out duration-300\"\n                x-transition:enter-start=\"opacity-0 scale-95\"\n                x-transition:enter-end=\"opacity-100 scale-100\"\n                x-transition:leave=\"ease-in duration-200\"\n                x-transition:leave-start=\"opacity-100 scale-100\"\n                x-transition:leave-end=\"opacity-0 scale-95\"\n                class=\"relative w-full max-w-lg rounded-lg border bg-background p-6 shadow-lg sm:max-w-[425px] {{ class }}\"\n            >\n                <div class=\"flex flex-col space-y-1.5 text-center sm:text-left\">\n                    <h2 class=\"text-lg font-semibold leading-none tracking-tight\">{{ title }}</h2>\n                    {% if description %}\n                    <p class=\"text-sm text-muted-foreground\">{{ description }}</p>\n                    {% endif %}\n                </div>\n\n                <div class=\"py-4\">\n                    {{ slot|safe }}\n                </div>\n\n                {% if footer %}\n                <div class=\"flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2\">\n                    {{ footer|safe }}\n                </div>\n                {% endif %}\n\n                <button\n                    @click=\"show = false\"\n                    class=\"absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground\"\n                >\n                    <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-x h-4 w-4\"><path d=\"M18 6 6 18\"/><path d=\"m6 6 12 12\"/></svg>\n                    <span class=\"sr-only\">Close</span>\n                </button>\n            </div>\n        </div>\n    </template>\n</div>\n"
+        },
+        {
+          "name": "modal.py",
+          "dir": "templatetags",
+          "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/modal.html')\ndef djinn_modal(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Modal component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+        }
+      ],
+      "type": "components:ui"
+    },
+    {
+      "name": "navbar",
+      "dependencies": [],
+      "registryDependencies": [],
+      "files": [
+        {
+          "name": "navbar.html",
+          "dir": "templates/components",
+          "content": "<nav class=\"sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 {{ class }}\">\n    <div class=\"container flex h-14 items-center\">\n        <div class=\"mr-4 flex\">\n            <a class=\"mr-6 flex items-center space-x-2\" href=\"{{ brand_url|default:'/' }}\">\n                {% if brand_logo %}{{ brand_logo|safe }}{% endif %}\n                <span class=\"font-bold sm:inline-block\">{{ brand_name|default:'Djinn' }}</span>\n            </a>\n            <div class=\"hidden md:flex gap-6 text-sm font-medium\">\n                {{ slot|safe }}\n            </div>\n        </div>\n        <div class=\"flex flex-1 items-center justify-between space-x-2 md:justify-end\">\n            <div class=\"w-full flex-1 md:w-auto md:flex-none\">\n                {{ right_slot|safe }}\n            </div>\n        </div>\n    </div>\n</nav>\n"
+        },
+        {
+          "name": "navbar.py",
+          "dir": "templatetags",
+          "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/navbar.html')\ndef djinn_navbar(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Navbar component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+        }
+      ],
+      "type": "components:ui"
+    },
+    {
+      "name": "pagination",
+      "dependencies": [],
+      "registryDependencies": [],
+      "files": [
+        {
+          "name": "pagination.html",
+          "dir": "templates/components",
+          "content": "<nav role=\"navigation\" aria-label=\"pagination\" class=\"mx-auto flex w-full justify-center {{ class }}\">\n    <ul class=\"flex flex-row items-center gap-1\">\n        <li>\n            {% include \"components/button.html\" with variant=\"ghost\" size=\"sm\" label=\"Previous\" icon_left='<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m15 18-6-6 6-6\"/></svg>' attrs=prev_attrs %}\n        </li>\n        {{ slot|safe }}\n        <li>\n            {% include \"components/button.html\" with variant=\"ghost\" size=\"sm\" label=\"Next\" icon_right='<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m9 18 6-6-6-6\"/></svg>' attrs=next_attrs %}\n        </li>\n    </ul>\n</nav>\n"
+        },
+        {
+          "name": "pagination.py",
+          "dir": "templatetags",
+          "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/pagination.html')\ndef djinn_pagination(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Pagination component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+        }
+      ],
+      "type": "components:ui"
+    },
+    {
+      "name": "password-input",
+      "dependencies": [],
+      "registryDependencies": [],
+      "files": [
+        {
+          "name": "password-input.html",
+          "dir": "templates/components",
+          "content": "<div x-data=\"{ show: false }\" class=\"relative\">\n    <input\n        :type=\"show ? 'text' : 'password'\"\n        type=\"password\"\n        name=\"{{ name }}\"\n        id=\"{{ id|default:name }}\"\n        placeholder=\"{{ placeholder }}\"\n        {% if disabled %}disabled{% endif %}\n        class=\"flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 pr-10 {{ class }}\"\n        {{ attrs|safe }}\n    >\n    <button\n        type=\"button\"\n        @click=\"show = !show\"\n        class=\"absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground\"\n    >\n        <svg x-show=\"!show\" xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-eye\"><path d=\"M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0z\"/><circle cx=\"12\" cy=\"12\" r=\"3\"/></svg>\n        <svg x-show=\"show\" xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-eye-off\"><path d=\"M9.88 9.88a3 3 0 1 0 4.24 4.24\"/><path d=\"M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68\"/><path d=\"M6.61 6.61A13.52 13.52 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61\"/><line x1=\"2\" x2=\"22\" y1=\"2\" y2=\"22\"/></svg>\n    </button>\n</div>\n"
+        },
+        {
+          "name": "password-input.py",
+          "dir": "templatetags",
+          "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/password-input.html')\ndef djinn_password_input(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Password-input component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+        }
+      ],
+      "type": "components:ui"
+    },
+    {
+      "name": "password-reset-form",
+      "dependencies": [],
+      "registryDependencies": [],
+      "files": [
+        {
+          "name": "password-reset-form.html",
+          "dir": "templates/components",
+          "content": "{% include \"components/card.html\" with title=\"Forgot password?\" description=\"Enter your email to receive a password reset link.\" class=\"w-full max-w-sm\" %}\n    <form method=\"post\" action=\"{{ action }}\" class=\"space-y-4\">\n        {% csrf_token %}\n        {% include \"components/form-group.html\" with label=\"Email\" name=\"email\" %}\n            {% include \"components/input.html\" with name=\"email\" type=\"email\" placeholder=\"m@example.com\" required=True %}\n        {% endinclude %}\n\n        {% include \"components/button.html\" with label=\"Send Reset Link\" type=\"submit\" class=\"w-full\" %}\n\n        <div class=\"mt-4 text-center text-sm\">\n            Remembered your password?\n            <a href=\"{{ login_url }}\" class=\"underline\">Login</a>\n        </div>\n    </form>\n{% endinclude %}\n"
+        },
+        {
+          "name": "password-reset-form.py",
+          "dir": "templatetags",
+          "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/password-reset-form.html')\ndef djinn_password_reset_form(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Password-reset-form component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+        }
+      ],
+      "type": "components:ui"
+    },
+    {
+      "name": "pricing-card",
+      "dependencies": [],
+      "registryDependencies": [],
+      "files": [
+        {
+          "name": "pricing-card.html",
+          "dir": "templates/components",
+          "content": "<div class=\"rounded-lg border bg-card text-card-foreground shadow-sm flex flex-col p-6 {% if featured %}border-primary shadow-lg scale-105 z-10{% endif %} {{ class }}\">\n    <div class=\"mb-8\">\n        <h3 class=\"text-lg font-bold\">{{ name }}</h3>\n        <p class=\"text-sm text-muted-foreground\">{{ description }}</p>\n    </div>\n    <div class=\"mb-8 flex items-baseline gap-1\">\n        <span class=\"text-4xl font-bold\">{{ price }}</span>\n        <span class=\"text-sm text-muted-foreground\">/{{ interval|default:'mo' }}</span>\n    </div>\n    <ul class=\"mb-8 space-y-2 text-sm flex-1\">\n        {{ features|safe }}\n    </ul>\n    {% include \"components/button.html\" with label=cta_label|default:\"Get Started\" variant=cta_variant|default:\"outline\" class=\"w-full\" %}\n</div>\n"
+        },
+        {
+          "name": "pricing-card.py",
+          "dir": "templatetags",
+          "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/pricing-card.html')\ndef djinn_pricing_card(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Pricing-card component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+        }
+      ],
+      "type": "components:ui"
+    },
+    {
+      "name": "product-card",
+      "dependencies": [],
+      "registryDependencies": [],
+      "files": [
+        {
+          "name": "product-card.html",
+          "dir": "templates/components",
+          "content": "<div class=\"group relative rounded-lg border bg-card text-card-foreground shadow-sm overflow-hidden {{ class }}\">\n    <div class=\"aspect-square overflow-hidden bg-muted\">\n        <img\n            src=\"{{ image_url }}\"\n            alt=\"{{ name }}\"\n            class=\"h-full w-full object-cover transition-transform group-hover:scale-105\"\n        >\n    </div>\n    <div class=\"p-4\">\n        <h3 class=\"text-sm font-semibold\">{{ name }}</h3>\n        <p class=\"mt-1 text-sm text-muted-foreground\">{{ category }}</p>\n        <div class=\"mt-4 flex items-center justify-between\">\n            <span class=\"text-sm font-bold\">{{ price }}</span>\n            {% include \"components/button.html\" with label=\"Add\" size=\"sm\" variant=\"outline\" %}\n        </div>\n    </div>\n</div>\n"
+        },
+        {
+          "name": "product-card.py",
+          "dir": "templatetags",
+          "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/product-card.html')\ndef djinn_product_card(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Product-card component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+        }
+      ],
+      "type": "components:ui"
+    },
+    {
+      "name": "profile-card",
+      "dependencies": [],
+      "registryDependencies": [],
+      "files": [
+        {
+          "name": "profile-card.html",
+          "dir": "templates/components",
+          "content": "<div class=\"rounded-lg border bg-card text-card-foreground shadow-sm p-6 flex flex-col items-center text-center {{ class }}\">\n    <div class=\"relative flex h-20 w-20 shrink-0 overflow-hidden rounded-full mb-4\">\n        {% if avatar_url %}\n            <img class=\"aspect-square h-full w-full\" src=\"{{ avatar_url }}\" alt=\"{{ name }}\">\n        {% else %}\n            <div class=\"flex h-full w-full items-center justify-center rounded-full bg-muted font-bold text-xl\">\n                {{ name|slice:\":1\" }}\n            </div>\n        {% endif %}\n    </div>\n    <h3 class=\"text-lg font-semibold\">{{ name }}</h3>\n    <p class=\"text-sm text-muted-foreground mb-4\">{{ role }}</p>\n    <div class=\"flex gap-2\">\n        {{ slot|safe }}\n    </div>\n</div>\n"
+        },
+        {
+          "name": "profile-card.py",
+          "dir": "templatetags",
+          "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/profile-card.html')\ndef djinn_profile_card(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Profile-card component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+        }
+      ],
+      "type": "components:ui"
+    },
+    {
+      "name": "progress",
+      "dependencies": [],
+      "registryDependencies": [],
+      "files": [
+        {
+          "name": "progress.html",
+          "dir": "templates/components",
+          "content": "<div\n    role=\"progressbar\"\n    aria-valuemin=\"0\"\n    aria-valuemax=\"100\"\n    aria-valuenow=\"{{ value|default:0 }}\"\n    class=\"relative h-4 w-full overflow-hidden rounded-full bg-secondary {{ class }}\"\n>\n    {% with v=value|default:0 %}\n    <div\n        class=\"h-full w-full flex-1 bg-primary transition-all\"\n        style=\"transform: translateX(-{{ 100|subtract:v }}%)\"\n    ></div>\n    {% endwith %}\n</div>\n"
+        },
+        {
+          "name": "progress.py",
+          "dir": "templatetags",
+          "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/progress.html')\ndef djinn_progress(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Progress component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+        }
+      ],
+      "type": "components:ui"
+    },
+    {
+      "name": "radio",
+      "dependencies": [],
+      "registryDependencies": [],
+      "files": [
+        {
+          "name": "radio.html",
+          "dir": "templates/components",
+          "content": "<div class=\"flex items-center space-x-2 {{ class }}\">\n    <input\n        type=\"radio\"\n        name=\"{{ name }}\"\n        id=\"{{ id }}\"\n        value=\"{{ value }}\"\n        {% if checked %}checked{% endif %}\n        {% if disabled %}disabled{% endif %}\n        class=\"peer h-4 w-4 rounded-full border border-primary text-primary ring-offset-background focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 accent-primary\"\n        {{ attrs|safe }}\n    >\n    {% if label %}\n    <label\n        for=\"{{ id }}\"\n        class=\"text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70\"\n    >\n        {{ label }}\n    </label>\n    {% endif %}\n</div>\n"
+        },
+        {
+          "name": "radio.py",
+          "dir": "templatetags",
+          "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/radio.html')\ndef djinn_radio(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Radio component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+        }
+      ],
+      "type": "components:ui"
+    },
+    {
+      "name": "search-input",
+      "dependencies": [],
+      "registryDependencies": [],
+      "files": [
+        {
+          "name": "search-input.html",
+          "dir": "templates/components",
+          "content": "<div class=\"relative\">\n    <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-search absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground\"><circle cx=\"11\" cy=\"11\" r=\"8\"/><path d=\"m21 21-4.3-4.3\"/></svg>\n    <input\n        type=\"search\"\n        name=\"{{ name }}\"\n        id=\"{{ id|default:name }}\"\n        placeholder=\"{{ placeholder|default:'Search...' }}\"\n        class=\"flex h-10 w-full rounded-md border border-input bg-background pl-10 pr-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 {{ class }}\"\n        {{ attrs|safe }}\n    >\n</div>\n"
+        },
+        {
+          "name": "search-input.py",
+          "dir": "templatetags",
+          "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/search-input.html')\ndef djinn_search_input(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Search-input component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+        }
+      ],
+      "type": "components:ui"
+    },
+    {
+      "name": "section",
+      "dependencies": [],
+      "registryDependencies": [],
+      "files": [
+        {
+          "name": "section.html",
+          "dir": "templates/components",
+          "content": "<section class=\"py-12 md:py-16 lg:py-24 {{ class }}\">\n    {{ slot|safe }}\n</section>\n"
+        },
+        {
+          "name": "section.py",
+          "dir": "templatetags",
+          "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/section.html')\ndef djinn_section(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Section component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+        }
+      ],
+      "type": "components:ui"
+    },
+    {
+      "name": "select",
+      "dependencies": [],
+      "registryDependencies": [],
+      "files": [
+        {
+          "name": "select.html",
+          "dir": "templates/components",
+          "content": "<div class=\"relative\">\n    <select\n        name=\"{{ name }}\"\n        id=\"{{ id|default:name }}\"\n        {% if disabled %}disabled{% endif %}\n        class=\"flex h-10 w-full appearance-none rounded-md border border-input bg-background px-3 py-2 pr-10 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 {{ class }}\"\n        {{ attrs|safe }}\n    >\n        {% if placeholder %}\n            <option value=\"\" disabled selected>{{ placeholder }}</option>\n        {% endif %}\n        {{ slot|safe }}\n    </select>\n    <div class=\"pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-muted-foreground\">\n        <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-chevron-down\"><path d=\"m6 9 6 6 6-6\"/></svg>\n    </div>\n</div>\n"
+        },
+        {
+          "name": "select.py",
+          "dir": "templatetags",
+          "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/select.html')\ndef djinn_select(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Select component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+        }
+      ],
+      "type": "components:ui"
+    },
+    {
+      "name": "separator",
+      "dependencies": [],
+      "registryDependencies": [],
+      "files": [
+        {
+          "name": "separator.html",
+          "dir": "templates/components",
+          "content": "<div\n    class=\"shrink-0 bg-border\n    {% if orientation == 'vertical' %}h-full w-[1px]\n    {% else %}h-[1px] w-full{% endif %}\n    {{ class }}\"\n    role=\"separator\"\n></div>\n"
+        },
+        {
+          "name": "separator.py",
+          "dir": "templatetags",
+          "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/separator.html')\ndef djinn_separator(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Separator component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+        }
+      ],
+      "type": "components:ui"
+    },
+    {
+      "name": "sheet",
+      "dependencies": [],
+      "registryDependencies": [],
+      "files": [
+        {
+          "name": "sheet.html",
+          "dir": "templates/components",
+          "content": "<div\n    x-data=\"{ show: false }\"\n    @open-sheet.window=\"if ($event.detail.id === '{{ id }}') show = true\"\n    @close-sheet.window=\"if ($event.detail.id === '{{ id }}') show = false\"\n    class=\"relative z-50\"\n>\n    <template x-teleport=\"body\">\n        <div\n            x-show=\"show\"\n            class=\"fixed inset-0 z-50 flex justify-end\"\n            x-cloak\n        >\n            <!-- Overlay -->\n            <div\n                x-show=\"show\"\n                x-transition:enter=\"ease-out duration-300\"\n                x-transition:enter-start=\"opacity-0\"\n                x-transition:enter-end=\"opacity-100\"\n                x-transition:leave=\"ease-in duration-200\"\n                x-transition:leave-start=\"opacity-100\"\n                x-transition:leave-end=\"opacity-0\"\n                @click=\"show = false\"\n                class=\"fixed inset-0 bg-background/80 backdrop-blur-sm\"\n            ></div>\n\n            <!-- Content -->\n            <div\n                x-show=\"show\"\n                x-transition:enter=\"transition ease-in-out duration-300 transform\"\n                x-transition:enter-start=\"translate-x-full\"\n                x-transition:enter-end=\"translate-x-0\"\n                x-transition:leave=\"transition ease-in-out duration-300 transform\"\n                x-transition:leave-start=\"translate-x-0\"\n                x-transition:leave-end=\"translate-x-full\"\n                class=\"relative h-full w-full max-w-sm border-l bg-background p-6 shadow-lg\"\n            >\n                <div class=\"flex flex-col space-y-2 text-center sm:text-left mb-4\">\n                    <h2 class=\"text-lg font-semibold text-foreground\">{{ title }}</h2>\n                    {% if description %}\n                    <p class=\"text-sm text-muted-foreground\">{{ description }}</p>\n                    {% endif %}\n                </div>\n\n                <div class=\"h-full\">\n                    {{ slot|safe }}\n                </div>\n\n                <button\n                    @click=\"show = false\"\n                    class=\"absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none\"\n                >\n                    <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-x h-4 w-4\"><path d=\"M18 6 6 18\"/><path d=\"m6 6 12 12\"/></svg>\n                    <span class=\"sr-only\">Close</span>\n                </button>\n            </div>\n        </div>\n    </template>\n</div>\n"
+        },
+        {
+          "name": "sheet.py",
+          "dir": "templatetags",
+          "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/sheet.html')\ndef djinn_sheet(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Sheet component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+        }
+      ],
+      "type": "components:ui"
+    },
+    {
+      "name": "sidebar",
+      "dependencies": [],
+      "registryDependencies": [],
+      "files": [
+        {
+          "name": "sidebar.html",
+          "dir": "templates/components",
+          "content": "<div class=\"pb-12 w-64 border-r bg-background {{ class }}\">\n    <div class=\"space-y-4 py-4\">\n        {% if title %}\n        <div class=\"px-3 py-2\">\n            <h2 class=\"mb-2 px-4 text-lg font-semibold tracking-tight\">{{ title }}</h2>\n            <div class=\"space-y-1\">\n                {{ slot|safe }}\n            </div>\n        </div>\n        {% else %}\n            {{ slot|safe }}\n        {% endif %}\n    </div>\n</div>\n"
+        },
+        {
+          "name": "sidebar.py",
+          "dir": "templatetags",
+          "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/sidebar.html')\ndef djinn_sidebar(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Sidebar component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+        }
+      ],
+      "type": "components:ui"
+    },
+    {
+      "name": "signup-form",
+      "dependencies": [],
+      "registryDependencies": [],
+      "files": [
+        {
+          "name": "signup-form.html",
+          "dir": "templates/components",
+          "content": "{% include \"components/card.html\" with title=\"Create an account\" description=\"Enter your email below to create your account\" class=\"w-full max-w-sm\" %}\n    <form method=\"post\" action=\"{{ action }}\" class=\"space-y-4\">\n        {% csrf_token %}\n        <div class=\"grid grid-cols-2 gap-4\">\n            {% include \"components/form-group.html\" with label=\"First Name\" name=\"first_name\" %}\n                {% include \"components/input.html\" with name=\"first_name\" placeholder=\"Max\" required=True %}\n            {% endinclude %}\n            {% include \"components/form-group.html\" with label=\"Last Name\" name=\"last_name\" %}\n                {% include \"components/input.html\" with name=\"last_name\" placeholder=\"Robinson\" required=True %}\n            {% endinclude %}\n        </div>\n\n        {% include \"components/form-group.html\" with label=\"Email\" name=\"email\" %}\n            {% include \"components/input.html\" with name=\"email\" type=\"email\" placeholder=\"m@example.com\" required=True %}\n        {% endinclude %}\n\n        {% include \"components/form-group.html\" with label=\"Password\" name=\"password\" %}\n            {% include \"components/input.html\" with name=\"password\" type=\"password\" required=True %}\n        {% endinclude %}\n\n        {% include \"components/button.html\" with label=\"Create account\" type=\"submit\" class=\"w-full\" %}\n    </form>\n{% endinclude %}\n"
+        },
+        {
+          "name": "signup-form.py",
+          "dir": "templatetags",
+          "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/signup-form.html')\ndef djinn_signup_form(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Signup-form component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+        }
+      ],
+      "type": "components:ui"
+    },
+    {
+      "name": "skeleton",
+      "dependencies": [],
+      "registryDependencies": [],
+      "files": [
+        {
+          "name": "skeleton.html",
+          "dir": "templates/components",
+          "content": "<div class=\"animate-pulse rounded-md bg-muted {{ class }}\"></div>\n"
+        },
+        {
+          "name": "skeleton.py",
+          "dir": "templatetags",
+          "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/skeleton.html')\ndef djinn_skeleton(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Skeleton component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+        }
+      ],
+      "type": "components:ui"
+    },
+    {
+      "name": "spinner",
+      "dependencies": [],
+      "registryDependencies": [],
+      "files": [
+        {
+          "name": "spinner.html",
+          "dir": "templates/components",
+          "content": "<svg\n    xmlns=\"http://www.w3.org/2000/svg\"\n    width=\"24\"\n    height=\"24\"\n    viewBox=\"0 0 24 24\"\n    fill=\"none\"\n    stroke=\"currentColor\"\n    stroke-width=\"2\"\n    stroke-linecap=\"round\"\n    stroke-linejoin=\"round\"\n    class=\"animate-spin {{ class }}\"\n>\n    <path d=\"M21 12a9 9 0 1 1-6.219-8.56\"/>\n</svg>\n"
+        },
+        {
+          "name": "spinner.py",
+          "dir": "templatetags",
+          "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/spinner.html')\ndef djinn_spinner(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Spinner component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+        }
+      ],
+      "type": "components:ui"
+    },
+    {
+      "name": "split-button",
+      "dependencies": [],
+      "registryDependencies": [],
+      "files": [
+        {
+          "name": "split-button.html",
+          "dir": "templates/components",
+          "content": "<div class=\"inline-flex items-center divide-x divide-primary-foreground/20 overflow-hidden rounded-md border border-input shadow-sm {{ class }}\">\n    {% include \"components/button.html\" with label=label variant=variant|default:\"primary\" class=\"rounded-none shadow-none border-none\" %}\n    {% include \"components/button.html\" with label=\"\" variant=variant|default:\"primary\" size=\"sm\" class=\"rounded-none shadow-none border-none px-2\" icon_left='<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-chevron-down\"><path d=\"m6 9 6 6 6-6\"/></svg>' %}\n</div>\n"
+        },
+        {
+          "name": "split-button.py",
+          "dir": "templatetags",
+          "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/split-button.html')\ndef djinn_split_button(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Split-button component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+        }
+      ],
+      "type": "components:ui"
+    },
+    {
+      "name": "stack",
+      "dependencies": [],
+      "registryDependencies": [],
+      "files": [
+        {
+          "name": "stack.html",
+          "dir": "templates/components",
+          "content": "<div class=\"flex\n    {% if direction == 'horizontal' %}flex-row items-center space-x-{{ space|default:4 }}\n    {% else %}flex-col space-y-{{ space|default:4 }}{% endif %}\n    {{ class }}\"\n>\n    {{ slot|safe }}\n</div>\n"
+        },
+        {
+          "name": "stack.py",
+          "dir": "templatetags",
+          "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/stack.html')\ndef djinn_stack(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Stack component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+        }
+      ],
+      "type": "components:ui"
+    },
+    {
+      "name": "stats-card",
+      "dependencies": [],
+      "registryDependencies": [],
+      "files": [
+        {
+          "name": "stats-card.html",
+          "dir": "templates/components",
+          "content": "<div class=\"rounded-lg border bg-card text-card-foreground shadow-sm p-6 {{ class }}\">\n    <div class=\"flex flex-row items-center justify-between space-y-0 pb-2\">\n        <h3 class=\"text-sm font-medium tracking-tight\">{{ label }}</h3>\n        {% if icon %}\n            <div class=\"text-muted-foreground\">{{ icon|safe }}</div>\n        {% endif %}\n    </div>\n    <div>\n        <div class=\"text-2xl font-bold\">{{ value }}</div>\n        {% if trend %}\n            <p class=\"text-xs {% if trend_type == 'up' %}text-green-500{% elif trend_type == 'down' %}text-destructive{% else %}text-muted-foreground{% endif %}\">\n                {{ trend }}\n            </p>\n        {% endif %}\n    </div>\n</div>\n"
+        },
+        {
+          "name": "stats-card.py",
+          "dir": "templatetags",
+          "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/stats-card.html')\ndef djinn_stats_card(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Stats-card component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+        }
+      ],
+      "type": "components:ui"
+    },
+    {
+      "name": "switch",
+      "dependencies": [],
+      "registryDependencies": [],
+      "files": [
+        {
+          "name": "switch.html",
+          "dir": "templates/components",
+          "content": "<div x-data=\"{ checked: {{ checked|default:'false' }} }\" class=\"flex items-center space-x-2 {{ class }}\">\n    <button\n        type=\"button\"\n        role=\"switch\"\n        :aria-checked=\"checked\"\n        @click=\"checked = !checked\"\n        :class=\"checked ? 'bg-primary' : 'bg-input'\"\n        class=\"inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50\"\n        {{ attrs|safe }}\n    >\n        <span\n            :class=\"checked ? 'translate-x-5' : 'translate-x-0'\"\n            class=\"pointer-events-none block h-5 w-5 rounded-full bg-background shadow-lg ring-0 transition-transform\"\n        ></span>\n    </button>\n    <input type=\"hidden\" name=\"{{ name }}\" :value=\"checked\">\n    {% if label %}\n    <label class=\"text-sm font-medium leading-none\">{{ label }}</label>\n    {% endif %}\n</div>\n"
+        },
+        {
+          "name": "switch.py",
+          "dir": "templatetags",
+          "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/switch.html')\ndef djinn_switch(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Switch component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+        }
+      ],
+      "type": "components:ui"
+    },
+    {
+      "name": "table",
+      "dependencies": [],
+      "registryDependencies": [],
+      "files": [
+        {
+          "name": "table.html",
+          "dir": "templates/components",
+          "content": "<div class=\"relative w-full overflow-auto {{ class }}\">\n    <table class=\"w-full caption-bottom text-sm\">\n        {{ slot|safe }}\n    </table>\n</div>\n"
+        },
+        {
+          "name": "table.py",
+          "dir": "templatetags",
+          "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/table.html')\ndef djinn_table(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Table component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+        }
+      ],
+      "type": "components:ui"
+    },
+    {
+      "name": "tabs",
+      "dependencies": [],
+      "registryDependencies": [],
+      "files": [
+        {
+          "name": "tabs.html",
+          "dir": "templates/components",
+          "content": "<div x-data=\"{ activeTab: '{{ active|default:'0' }}' }\" class=\"w-full {{ class }}\">\n    <div class=\"inline-flex h-10 items-center justify-center rounded-md bg-muted p-1 text-muted-foreground mb-4\">\n        {{ triggers|safe }}\n    </div>\n    <div>\n        {{ slot|safe }}\n    </div>\n</div>\n"
+        },
+        {
+          "name": "tabs.py",
+          "dir": "templatetags",
+          "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/tabs.html')\ndef djinn_tabs(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Tabs component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+        }
+      ],
+      "type": "components:ui"
+    },
+    {
+      "name": "textarea",
+      "dependencies": [],
+      "registryDependencies": [],
+      "files": [
+        {
+          "name": "textarea.html",
+          "dir": "templates/components",
+          "content": "<textarea\n    name=\"{{ name }}\"\n    id=\"{{ id|default:name }}\"\n    placeholder=\"{{ placeholder }}\"\n    rows=\"{{ rows|default:3 }}\"\n    {% if disabled %}disabled{% endif %}\n    {% if required %}required{% endif %}\n    class=\"flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 {% if error %}border-destructive{% endif %} {{ class }}\"\n    {{ attrs|safe }}\n>{{ value }}</textarea>\n"
+        },
+        {
+          "name": "textarea.py",
+          "dir": "templatetags",
+          "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/textarea.html')\ndef djinn_textarea(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Textarea component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+        }
+      ],
+      "type": "components:ui"
+    },
+    {
+      "name": "timeline",
+      "dependencies": [],
+      "registryDependencies": [],
+      "files": [
+        {
+          "name": "timeline.html",
+          "dir": "templates/components",
+          "content": "<div class=\"space-y-8 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-border before:to-transparent {{ class }}\">\n    {{ slot|safe }}\n</div>\n"
+        },
+        {
+          "name": "timeline.py",
+          "dir": "templatetags",
+          "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/timeline.html')\ndef djinn_timeline(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Timeline component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+        }
+      ],
+      "type": "components:ui"
+    },
+    {
+      "name": "toast",
+      "dependencies": [],
+      "registryDependencies": [],
+      "files": [
+        {
+          "name": "toast.html",
+          "dir": "templates/components",
+          "content": "<div\n    x-data=\"{ show: false, message: '', type: 'default' }\"\n    @toast.window=\"message = $event.detail.message; type = $event.detail.type || 'default'; show = true; setTimeout(() => show = false, 3000)\"\n    class=\"fixed bottom-4 right-4 z-50 flex flex-col gap-2\"\n>\n    <template x-if=\"show\">\n        <div\n            x-show=\"show\"\n            x-transition:enter=\"transition ease-out duration-300\"\n            x-transition:enter-start=\"opacity-0 translate-y-2\"\n            x-transition:enter-end=\"opacity-100 translate-y-0\"\n            x-transition:leave=\"transition ease-in duration-200\"\n            x-transition:leave-start=\"opacity-100 translate-y-0\"\n            x-transition:leave-end=\"opacity-0 translate-y-2\"\n            class=\"group pointer-events-auto relative flex w-full items-center justify-between space-x-4 overflow-hidden rounded-md border p-6 pr-8 shadow-lg transition-all\n            :class=\"type === 'destructive' ? 'destructive group border-destructive bg-destructive text-destructive-foreground' : 'border bg-background text-foreground'\"\n        >\n            <div class=\"grid gap-1\">\n                <p x-text=\"message\" class=\"text-sm font-semibold\"></p>\n            </div>\n            <button @click=\"show = false\" class=\"absolute right-2 top-2 rounded-md p-1 text-foreground/50 opacity-0 transition-opacity hover:text-foreground focus:opacity-100 focus:outline-none focus:ring-2 group-hover:opacity-100\">\n                <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M18 6 6 18\"/><path d=\"m6 6 12 12\"/></svg>\n            </button>\n        </div>\n    </template>\n</div>\n"
+        },
+        {
+          "name": "toast.py",
+          "dir": "templatetags",
+          "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/toast.html')\ndef djinn_toast(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Toast component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+        }
+      ],
+      "type": "components:ui"
+    },
+    {
+      "name": "tooltip",
+      "dependencies": [],
+      "registryDependencies": [],
+      "files": [
+        {
+          "name": "tooltip.html",
+          "dir": "templates/components",
+          "content": "<div x-data=\"{ show: false }\" class=\"relative inline-block {{ class }}\">\n    <div\n        @mouseenter=\"show = true\"\n        @mouseleave=\"show = false\"\n        @focusin=\"show = true\"\n        @focusout=\"show = false\"\n    >\n        {{ slot|safe }}\n    </div>\n    <div\n        x-show=\"show\"\n        x-transition:enter=\"transition ease-out duration-200\"\n        x-transition:enter-start=\"opacity-0 scale-95\"\n        x-transition:enter-end=\"opacity-100 scale-100\"\n        x-transition:leave=\"transition ease-in duration-150\"\n        x-transition:leave-start=\"opacity-100 scale-100\"\n        x-transition:leave-end=\"opacity-0 scale-95\"\n        class=\"absolute z-50 px-3 py-1.5 text-xs font-medium text-popover-foreground bg-popover rounded border shadow-md -top-10 left-1/2 -translate-x-1/2 whitespace-nowrap\"\n        x-cloak\n    >\n        {{ content }}\n        <div class=\"absolute w-2 h-2 bg-popover border-b border-r rotate-45 left-1/2 -translate-x-1/2 -bottom-1\"></div>\n    </div>\n</div>\n"
+        },
+        {
+          "name": "tooltip.py",
+          "dir": "templatetags",
+          "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/tooltip.html')\ndef djinn_tooltip(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Tooltip component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+        }
+      ],
+      "type": "components:ui"
+    }
+  ]
+}

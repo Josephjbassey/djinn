@@ -6,7 +6,7 @@
     {
       "name": "label.html",
       "dir": "templates/components",
-      "content": "<label\n    for=\"{{ for }}\"\n    class=\"text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 {{ class }}\"\n    {{ attrs|safe }}\n>\n    {{ label|default:slot }}\n    {% if required %}<span class=\"text-destructive ml-1\">*</span>{% endif %}\n</label>\n"
+      "content": "<label\n    for=\"{{ for }}\"\n    class=\"text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 {{ class }}\"\n    {{ attrs|safe }}\n>\n    {% if label %}{{ label }}{% else %}{{ slot|default:\"\" }}{% endif %}\n    {% if required %}<span class=\"text-destructive ml-1\">*</span>{% endif %}\n</label>\n"
     },
     {
       "name": "label.py",

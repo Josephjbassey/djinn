@@ -3,6 +3,6 @@
     class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 {{ class }}"
     {{ attrs|safe }}
 >
-    {{ label|default:slot }}
+    {% if label %}{{ label }}{% else %}{{ slot|default:"" }}{% endif %}
     {% if required %}<span class="text-destructive ml-1">*</span>{% endif %}
 </label>

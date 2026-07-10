@@ -15,7 +15,7 @@ DEFAULT_CONFIG = {
     },
     "aliases": {
         "components": "templates/components",
-        "utils": "templatetags"
+        "utils": "theme/templatetags"
     },
     "registries": {}
 }
