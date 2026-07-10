@@ -7,7 +7,7 @@ from djinn.core.installer import Installer
 
 # Try to import MCP. If not installed, provide a graceful fallback.
 try:
-    from mcp.server import Server
+    from mcp.server import Server, NotificationOptions
     from mcp.server.stdio import stdio_server
     from mcp.types import Tool, TextContent
     from mcp.server.models import InitializationOptions
@@ -121,7 +121,7 @@ if MCP_AVAILABLE:
                     server_name="djinn",
                     server_version="0.1.0",
                     capabilities=server.get_capabilities(
-                        notification_options=None,
+                        notification_options=NotificationOptions(),
                         experimental_capabilities={},
                     ),
                 ),
