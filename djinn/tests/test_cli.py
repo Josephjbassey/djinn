@@ -7,6 +7,7 @@ from click.testing import CliRunner
 from djinn.cli.main import cli
 from djinn.core.config import CONFIG_FILE
 
+
 class TestDjinnCLI(unittest.TestCase):
     def setUp(self):
         self.runner = CliRunner()
@@ -37,7 +38,7 @@ class TestDjinnCLI(unittest.TestCase):
         self.assertEqual(result.exit_code, 0)
         self.assertIn("Djinn not initialized. Using bundled registry defaults.", result.output)
         self.assertTrue((self.test_dir / "templates/components/button.html").exists())
-        self.assertTrue((self.test_dir / "templatetags/djinn_button.py").exists())
+        self.assertTrue((self.test_dir / "theme/templatetags/djinn_button.py").exists())
 
     def test_init_interactive(self):
         # Simulate interactive input:

@@ -8,6 +8,7 @@ from djinn.core.config import Config, CONFIG_FILE
 from djinn.core.registry import Registry, ComponentMetadata
 from djinn.core.installer import Installer
 
+
 class TestDjinnCore(unittest.TestCase):
     def setUp(self):
         # Create a unique temp directory for the sandbox
@@ -28,6 +29,7 @@ class TestDjinnCore(unittest.TestCase):
             json.dump({
                 "name": "test_comp",
                 "version": "1.0.0",
+                "type": "components:ui",
                 "files": [
                     {
                         "name": "comp.html",
@@ -49,7 +51,8 @@ class TestDjinnCore(unittest.TestCase):
         self.assertEqual(loaded.registry_url, config.registry_url)
 
     def test_registry_load(self):
-        registry = Registry(str(self.registry_dir))
+        config = Config(registry_url=str(self.registry_dir))
+        registry = Registry(config)
         metadata = registry.load_component("test_comp")
         self.assertIsNotNone(metadata)
         self.assertEqual(metadata.name, "test_comp")
@@ -57,7 +60,7 @@ class TestDjinnCore(unittest.TestCase):
     def test_installer(self):
         config = Config.init()
         config.registry_url = str(self.registry_dir)
-        registry = Registry(str(self.registry_dir))
+        registry = Registry(config)
         installer = Installer(config, registry)
 
         installed = installer.install("test_comp")
