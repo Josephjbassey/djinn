@@ -1,0 +1,18 @@
+{
+  "name": "popover",
+  "dependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "name": "popover.html",
+      "dir": "templates/components",
+      "content": "<div x-data=\"{ open: false }\" class=\"relative inline-block {{ class }}\">\n    <button @click=\"open = !open\"\n            class=\"flex items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50\">\n        {{ label }}\n    </button>\n    <div x-show=\"open\"\n         x-transition:enter=\"transition ease-out duration-100\"\n         x-transition:enter-start=\"opacity-0 translate-y-1\"\n         x-transition:enter-end=\"opacity-100 translate-y-0\"\n         x-transition:leave=\"transition ease-in duration-75\"\n         x-transition:leave-start=\"opacity-100 translate-y-0\"\n         x-transition:leave-end=\"opacity-0 translate-y-1\"\n         class=\"absolute z-50 mt-1 w-48 origin-top-right rounded-md border border-border bg-card py-1 shadow-lg ring-1 ring-black ring-opacity-5\"\n         @click.away=\"open = false\">\n        {{ content|safe }}\n    </div>\n</div>\n"
+    },
+    {
+      "name": "djinn_popover.py",
+      "dir": "templatetags",
+      "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/popover.html')\ndef djinn_popover(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Popover component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+    }
+  ],
+  "type": "components:ui"
+}

@@ -1,0 +1,18 @@
+{
+  "name": "code-block",
+  "dependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "name": "code-block.html",
+      "dir": "templates/components",
+      "content": "<div class=\"relative m-0 bg-muted p-4 rounded-lg border border-border overflow-hidden {{ class }}\">\n    <div class=\"m-0 h-5 flex items-center justify-start border-b border-border bg-background px-2 text-xs\">\n        {{ language|default:'code' }}\n    </div>\n    <div class=\"overflow-auto m-0 border-t border-border font-mono text-sm leading-relaxed\">\n        {{ code|safe }}\n    </div>\n</div>\n"
+    },
+    {
+      "name": "djinn_code_block.py",
+      "dir": "templatetags",
+      "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/code-block.html')\ndef djinn_code_block(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Code-block component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+    }
+  ],
+  "type": "components:ui"
+}

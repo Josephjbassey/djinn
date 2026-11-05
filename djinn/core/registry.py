@@ -139,7 +139,7 @@ class Registry:
             path = self._resolve_bundled_path()
             if path:
                 url = str(path)
-        
+
         if url.startswith(("http://", "https://")):
             index_url = f"{url.rstrip('/')}/index.json"
             try:
@@ -149,14 +149,35 @@ class Registry:
             except Exception:
                 return []
         else:
+            # Bundled/local registry: read lightweight index.json, then lazy-load each component
             components_dir = Path(url) / "components"
+            index_path = Path(url) / "index.json"
+
             if not components_dir.exists():
                 return []
 
+            # Try lightweight index first (name + path references only)
+            component_names = []
+            if index_path.exists():
+                try:
+                    with open(index_path, "r") as f:
+                        index_data = json.load(f)
+                    for entry in index_data.get("components", []):
+                        name = entry.get("name")
+                        if name:
+                            component_names.append(name)
+                except (json.JSONDecodeError, IOError):
+                    pass
+
+            # Fallback: iterate the filesystem if no lightweight index
+            if not component_names:
+                for item in components_dir.iterdir():
+                    if item.is_dir():
+                        component_names.append(item.name)
+
             components = []
-            for item in components_dir.iterdir():
-                if item.is_dir():
-                    metadata = self.load_component(item.name)
-                    if metadata:
-                        components.append(metadata)
+            for name in component_names:
+                metadata = self.load_component(name)
+                if metadata:
+                    components.append(metadata)
             return components

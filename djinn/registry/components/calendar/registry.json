@@ -1,0 +1,18 @@
+{
+  "name": "calendar",
+  "dependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "name": "calendar.html",
+      "dir": "templates/components",
+      "content": "<div class=\"w-full min-w-[24rem] overflow-hidden rounded-md border {{ class }}\">\n    <div class=\"flex items-center justify-between px-4 py-2 sm:px-6\">\n        <div class=\"text-sm font-semibold\">{{ month_name }}</div>\n        <div class=\"flex items-center gap-1\">\n            <button class=\"-m-1.5 h-8 w-8 rounded-md p-1.5 text-foreground transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none disabled:opacity-50\">{{ prev }}</button>\n            <button class=\"-m-1.5 h-8 w-8 rounded-md p-1.5 text-foreground transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none disabled:opacity-50\">{{ next }}</button>\n        </div>\n    </div>\n    <div class=\"overflow-x-auto\">\n        <table class=\"w-full text-center text-sm text-foreground\">\n            <thead>\n                {{ weekdays|safe }}\n            </thead>\n            <tbody>\n                {{ days|safe }}\n            </tbody>\n        </table>\n    </div>\n</div>\n"
+    },
+    {
+      "name": "djinn_calendar.py",
+      "dir": "templatetags",
+      "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/calendar.html')\ndef djinn_calendar(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Calendar component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+    }
+  ],
+  "type": "components:ui"
+}

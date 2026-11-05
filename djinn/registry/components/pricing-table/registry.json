@@ -1,0 +1,18 @@
+{
+  "name": "pricing-table",
+  "dependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "name": "pricing-table.html",
+      "dir": "templates/components",
+      "content": "<section class=\"max-w-7xl mx-auto py-24 px-6 sm:px-8 lg:py-32\">\n    <div class=\"text-center max-w-3xl mx-auto mb-16\">\n        <h2 class=\"text-3xl font-bold tracking-tight sm:text-4xl\">Simple, transparent pricing</h2>\n        <p class=\"mt-4 text-lg text-muted-foreground\">Choose the plan that works for your team.</p>\n    </div>\n    <div class=\"grid gap-8 md:grid-cols-3 lg:max-w-7xl lg:mx-auto\">\n        {{ plans|safe }}\n    </div>\n    <div class=\"mt-16 text-center text-sm text-muted-foreground\">\n        All plans include SSL, daily backups, and email support. Cancel anytime.\n    </div>\n</section>\n"
+    },
+    {
+      "name": "djinn_pricing_table.py",
+      "dir": "templatetags",
+      "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/pricing-table.html')\ndef djinn_pricing_table(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Pricing-table component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+    }
+  ],
+  "type": "components:ui"
+}

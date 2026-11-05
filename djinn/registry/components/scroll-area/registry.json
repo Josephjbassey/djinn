@@ -1,0 +1,18 @@
+{
+  "name": "scroll-area",
+  "dependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "name": "scroll-area.html",
+      "dir": "templates/components",
+      "content": "<div class=\"relative overflow-hidden rounded-md border {{ class }}\">\n    <div class=\"overflow-y-scroll overflow-x-hidden p-2\" style=\"scrollbar-width: none;\">\n        {{ content|safe }}\n    </div>\n</div>\n"
+    },
+    {
+      "name": "djinn_scroll_area.py",
+      "dir": "templatetags",
+      "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/scroll-area.html')\ndef djinn_scroll_area(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Scroll-area component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+    }
+  ],
+  "type": "components:ui"
+}

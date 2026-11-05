@@ -1,0 +1,18 @@
+{
+  "name": "hero-section",
+  "dependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "name": "hero-section.html",
+      "dir": "templates/components",
+      "content": "<section class=\"relative py-24 bg-secondary overflow-hidden sm:py-32 lg:py-48\">\n    <div class=\"max-w-7xl mx-auto px-6 text-center\">\n        <h1 class=\"text-4xl font-bold tracking-tight sm:text-6xl\">{{ heading }}</h1>\n        <p class=\"mt-6 max-w-2xl mx-auto text-xl text-muted-foreground lg:mt-8 lg:text-2xl\">{{ subheading }}</p>\n        <div class=\"mt-10 flex flex-col gap-4 sm:flex-row sm:justify-center\">\n            {% include \"components/button.html\" with label=primary_label|default:\"Get started\" variant=\"default\" class=\"w-full sm:w-auto\" %}\n            {% include \"components/button.html\" with label=secondary_label|default:\"Learn more\" variant=\"outline\" class=\"w-full sm:w-auto\" %}\n        </div>\n    </div>\n</section>\n"
+    },
+    {
+      "name": "djinn_hero_section.py",
+      "dir": "templatetags",
+      "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/hero-section.html')\ndef djinn_hero_section(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Hero-section component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+    }
+  ],
+  "type": "components:ui"
+}

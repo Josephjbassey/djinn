@@ -1,0 +1,18 @@
+{
+  "name": "footer",
+  "dependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "name": "footer.html",
+      "dir": "templates/components",
+      "content": "<footer class=\"border-t border-border bg-card p-6 {{ class }}\">\n    <div class=\"flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-muted-foreground\">\n        <p>&copy; {{ current_year }} djinn-ui. Built with Django.</p>\n        <div class=\"flex gap-4\">\n            <a href=\"https://github.com/josephjbassey/djinn\" class=\"hover:text-foreground transition-colors\">GitHub</a>\n            <a href=\"https://pypi.org/project/djinn-ui/\" class=\"hover:text-foreground transition-colors\">PyPI</a>\n            <a href=\"/docs/\" class=\"hover:text-foreground transition-colors\">Docs</a>\n        </div>\n    </div>\n</footer>\n"
+    },
+    {
+      "name": "djinn_footer.py",
+      "dir": "templatetags",
+      "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\nimport datetime\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/footer.html')\ndef djinn_footer(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Footer component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n        \"current_year\": datetime.datetime.now().year,\n    }\n"
+    }
+  ],
+  "type": "components:ui"
+}

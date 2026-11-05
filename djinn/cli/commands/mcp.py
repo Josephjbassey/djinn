@@ -125,7 +125,8 @@ if MCP_AVAILABLE:
                         experimental_capabilities={},
                     ),
                 ),
-            )
+            ),
+            server_version="0.1.11",
 
 @click.command(name="mcp")
 def mcp():

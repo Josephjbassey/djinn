@@ -1,0 +1,18 @@
+{
+  "name": "hover-card",
+  "dependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "name": "hover-card.html",
+      "dir": "templates/components",
+      "content": "<div x-data=\"{ open: false }\" class=\"relative inline-block {{ class }}\">\n    <div @mouseenter=\"open = true\"\n         @mouseleave=\"open = false\"\n         @focusin=\"open = true\"\n         @focusout=\"open = false\"\n         class=\"relative inline-block\">\n        {{ trigger|safe }}\n    </div>\n    <div x-show=\"open\"\n         x-transition:enter=\"transition ease-out duration-200\"\n         x-transition:enter-start=\"opacity-0\"\n         x-transition:enter-end=\"opacity-100\"\n         x-transition:leave=\"transition ease-in duration-150\"\n         x-transition:leave-start=\"opacity-100\"\n         x-transition:leave-end=\"opacity-0\"\n         class=\"absolute z-50 mt-1 w-64 rounded-md border border-border bg-card p-4 shadow-lg\"\n         @mouseenter=\"open = true\"\n         @mouseleave=\"open = false\">\n        {{ content|safe }}\n    </div>\n</div>\n"
+    },
+    {
+      "name": "djinn_hover_card.py",
+      "dir": "templatetags",
+      "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n@register.inclusion_tag('components/hover-card.html')\ndef djinn_hover_card(class_name=\"\", **attrs):\n    \"\"\"\n    Djinn Hover-card component tag.\n    \"\"\"\n    return {\n        \"class\": class_name,\n        \"attrs\": format_html_attrs(attrs),\n    }\n"
+    }
+  ],
+  "type": "components:ui"
+}
