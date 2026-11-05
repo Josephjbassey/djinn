@@ -1,0 +1,20 @@
+{
+  "name": "form",
+  "dependencies": [],
+  "registryDependencies": [
+    "form_field"
+  ],
+  "files": [
+    {
+      "name": "form.html",
+      "dir": "templates/components",
+      "content": "<form\n    method=\"{{ method }}\"\n    action=\"{{ action }}\"\n    class=\"{{ class }}\"\n    {% if id %}id=\"{{ id }}\"{% endif %}\n    novalidate{{ attrs }}\n>{% if csrf_token %}<input type=\"hidden\" name=\"csrfmiddlewaretoken\" value=\"{{ csrf_token }}\">{% endif %}\n\n    {% if non_field_errors %}\n    <div class=\"mb-4 rounded-md border border-destructive bg-destructive/50 p-3 text-sm text-destructive\" role=\"alert\">\n        {% for error in non_field_errors %}\n        <p>{{ error }}</p>\n        {% endfor %}\n    </div>\n    {% endif %}\n\n    {{ fields|safe }}\n\n    {% if slot %}{{ slot|safe }}{% endif %}\n</form>"
+    },
+    {
+      "name": "djinn_form.py",
+      "dir": "templatetags",
+      "content": "from django import template\nfrom django.template.base import token_kwargs\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n\nKNOWN_FORM_ARGS = {\n    \"form\", \"method\", \"action\", \"class\", \"class_name\", \"id\",\n    \"csrf_token\", \"non_field_errors\", \"fields\", \"slot\",\n}\n\n\nclass FormNode(template.Node):\n    def __init__(self, nodelist, kwargs):\n        self.nodelist = nodelist\n        self.kwargs = kwargs\n\n    def render(self, context):\n        resolved_kwargs = {}\n        for k, v in self.kwargs.items():\n            try:\n                resolved_kwargs[k] = v.resolve(context)\n            except template.VariableDoesNotExist:\n                resolved_kwargs[k] = \"\"\n\n        form = resolved_kwargs.get(\"form\")\n        if form is None or not hasattr(form, \"fields\"):\n            return \"\"\n\n        # CSRF token from context\n        csrf_token = context.get(\"csrf_token\", \"\")\n\n        # Non-field errors\n        non_field_errors = form.non_field_errors() if hasattr(form, \"non_field_errors\") else []\n\n        # Render each field using form_field template\n        field_html_parts = []\n        for bound_field in form:\n            field_ctx = context.new({\"field\": bound_field})\n            t = context.template.engine.get_template('components/form_field.html')\n            field_rendered = t.render(field_ctx)\n            field_html_parts.append(field_rendered)\n\n        fields_html = \"\\n\".join(field_html_parts)\n\n        # Render slot content (submit button, etc.)\n        slot = self.nodelist.render(context) if self.nodelist else \"\"\n\n        # Only pass extra attributes (not known form args) to the form tag\n        extra_attrs = {\n            k: v for k, v in resolved_kwargs.items()\n            if k not in KNOWN_FORM_ARGS\n        }\n\n        t = context.template.engine.get_template('components/form.html')\n        new_context = context.new({\n            \"form\": form,\n            \"csrf_token\": csrf_token,\n            \"non_field_errors\": non_field_errors,\n            \"fields\": fields_html,\n            \"slot\": slot,\n            \"method\": resolved_kwargs.get(\"method\", \"post\"),\n            \"action\": resolved_kwargs.get(\"action\", \"\"),\n            \"class\": resolved_kwargs.get(\"class\", \"\"),\n            \"id\": resolved_kwargs.get(\"id\", \"\"),\n            \"attrs\": format_html_attrs(extra_attrs),\n        })\n        return t.render(new_context)\n\n\n@register.tag('djinn_form')\ndef djinn_form(parser, token):\n    bits = token.split_contents()\n    kwargs = token_kwargs(bits[1:], parser)\n    nodelist = parser.parse(('enddjinn_form',))\n    parser.delete_first_token()\n    return FormNode(nodelist, kwargs)"
+    }
+  ],
+  "type": "components:ui"
+}

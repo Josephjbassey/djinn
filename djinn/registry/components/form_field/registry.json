@@ -1,0 +1,18 @@
+{
+  "name": "form_field",
+  "dependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "name": "form_field.html",
+      "dir": "templates/components",
+      "content": "<div class=\"form-field w-full {{ class }}\"{% if id %} id=\"{{ id }}\"{% endif %}>\n    {% if field.label %}\n    <label for=\"{{ field.id_for_label }}\" class=\"block text-sm font-medium text-foreground mb-1 {{ label_class }}\"{% if field.field.required %} aria-required=\"true\"{% endif %}>\n        {{ field.label }}\n        {% if field.field.required %}<span class=\"ml-1 text-destructive\" aria-hidden=\"true\">*</span>{% endif %}\n    </label>\n    {% endif %}\n\n    <div class=\"relative\">\n        {{ field }}\n    </div>\n\n    {% if field.errors %}\n    <p class=\"mt-1 text-sm font-medium text-destructive\" role=\"alert\">\n        {% for error in field.errors %}{{ error }}{% if not forloop.last %}, {% endif %}{% endfor %}\n    </p>\n    {% elif field.help_text %}\n    <p id=\"{{ field.id_for_label }}-help\" class=\"mt-1 text-sm text-muted-foreground\">{{ field.help_text }}</p>\n    {% endif %}\n</div>"
+    },
+    {
+      "name": "djinn_form_field.py",
+      "dir": "templatetags",
+      "content": "from django import template\nfrom django.utils.html import escape\nfrom django.utils.safestring import mark_safe\n\nregister = template.Library()\n\n\ndef format_html_attrs(attrs):\n    attr_list = []\n    for key, attr_value in attrs.items():\n        attr_list.append(f'{key.replace(\"_\", \"-\")}=\"{escape(str(attr_value))}\"')\n    return mark_safe(\" \".join(attr_list))\n\n\n@register.inclusion_tag('components/form_field.html')\ndef djinn_form_field(\n    field=None,\n    label_class=\"\",\n    class_name=\"\",\n    field_id=\"\",\n    **attrs\n):\n    \"\"\"\n    Djinn FormField component tag.\n\n    Renders a Django BoundField with label, errors, and help text.\n\n    Usage: {% djinn_form_field field=form.email label_class=\"mb-2\" %}\n    \"\"\"\n    if field is None:\n        return {\n            \"field\": None,\n            \"label_class\": \"\",\n            \"class\": \"\",\n            \"id\": \"\",\n            \"attrs\": \"\",\n        }\n\n    return {\n        \"field\": field,\n        \"label_class\": label_class,\n        \"class\": class_name,\n        \"id\": field_id or field.id_for_label,\n        \"attrs\": format_html_attrs(attrs),\n    }"
+    }
+  ],
+  "type": "components:ui"
+}

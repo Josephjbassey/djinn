@@ -1,0 +1,93 @@
+<div
+    class="formset space-y-4 {{ class }}"
+    x-data="{
+        forms: {{ formset.total_form_count }},
+        canDelete: {{ formset.can_delete | lower }},
+        addForm() {
+            const template = document.getElementById('{{ formset.prefix }}-empty-form');
+            const newHtml = template.innerHTML.replace(/__prefix__/g, this.forms);
+            const container = document.getElementById('{{ formset.prefix }}-forms-container');
+            const div = document.createElement('div');
+            div.className = 'formset-form p-4 border rounded-lg bg-background {{ class }}';
+            div.innerHTML = newHtml;
+            container.appendChild(div);
+            this.forms++;
+            document.getElementById('{{ formset.prefix }}-TOTAL_FORMS').value = this.forms;
+        },
+        removeForm(el) {
+            if (!this.canDelete) return;
+            const checkbox = el.closest('.formset-form').querySelector('input[type=\"checkbox\"][name*=\"-DELETE\"]');
+            if (checkbox) {
+                checkbox.checked = true;
+                el.closest('.formset-form').style.display = 'none';
+            } else {
+                el.closest('.formset-form').remove();
+                this.forms--;
+                document.getElementById('{{ formset.prefix }}-TOTAL_FORMS').value = this.forms;
+            }
+        }
+    }"
+>
+    {{ management_form }}
+
+    <div id="{{ formset.prefix }}-forms-container">
+        {% for form in formset.forms %}
+        <div class="formset-form p-4 border rounded-lg bg-background {{ class }}">
+            {% for field in form %}
+            {% djinn_form_field field=field label_class="mb-2" class_name="mb-4" %}
+            {% endfor %}
+            {% if formset.can_delete %}
+            <label class="flex items-center space-x-2 mt-2">
+                <input type="checkbox" name="{{ form.prefix }}-DELETE" class="mr-2">
+                <span class="text-sm text-muted-foreground">Delete</span>
+            </label>
+            <button
+                type="button"
+                @click="removeForm(this)"
+                class="text-sm text-destructive hover:underline"
+                aria-label="Remove this form"
+            >
+                Remove
+            </button>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+
+    {% if formset.can_add %}
+    <div class="mt-4 flex items-center space-x-2">
+        <button
+            type="button"
+            @click="addForm"
+            class="text-sm text-primary hover:underline flex items-center space-x-1"
+            aria-label="Add another item"
+        >
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            <span>Add another</span>
+        </button>
+    </div>
+    {% endif %}
+
+    <!-- Empty form template for cloning -->
+    <template id="{{ formset.prefix }}-empty-form">
+        <div class="formset-form p-4 border rounded-lg bg-background {{ class }}">
+            {% for field in formset.empty_form %}
+            {% djinn_form_field field=field label_class="mb-2" class_name="mb-4" %}
+            {% endfor %}
+            {% if formset.can_delete %}
+            <label class="flex items-center space-x-2 mt-2">
+                <input type="checkbox" name="{{ formset.empty_form.prefix }}-DELETE" class="mr-2">
+                <span class="text-sm text-muted-foreground">Delete</span>
+            </label>
+            <button
+                type="button"
+                @click="removeForm(this)"
+                class="text-sm text-destructive hover:underline"
+                aria-label="Remove this form"
+            >
+                Remove
+            </button>
+            {% endif %}
+        </div>
+    </template>
+</div>
