@@ -56,7 +56,7 @@ class TestRemoveCommand:
         template_dir = tmp_path / "templates" / "components"
         python_dir = tmp_path / "theme" / "templatetags"
         assert (template_dir / "modal.html").exists()
-        assert (python_dir / "modal.py").exists()
+        assert (python_dir / "djinn_modal.py").exists()
 
         # Remove with --force
         result = runner.invoke(cli, ["remove", "modal", "--force"])
@@ -65,7 +65,7 @@ class TestRemoveCommand:
 
         # Verify files are gone
         assert not (template_dir / "modal.html").exists()
-        assert not (python_dir / "modal.py").exists()
+        assert not (python_dir / "djinn_modal.py").exists()
 
     def test_remove_nonexistent(self, tmp_path, monkeypatch):
         """remove should error on nonexistent component."""

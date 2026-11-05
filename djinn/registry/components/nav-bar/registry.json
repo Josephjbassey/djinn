@@ -1,0 +1,18 @@
+{
+  "name": "nav-bar",
+  "dependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "name": "nav-bar.html",
+      "dir": "templates/components",
+      "content": "<nav class=\"relative z-20 {{ class }}\" {{ attrs|safe }}>\n    <div class=\"flex w-full items-center justify-between px-4 h-16 border-b border-border bg-background/95 backdrop-blur\">\n        {% if brand %}\n        <div class=\"flex items-center gap-2\">\n            {{ brand|safe }}\n        </div>\n        {% endif %}\n\n        <div class=\"hidden md:flex items-center gap-6\">\n            {{ nav_items|safe }}\n        </div>\n\n        <div class=\"flex items-center gap-3\">\n            {{ actions|safe }}\n        </div>\n    </div>\n</nav>"
+    },
+    {
+      "name": "djinn_nav-bar.py",
+      "dir": "templatetags",
+      "content": "from django import template\nfrom django.template.base import token_kwargs\nfrom djinn.core.cva import cva\n\nregister = template.Library()\n\nnav_bar_cva = cva(\n    base=\"relative z-20\",\n    variants={},\n    default_variants={}\n)\n\nclass NavBarNode(template.Node):\n    def __init__(self, nodelist, kwargs):\n        self.nodelist = nodelist\n        self.kwargs = kwargs\n\n    def render(self, context):\n        resolved_kwargs = {}\n        for k, v in self.kwargs.items():\n            try:\n                resolved_kwargs[k] = v.resolve(context)\n            except template.VariableDoesNotExist:\n                resolved_kwargs[k] = \"\"\n\n        final_class = nav_bar_cva(**resolved_kwargs)\n\n        known_args = [\"brand\", \"nav_items\", \"actions\", \"class\", \"class_name\"]\n        attrs = {k: v for k, v in resolved_kwargs.items() if k not in known_args}\n\n        t = context.template.engine.get_template('components/nav-bar.html')\n        new_context = context.new({\n            \"class\": final_class,\n            \"attrs\": attrs,\n            **resolved_kwargs\n        })\n        return t.render(new_context)\n\n@register.tag('djinn_nav_bar')\ndef djinn_nav_bar(parser, token):\n    bits = token.split_contents()\n    kwargs = token_kwargs(bits[1:], parser)\n    nodelist = parser.parse(('enddjinn_nav_bar',))\n    parser.delete_first_token()\n    return NavBarNode(nodelist, kwargs)"
+    }
+  ],
+  "type": "components:ui"
+}

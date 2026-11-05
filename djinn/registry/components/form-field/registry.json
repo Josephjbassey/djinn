@@ -1,0 +1,18 @@
+{
+  "name": "form-field",
+  "dependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "name": "form-field.html",
+      "dir": "templates/components",
+      "content": "<div class=\"grid w-full max-w-sm gap-1.5 {{ class }}\">\n    {% if label %}\n    <label class=\"text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70\" {% if id %}for=\"{{ id }}\"{% endif %}>\n        {{ label }}\n    </label>\n    {% endif %}\n\n    <input\n        type=\"{{ type|default:'text' }}\"\n        {% if name %}name=\"{{ name }}\"{% endif %}\n        {% if id %}id=\"{{ id }}\"{% endif %}\n        placeholder=\"{{ placeholder }}\"\n        value=\"{{ value }}\"\n        {% if disabled %}disabled{% endif %}\n        {% if required %}required{% endif %}\n        class=\"flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 {{ input_class }}\"\n        {{ attrs|safe }}\n    >\n\n    {% if error %}\n    <p class=\"text-sm font-medium text-destructive\">{{ error }}</p>\n    {% elif help_text %}\n    <p class=\"text-sm text-muted-foreground\">{{ help_text }}</p>\n    {% endif %}\n</div>"
+    },
+    {
+      "name": "djinn_form-field.py",
+      "dir": "templatetags",
+      "content": "from django import template\nfrom django.template.base import token_kwargs\nfrom djinn.core.cva import cva\n\nregister = template.Library()\n\nform_field_cva = cva(\n    base=\"grid w-full max-w-sm gap-1.5\",\n    variants={\n        \"variant\": {\n            \"default\": \"\",\n            \"error\": \"\",\n        },\n    },\n    default_variants={\n        \"variant\": \"default\",\n    }\n)\n\nclass FormFieldNode(template.Node):\n    def __init__(self, nodelist, kwargs):\n        self.nodelist = nodelist\n        self.kwargs = kwargs\n\n    def render(self, context):\n        resolved_kwargs = {}\n        for k, v in self.kwargs.items():\n            try:\n                resolved_kwargs[k] = v.resolve(context)\n            except template.VariableDoesNotExist:\n                resolved_kwargs[k] = \"\"\n\n        final_class = form_field_cva(**resolved_kwargs)\n\n        # Input-specific classes (separate from wrapper classes)\n        input_variant = resolved_kwargs.get(\"variant\", \"default\")\n        input_class = \"border-destructive\" if input_variant == \"error\" else \"\"\n\n        known_args = [\"variant\", \"label\", \"error\", \"help_text\", \"type\", \"name\", \"id\", \"value\", \"disabled\", \"required\", \"placeholder\", \"class\", \"class_name\", \"input_class\"]\n        attrs = {k: v for k, v in resolved_kwargs.items() if k not in known_args}\n\n        t = context.template.engine.get_template('components/form-field.html')\n        new_context = context.new({\n            \"class\": final_class,\n            \"input_class\": input_class,\n            \"attrs\": attrs,\n            **resolved_kwargs\n        })\n        return t.render(new_context)\n\n@register.tag('djinn_form_field')\ndef djinn_form_field(parser, token):\n    bits = token.split_contents()\n    kwargs = token_kwargs(bits[1:], parser)\n    nodelist = parser.parse(('enddjinn_form_field',))\n    parser.delete_first_token()\n    return FormFieldNode(nodelist, kwargs)"
+    }
+  ],
+  "type": "components:ui"
+}
