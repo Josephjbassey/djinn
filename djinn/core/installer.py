@@ -50,12 +50,23 @@ class Installer:
             files_to_install.append((file_name, dest_path, content))
 
         # Phase 2: Installation
+        templatetags_dirs = set()
         for file_name, dest_path, content in files_to_install:
             dest_path.parent.mkdir(parents=True, exist_ok=True)
             with open(dest_path, "w", encoding="utf-8") as f:
                 f.write(content)
 
             installed_files.append((file_name, dest_path))
+
+            # Track templatetags directories so we can add __init__.py
+            if "templatetags" in str(dest_path.parent):
+                templatetags_dirs.add(dest_path.parent)
+
+        # Ensure templatetags directories are Python packages
+        for tt_dir in templatetags_dirs:
+            init_file = tt_dir / "__init__.py"
+            if not init_file.exists():
+                init_file.touch()
 
         return installed_files
 
