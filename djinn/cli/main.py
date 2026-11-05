@@ -8,6 +8,9 @@ from djinn.cli.commands.mcp import mcp
 from djinn.cli.commands.info import info
 from djinn.cli.commands.view import view
 from djinn.cli.commands.docs import docs
+from djinn.cli.commands.upgrade import upgrade
+from djinn.cli.commands.remove import remove
+from djinn.cli.commands.doctor import doctor
 
 @click.group()
 @click.version_option()
@@ -25,6 +28,9 @@ cli.add_command(mcp)
 cli.add_command(info)
 cli.add_command(view)
 cli.add_command(docs)
+cli.add_command(upgrade)
+cli.add_command(remove)
+cli.add_command(doctor)
 
 if __name__ == "__main__":
     cli()

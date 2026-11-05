@@ -35,9 +35,12 @@ def init(yes, defaults, force, cwd, framework, engine, style, color, radius, no_
         config = Config(**config_data)
         config.save()
         if not no_css_variables:
-            _install_base_css(radius=radius, force=force)
+            _install_base_css(config_data["tailwind"]["css"], radius=radius, force=force)
         _install_tailwind_config(force=force)
         _install_base_utils(config.aliases["utils"], force=force)
+        # Create components directory
+        components_path = config.get_template_path()
+        os.makedirs(components_path, exist_ok=True)
         click.echo(f"Initialized djinn.json with defaults.")
         return
 
