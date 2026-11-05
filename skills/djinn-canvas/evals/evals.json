@@ -1,0 +1,63 @@
+{
+  "skill_name": "djinn-canvas",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Open the Djinn Canvas Builder HTML artifact and verify that the component palette displays all registered components (button, card, modal, alert, input, hero-section, data-table, dialog, footer, etc.) with their variant counts and default variant badges.",
+      "expected_output": "Canvas Builder opens and shows component palette with all registered components, each showing variant count and default variant badges",
+      "files": ["templates/canvas-builder.html"],
+      "expectations": [
+        "Component palette displays at least 15 components",
+        "Each component shows variant count badge",
+        "Default variant badges are shown for components with defaults",
+        "Component descriptions are displayed"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Drag a button component from the palette to the canvas and verify it appears as a draggable component instance with variant controls in the inspector panel.",
+      "expected_output": "Button component instance appears on canvas, inspector shows variant controls for variant and size",
+      "files": ["templates/canvas-builder.html"],
+      "expectations": [
+        "Button component can be dragged to canvas",
+        "Button instance renders on canvas",
+        "Inspector shows variant dropdowns",
+        "Generated code preview updates with djinn_button tag"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Change a component variant in the inspector (e.g., change button variant from default to destructive) and verify the generated code preview updates to reflect the change.",
+      "expected_output": "Generated code preview updates to show variant=\"destructive\" when variant is changed",
+      "files": ["templates/canvas-builder.html"],
+      "expectations": [
+        "Variant dropdown changes the component's variant prop",
+        "Generated code preview reflects the new variant value",
+        "Code shows {% djinn_button variant=\"destructive\" %}"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Copy the generated Django template code and verify it contains valid {% load djinn_tags %} and {% djinn_* %} template tags with proper opening and closing syntax.",
+      "expected_output": "Generated code contains valid Django template tags that can be used in a Django project",
+      "files": ["templates/canvas-builder.html"],
+      "expectations": [
+        "Code contains {% load djinn_tags %}",
+        "Code contains {% djinn_button %} or similar tags",
+        "Tags have proper opening and closing syntax",
+        "Code is valid Django template syntax"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Remove a component from the canvas and verify it disappears from both the canvas and the generated code preview.",
+      "expected_output": "Component is removed from canvas and code preview updates accordingly",
+      "files": ["templates/canvas-builder.html"],
+      "expectations": [
+        "Component can be removed via delete button",
+        "Removed component no longer appears on canvas",
+        "Generated code no longer includes the removed component"
+      ]
+    }
+  ]
+}

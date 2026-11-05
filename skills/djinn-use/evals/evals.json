@@ -1,0 +1,63 @@
+{
+  "skill_name": "djinn-use",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Initialize djinn-ui in a Django project at /tmp/test-django with defaults and force flag, then verify djinn.json exists with registry_url __bundled__ and tailwind css set to static/css/djinn.css.",
+      "expected_output": "djinn.json exists at /tmp/test-django/djinn.json with registry_url '__bundled__' and tailwind.css 'static/css/djinn.css', templates/components/ directory created, theme/templatetags/djinn_tags.py exists",
+      "files": [],
+      "expectations": [
+        "djinn init --defaults --force runs successfully",
+        "djinn.json is created with correct default values",
+        "templates/components/ directory is created",
+        "theme/templatetags/djinn_tags.py exists with cn tag"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Add the button component to a djinn-initialized project using djinn add button --force, then verify both templates/components/button.html and theme/templatetags/djinn_button.py are created.",
+      "expected_output": "Both button.html and djinn_button.py are installed, djinn diff button reports [MATCH] for both files",
+      "files": [],
+      "expectations": [
+        "djinn add button --force installs both files",
+        "templates/components/button.html exists",
+        "theme/templatetags/djinn_button.py exists",
+        "djinn diff button reports MATCH for both files"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Run djinn doctor on an initialized project and verify it reports PASS for all checks (djinn.json exists, tailwind config, tailwind content includes templates, base CSS, cn tag, components directory).",
+      "expected_output": "djinn doctor exits 0 with all PASS checks",
+      "files": [],
+      "expectations": [
+        "djinn doctor exits with code 0",
+        "All 6 checks report PASS",
+        "No FAIL reports"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Use djinn remove button --force to uninstall the button component, then verify both templates/components/button.html and theme/templatetags/djinn_button.py no longer exist.",
+      "expected_output": "Both button files are removed by djinn remove --force",
+      "files": [],
+      "expectations": [
+        "djinn remove button --force removes both files",
+        "templates/components/button.html no longer exists",
+        "theme/templatetags/djinn_button.py no longer exists"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Explain how to use cva() in a djinn component Python templatetag, including base, variants, default_variants, and how to handle the 'class' keyword since it's a Python keyword.",
+      "expected_output": "Clear explanation of cva() usage with base, variants, default_variants, and **{\"class\": \"...\"} pattern",
+      "files": [],
+      "expectations": [
+        "Explains cva() base parameter",
+        "Explains variants and default_variants",
+        "Mentions **{\"class\": \"...\"} workaround for Python keyword",
+        "Explains tailwind-merge dedup behavior"
+      ]
+    }
+  ]
+}
