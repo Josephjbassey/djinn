@@ -1,5 +1,39 @@
 <div
-    x-data="{ show: false }"
+    x-data="{ 
+        show: false, 
+        previousFocus: null,
+        focusableElements: null,
+        init() {
+            this.$watch('show', (value) => {
+                if (value) {
+                    this.previousFocus = document.activeElement;
+                    this.focusableElements = this.$refs.dialog.querySelectorAll(
+                        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+                    );
+                    this.$nextTick(() => {
+                        this.$refs.dialog?.focus();
+                    });
+                } else if (this.previousFocus) {
+                    this.previousFocus.focus();
+                    this.previousFocus = null;
+                }
+            });
+        },
+        trapTab(e) {
+            if (e.key !== 'Tab') return;
+            e.preventDefault();
+            if (!this.focusableElements || this.focusableElements.length === 0) return;
+            const currentIndex = Array.from(this.focusableElements).indexOf(document.activeElement);
+            if (e.shiftKey) {
+                const prevIndex = (currentIndex - 1 + this.focusableElements.length) % this.focusableElements.length;
+                this.focusableElements[prevIndex]?.focus();
+            } else {
+                const nextIndex = (currentIndex + 1) % this.focusableElements.length;
+                this.focusableElements[nextIndex]?.focus();
+            }
+        }
+    }"
+    @keydown.tab.window="trapTab"
     @open-modal.window="if ($event.detail.id === '{{ id }}') show = true"
     @close-modal.window="if ($event.detail.id === '{{ id }}') show = false"
     @keydown.escape.window="show = false"
@@ -8,8 +42,14 @@
     <template x-teleport="body">
         <div
             x-show="show"
-            class="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6"
+            x-ref="dialog"
+            tabindex="-1"
             x-cloak
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="{{ id }}-title"
+            aria-describedby="{{ id }}-description"
+            class="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6"
         >
             <!-- Overlay -->
             <div
@@ -22,6 +62,7 @@
                 x-transition:leave-end="opacity-0"
                 @click="show = false"
                 class="fixed inset-0 bg-background/80 backdrop-blur-sm"
+                aria-hidden="true"
             ></div>
 
             <!-- Content -->
@@ -36,27 +77,28 @@
                 class="relative w-full max-w-lg rounded-lg border bg-background p-6 shadow-lg sm:max-w-[425px] {{ class }}"
             >
                 <div class="flex flex-col space-y-1.5 text-center sm:text-left">
-                    <h2 class="text-lg font-semibold leading-none tracking-tight">{{ title }}</h2>
+                    <h2 id="{{ id }}-title" class="text-lg font-semibold leading-none tracking-tight">{{ title }}</h2>
                     {% if description %}
-                    <p class="text-sm text-muted-foreground">{{ description }}</p>
+                    <p id="{{ id }}-description" class="text-sm text-muted-foreground">{{ description }}</p>
                     {% endif %}
                 </div>
 
                 <div class="py-4">
-                    {{ slot|safe }}
+                    {{ slot }}
                 </div>
 
                 {% if footer %}
                 <div class="flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2">
-                    {{ footer|safe }}
+                    {{ footer }}
                 </div>
                 {% endif %}
 
                 <button
                     @click="show = false"
-                    class="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground"
+                    class="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none"
+                    aria-label="Close dialog"
                 >
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x h-4 w-4"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x h-4 w-4" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
                     <span class="sr-only">Close</span>
                 </button>
             </div>

@@ -4,18 +4,31 @@ from django.utils.safestring import mark_safe
 
 register = template.Library()
 
+
 def format_html_attrs(attrs):
     attr_list = []
     for key, attr_value in attrs.items():
         attr_list.append(f'{key.replace("_", "-")}="{escape(str(attr_value))}"')
     return mark_safe(" ".join(attr_list))
 
+
 @register.inclusion_tag('components/modal.html')
-def djinn_modal(class_name="", **attrs):
+def djinn_modal(
+    id="modal",
+    title="",
+    description="",
+    footer=None,
+    class_name="",
+    **attrs
+):
     """
     Djinn Modal component tag.
     """
     return {
+        "id": id,
+        "title": title,
+        "description": description,
+        "footer": footer,
         "class": class_name,
         "attrs": format_html_attrs(attrs),
     }

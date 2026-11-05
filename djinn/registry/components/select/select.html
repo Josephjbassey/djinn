@@ -1,17 +1,29 @@
-<div class="relative">
-    <select
-        name="{{ name }}"
-        id="{% firstof id name %}"
-        {% if disabled %}disabled{% endif %}
-        class="flex h-10 w-full appearance-none rounded-md border border-input bg-background px-3 py-2 pr-10 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 {{ class }}"
-        {{ attrs|safe }}
-    >
-        {% if placeholder %}
+<div class="grid w-full max-w-sm gap-1.5 {{ class }}">
+    {% if label %}
+    <label for="{% firstof id name %}" class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70" {% if required %}aria-required="true"{% endif %}>
+        {{ label }}
+    </label>
+    {% endif %}
+
+    <div class="relative">
+        <select
+            {% if name %}name="{{ name }}"{% endif %}
+            {% if id %}id="{{ id }}"{% else %}id="{% firstof name 'select' %}"{% endif %}
+            {% if disabled %}disabled aria-disabled="true"{% endif %}
+            {% if required %}required{% endif %}
+            {% if error %}aria-invalid="true" aria-describedby="{% firstof id name %}-error"{% elif help_text %}aria-describedby="{% firstof id name %}-help"{% endif %}
+            class="flex h-10 w-full appearance-none rounded-md border border-input bg-background px-3 py-2 pr-10 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 {{ class }}"
+            {{ attrs }}
+        >
+            {% if placeholder %}
             <option value="" disabled selected>{{ placeholder }}</option>
+            {% endif %}
+            {{ slot }}
+        </select>
+        {% if error %}
+        <p id="{% firstof id name %}-error" class="mt-1 text-sm font-medium text-destructive" role="alert">{{ error }}</p>
+        {% elif help_text %}
+        <p id="{% firstof id name %}-help" class="mt-1 text-sm text-muted-foreground">{{ help_text }}</p>
         {% endif %}
-        {{ slot|safe }}
-    </select>
-    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-muted-foreground">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down"><path d="m6 9 6 6 6-6"/></svg>
     </div>
 </div>

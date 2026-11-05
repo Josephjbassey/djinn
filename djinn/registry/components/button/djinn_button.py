@@ -1,5 +1,6 @@
 from django import template
-from django.template.base import token_kwargs
+from django.utils.html import escape
+from django.utils.safestring import mark_safe
 from djinn.core.cva import cva
 
 register = template.Library()
@@ -28,42 +29,43 @@ button_cva = cva(
     }
 )
 
-class ButtonNode(template.Node):
-    def __init__(self, nodelist, kwargs):
-        self.nodelist = nodelist
-        self.kwargs = kwargs
 
-    def render(self, context):
-        resolved_kwargs = {}
-        for k, v in self.kwargs.items():
-            try:
-                resolved_kwargs[k] = v.resolve(context)
-            except template.VariableDoesNotExist:
-                resolved_kwargs[k] = ""
-        
-        # Evaluate cva
-        final_class = button_cva(**resolved_kwargs)
-        
-        # Separate extra attributes
-        known_args = ["variant", "size", "class", "class_name", "type", "disabled", "loading", "icon_left", "icon_right", "label"]
-        attrs = {k: v for k, v in resolved_kwargs.items() if k not in known_args}
-        
-        # Render body
-        slot = self.nodelist.render(context) if self.nodelist else ""
-        
-        t = context.template.engine.get_template('components/button.html')
-        new_context = context.new({
-            'class': final_class,
-            'slot': slot,
-            'attrs': attrs,
-            **resolved_kwargs
-        })
-        return t.render(new_context)
+def format_html_attrs(attrs):
+    attr_list = []
+    for key, attr_value in attrs.items():
+        attr_list.append(f'{key.replace("_", "-")}="{escape(str(attr_value))}"')
+    return mark_safe(" ".join(attr_list))
 
-@register.tag('djinn_button')
-def djinn_button(parser, token):
-    bits = token.split_contents()
-    kwargs = token_kwargs(bits[1:], parser)
-    nodelist = parser.parse(('enddjinn_button',))
-    parser.delete_first_token()
-    return ButtonNode(nodelist, kwargs)
+
+@register.inclusion_tag('components/button.html')
+def djinn_button(
+    variant="default",
+    size="default",
+    class_name="",
+    type="button",
+    disabled=False,
+    loading=False,
+    icon_left=None,
+    icon_right=None,
+    label=None,
+    aria_label=None,
+    aria_pressed=False,
+    **attrs
+):
+    """
+    Djinn Button component tag.
+    Usage: {% djinn_button variant="destructive" size="lg" label="Delete" aria_label="Delete item" %}
+    """
+    final_class = button_cva(variant=variant, size=size, class_=class_name)
+    return {
+        "class": final_class,
+        "type": type,
+        "disabled": disabled,
+        "loading": loading,
+        "icon_left": icon_left,
+        "icon_right": icon_right,
+        "label": label,
+        "aria_label": aria_label,
+        "aria_pressed": aria_pressed,
+        "attrs": format_html_attrs(attrs),
+    }
